@@ -15,7 +15,6 @@ module aptos_constantinople_demo::map {
     const ENotInitialized: u64 = 110;
 
     struct Events has key {
-        //todo map_initialized_hanle: event::Event<MapInitialized>,
     }
 
     public fun initialize(account: &signer) {
@@ -24,10 +23,9 @@ module aptos_constantinople_demo::map {
         let res_account = genesis_account::resource_account_signer();
         move_to(&res_account, Events {
         });
+
         let map = new_map();
-        //todo let map_initialized = new_map_initialized(&map);
         add_map(map);
-        //todo emit_map_initialized(map_initialized);
     }
 
     struct Map has key, store {
