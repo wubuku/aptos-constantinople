@@ -6,8 +6,9 @@
 module aptos_constantinople_demo::monster_aggregate {
     use aptos_constantinople_demo::monster;
     use aptos_constantinople_demo::monster_create_logic;
+    use aptos_constantinople_demo::monster_delete_logic;
 
-    public entry fun create(
+    public(friend) fun create(
         account: &signer,
         monster_id: address,
         monster_type: u64,
@@ -23,6 +24,24 @@ module aptos_constantinople_demo::monster_aggregate {
         );
         monster::add_monster(monster);
         monster::emit_monster_created(monster_created);
+    }
+
+    public(friend) fun delete(
+        account: &signer,
+        monster_id: address,
+    ) {
+        let monster = monster::remove_monster(monster_id);
+        let monster_deleted = monster_delete_logic::verify(
+            account,
+            &monster,
+        );
+        let updated_monster = monster_delete_logic::mutate(
+            account,
+            &monster_deleted,
+            monster,
+        );
+        monster::drop_monster(updated_monster);
+        monster::emit_monster_deleted(monster_deleted);
     }
 
 }

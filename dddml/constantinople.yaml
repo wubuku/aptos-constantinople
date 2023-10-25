@@ -1,9 +1,62 @@
 aggregates:
+  Player:
+    metadata:
+      Preprocessors: [ "MOVE_CRUD_IT" ]
+      #CRUD_IT_NO_UPDATE: true
+      CRUD_IT_NO_DELETE: true
+    #friends: [ "", ""]
+    id:
+      name: PlayerId
+      type: address
+    properties:
+      Value:
+        type: bool
+    methods:
+      Create:
+        isInternal: true
+      Update:
+        isInternal: true
+
+  Movable:
+    metadata:
+      Preprocessors: [ "MOVE_CRUD_IT" ]
+      #CRUD_IT_NO_UPDATE: true
+      CRUD_IT_NO_DELETE: true
+    #friends: [ "", ""]
+    id:
+      name: PlayerId
+      type: address
+    properties:
+      Value:
+        type: bool
+    methods:
+      Create:
+        isInternal: true
+      Update:
+        isInternal: true
+
+  Encounterable:
+    metadata:
+      Preprocessors: [ "MOVE_CRUD_IT" ]
+      #CRUD_IT_NO_UPDATE: true
+      CRUD_IT_NO_DELETE: true
+    #friends: [ "", ""]
+    id:
+      name: PlayerId
+      type: address
+    properties:
+      Value:
+        type: bool
+    methods:
+      Create:
+        isInternal: true
+      Update:
+        isInternal: true
+
   Monster:
     metadata:
       Preprocessors: [ "MOVE_CRUD_IT" ]
       CRUD_IT_NO_UPDATE: true
-      CRUD_IT_NO_DELETE: true
     #friends: [ "", ""]
     id:
       name: MonsterId
@@ -11,9 +64,127 @@ aggregates:
     properties:
       MonsterType:
         type: u64
+    methods:
+      Create:
+        isInternal: true
+      Delete:
+        isInternal: true
 
+  Obstruction:
+    metadata:
+      Preprocessors: [ "MOVE_CRUD_IT" ]
+      CRUD_IT_NO_UPDATE: true
+      CRUD_IT_NO_DELETE: true
+    #friends: [ "", ""]
+    id:
+      name: Position
+      type: Position
+    properties:
+      Value:
+        type: bool
+    methods:
+      Create:
+        isInternal: true
+
+  EncounterTrigger:
+    metadata:
+      Preprocessors: [ "MOVE_CRUD_IT" ]
+      CRUD_IT_NO_UPDATE: true
+      CRUD_IT_NO_DELETE: true
+    #friends: [ "", ""]
+    id:
+      name: Position
+      type: Position
+    properties:
+      Value:
+        type: bool
+    methods:
+      Create:
+        isInternal: true
+
+  PlayerPosition:
+    metadata:
+      Preprocessors: [ "MOVE_CRUD_IT" ]
+      CRUD_IT_NO_DELETE: true
+    #friends: [ "", ""]
+    id:
+      name: PlayerId
+      type: address
+    properties:
+      Position:
+        type: Position
+    methods:
+      Create:
+        isInternal: true
+      Update:
+        isInternal: true
+
+  Encounter:
+    metadata:
+      Preprocessors: [ "MOVE_CRUD_IT" ]
+    #friends: [ "", ""]
+    id:
+      name: PlayerId
+      type: address
+    properties:
+      IsExistent: # 'exists' is restricted and cannot be used to name a function in Move
+        type: bool
+      MonsterId:
+        type: address
+      CatchAttempts:
+        type: u64
+    methods:
+      Create:
+        isInternal: true
+      Update:
+        isInternal: true
+      Delete:
+        isInternal: true
+
+  OwnedMonsters:
+    metadata:
+      Preprocessors: [ "MOVE_CRUD_IT" ]
+      CRUD_IT_NO_UPDATE: true
+      CRUD_IT_NO_DELETE: true
+    #friends: [ "", ""]
+    id:
+      name: PlayerId
+      type: address
+    properties:
+      Monsters:
+        itemType: address
+    methods:
+      Create:
+        isInternal: true
+      AddMonster:
+        isInternal: true
+        parameters:
+          MonsterId:
+            type: address
+        event:
+          name: MonsterAddedToPlayer
+
+valueObjects:
+  Position:
+    properties:
+      X:
+        type: u64
+      Y:
+        type: u64
 
 singletonObjects:
+  RandomSeed:
+    properties:
+      Value:
+        type: u64
+        defaultLogic:
+          Move:
+            '0'
+    methods:
+      "__Init__":
+        event:
+          name: RandomSeedInitialized
+
   Map:
     metadata:
       # Preprocessors: [ "MOVE_CRUD_IT" ]

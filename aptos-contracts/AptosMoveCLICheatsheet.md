@@ -2,15 +2,25 @@
 
 [ToC]
 
+## Player aggregate
+
+## Movable aggregate
+
+## Encounterable aggregate
+
 ## Monster aggregate
 
-### Create method
+## Obstruction aggregate
 
-```shell
-aptos move run --function-id 'default::monster_aggregate::create' \
---args address:monster_id u64:monster_type \
---assume-yes
-```
+## EncounterTrigger aggregate
+
+## PlayerPosition aggregate
+
+## Encounter aggregate
+
+## OwnedMonsters aggregate
+
+## RandomSeed singleton object
 
 ## Map singleton object
 

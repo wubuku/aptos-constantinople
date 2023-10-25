@@ -10,6 +10,7 @@ module aptos_constantinople_demo::monster {
     use aptos_framework::event;
     use aptos_std::table::{Self, Table};
     friend aptos_constantinople_demo::monster_create_logic;
+    friend aptos_constantinople_demo::monster_delete_logic;
     friend aptos_constantinople_demo::monster_aggregate;
 
     const EIdAlreadyExists: u64 = 101;
@@ -19,6 +20,7 @@ module aptos_constantinople_demo::monster {
 
     struct Events has key {
         monster_created_handle: event::EventHandle<MonsterCreated>,
+        monster_deleted_handle: event::EventHandle<MonsterDeleted>,
     }
 
     struct Tables has key {
@@ -31,6 +33,7 @@ module aptos_constantinople_demo::monster {
         let res_account = genesis_account::resource_account_signer();
         move_to(&res_account, Events {
             monster_created_handle: account::new_event_handle<MonsterCreated>(&res_account),
+            monster_deleted_handle: account::new_event_handle<MonsterDeleted>(&res_account),
         });
 
         move_to(
@@ -95,6 +98,24 @@ module aptos_constantinople_demo::monster {
         MonsterCreated {
             monster_id,
             monster_type,
+        }
+    }
+
+    struct MonsterDeleted has store, drop {
+        monster_id: address,
+        version: u64,
+    }
+
+    public fun monster_deleted_monster_id(monster_deleted: &MonsterDeleted): address {
+        monster_deleted.monster_id
+    }
+
+    public(friend) fun new_monster_deleted(
+        monster: &Monster,
+    ): MonsterDeleted {
+        MonsterDeleted {
+            monster_id: monster_id(monster),
+            version: version(monster),
         }
     }
 
@@ -164,6 +185,12 @@ module aptos_constantinople_demo::monster {
         assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
         let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
         event::emit_event(&mut events.monster_created_handle, monster_created);
+    }
+
+    public(friend) fun emit_monster_deleted(monster_deleted: MonsterDeleted) acquires Events {
+        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
+        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
+        event::emit_event(&mut events.monster_deleted_handle, monster_deleted);
     }
 
 }
