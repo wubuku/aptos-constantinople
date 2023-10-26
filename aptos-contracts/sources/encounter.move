@@ -265,6 +265,11 @@ module aptos_constantinople_demo::encounter {
         } = encounter;
     }
 
+    public fun contains_encounter(player_id: address): bool acquires Tables {
+        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        table::contains(&tables.encounter_table,  player_id)
+    }
+
     public(friend) fun emit_encounter_created(encounter_created: EncounterCreated) acquires Events {
         assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
         let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());

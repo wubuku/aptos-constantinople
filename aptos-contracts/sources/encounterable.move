@@ -188,6 +188,11 @@ module aptos_constantinople_demo::encounterable {
         } = encounterable;
     }
 
+    public fun contains_encounterable(player_id: address): bool acquires Tables {
+        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        table::contains(&tables.encounterable_table,  player_id)
+    }
+
     public(friend) fun emit_encounterable_created(encounterable_created: EncounterableCreated) acquires Events {
         assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
         let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());

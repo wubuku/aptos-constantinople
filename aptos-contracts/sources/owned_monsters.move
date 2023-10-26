@@ -188,6 +188,11 @@ module aptos_constantinople_demo::owned_monsters {
         } = owned_monsters;
     }
 
+    public fun contains_owned_monsters(player_id: address): bool acquires Tables {
+        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        table::contains(&tables.owned_monsters_table,  player_id)
+    }
+
     public(friend) fun emit_owned_monsters_created(owned_monsters_created: OwnedMonstersCreated) acquires Events {
         assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
         let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());

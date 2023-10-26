@@ -181,6 +181,11 @@ module aptos_constantinople_demo::monster {
         } = monster;
     }
 
+    public fun contains_monster(monster_id: address): bool acquires Tables {
+        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        table::contains(&tables.monster_table,  monster_id)
+    }
+
     public(friend) fun emit_monster_created(monster_created: MonsterCreated) acquires Events {
         assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
         let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());

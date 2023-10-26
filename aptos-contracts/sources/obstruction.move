@@ -161,6 +161,11 @@ module aptos_constantinople_demo::obstruction {
         } = obstruction;
     }
 
+    public fun contains_obstruction(position: Position): bool acquires Tables {
+        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        table::contains(&tables.obstruction_table,  position)
+    }
+
     public(friend) fun emit_obstruction_created(obstruction_created: ObstructionCreated) acquires Events {
         assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
         let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());

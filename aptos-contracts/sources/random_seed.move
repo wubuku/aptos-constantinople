@@ -106,4 +106,8 @@ module aptos_constantinople_demo::random_seed {
         } = random_seed;
     }
 
+    public fun random_seed_exists(): bool {
+        exists<RandomSeed>(genesis_account::resouce_account_address())
+    }
+
 }

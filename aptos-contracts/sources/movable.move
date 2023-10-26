@@ -188,6 +188,11 @@ module aptos_constantinople_demo::movable {
         } = movable;
     }
 
+    public fun contains_movable(player_id: address): bool acquires Tables {
+        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        table::contains(&tables.movable_table,  player_id)
+    }
+
     public(friend) fun emit_movable_created(movable_created: MovableCreated) acquires Events {
         assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
         let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());

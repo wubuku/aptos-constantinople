@@ -166,4 +166,8 @@ module aptos_constantinople_demo::map {
         } = map;
     }
 
+    public fun map_exists(): bool {
+        exists<Map>(genesis_account::resouce_account_address())
+    }
+
 }
