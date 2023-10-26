@@ -8,6 +8,8 @@ module aptos_constantinople_demo::player_aggregate {
     use aptos_constantinople_demo::player_create_logic;
     use aptos_constantinople_demo::player_update_logic;
 
+    friend aptos_constantinople_demo::rpg_service;
+
     public(friend) fun create(
         account: &signer,
         player_id: address,

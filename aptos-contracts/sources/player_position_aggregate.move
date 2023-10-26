@@ -9,6 +9,8 @@ module aptos_constantinople_demo::player_position_aggregate {
     use aptos_constantinople_demo::player_position_update_logic;
     use aptos_constantinople_demo::position::{Self, Position};
 
+    friend aptos_constantinople_demo::rpg_service;
+
     public(friend) fun create(
         account: &signer,
         player_id: address,

@@ -6,4 +6,6 @@
 module aptos_constantinople_demo::random_seed_aggregate {
     use aptos_constantinople_demo::random_seed;
 
+    friend aptos_constantinople_demo::rpg_service;
+
 }

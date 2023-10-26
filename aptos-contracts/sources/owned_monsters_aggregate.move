@@ -8,6 +8,8 @@ module aptos_constantinople_demo::owned_monsters_aggregate {
     use aptos_constantinople_demo::owned_monsters_add_monster_logic;
     use aptos_constantinople_demo::owned_monsters_create_logic;
 
+    friend aptos_constantinople_demo::rpg_service;
+
     public(friend) fun create(
         account: &signer,
         player_id: address,

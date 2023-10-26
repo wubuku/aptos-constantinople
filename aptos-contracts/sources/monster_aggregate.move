@@ -8,6 +8,8 @@ module aptos_constantinople_demo::monster_aggregate {
     use aptos_constantinople_demo::monster_create_logic;
     use aptos_constantinople_demo::monster_delete_logic;
 
+    friend aptos_constantinople_demo::rpg_service;
+
     public(friend) fun create(
         account: &signer,
         monster_id: address,
