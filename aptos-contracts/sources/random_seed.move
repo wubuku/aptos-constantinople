@@ -8,6 +8,7 @@ module aptos_constantinople_demo::random_seed {
     use aptos_constantinople_demo::pass_object;
     use aptos_framework::account;
     use aptos_framework::event;
+    friend aptos_constantinople_demo::random_seed_update_logic;
     friend aptos_constantinople_demo::random_seed_aggregate;
 
     const EDataTooLong: u64 = 102;
@@ -15,6 +16,7 @@ module aptos_constantinople_demo::random_seed {
     const ENotInitialized: u64 = 110;
 
     struct Events has key {
+        random_seed_updated_handle: event::EventHandle<RandomSeedUpdated>,
     }
 
     public fun initialize(account: &signer) {
@@ -22,6 +24,7 @@ module aptos_constantinople_demo::random_seed {
 
         let res_account = genesis_account::resource_account_signer();
         move_to(&res_account, Events {
+            random_seed_updated_handle: account::new_event_handle<RandomSeedUpdated>(&res_account),
         });
 
         let random_seed = new_random_seed();
@@ -60,6 +63,25 @@ module aptos_constantinople_demo::random_seed {
         random_seed: &RandomSeed,
     ): RandomSeedInitialized {
         RandomSeedInitialized {
+        }
+    }
+
+    struct RandomSeedUpdated has store, drop {
+        version: u64,
+        value: u64,
+    }
+
+    public fun random_seed_updated_value(random_seed_updated: &RandomSeedUpdated): u64 {
+        random_seed_updated.value
+    }
+
+    public(friend) fun new_random_seed_updated(
+        random_seed: &RandomSeed,
+        value: u64,
+    ): RandomSeedUpdated {
+        RandomSeedUpdated {
+            version: version(random_seed),
+            value,
         }
     }
 
@@ -108,6 +130,12 @@ module aptos_constantinople_demo::random_seed {
 
     public fun random_seed_exists(): bool {
         exists<RandomSeed>(genesis_account::resouce_account_address())
+    }
+
+    public(friend) fun emit_random_seed_updated(random_seed_updated: RandomSeedUpdated) acquires Events {
+        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
+        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
+        event::emit_event(&mut events.random_seed_updated_handle, random_seed_updated);
     }
 
 }

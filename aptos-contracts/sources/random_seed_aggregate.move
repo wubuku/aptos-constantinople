@@ -5,7 +5,27 @@
 
 module aptos_constantinople_demo::random_seed_aggregate {
     use aptos_constantinople_demo::random_seed;
+    use aptos_constantinople_demo::random_seed_update_logic;
 
     friend aptos_constantinople_demo::rpg_service;
+
+    public(friend) fun update(
+        account: &signer,
+        value: u64,
+    ) {
+        let random_seed = random_seed::remove_random_seed();
+        let random_seed_updated = random_seed_update_logic::verify(
+            account,
+            value,
+            &random_seed,
+        );
+        let updated_random_seed = random_seed_update_logic::mutate(
+            account,
+            &random_seed_updated,
+            random_seed,
+        );
+        random_seed::update_version_and_add(updated_random_seed);
+        random_seed::emit_random_seed_updated(random_seed_updated);
+    }
 
 }
