@@ -1,6 +1,5 @@
 module aptos_constantinople_demo::encounter_update_logic {
     use aptos_constantinople_demo::encounter;
-    use aptos_constantinople_demo::encounter_updated;
 
     friend aptos_constantinople_demo::encounter_aggregate;
 
@@ -25,9 +24,9 @@ module aptos_constantinople_demo::encounter_update_logic {
         encounter_updated: &encounter::EncounterUpdated,
         encounter: encounter::Encounter,
     ): encounter::Encounter {
-        let is_existent = encounter_updated::is_existent(encounter_updated);
-        let monster_id = encounter_updated::monster_id(encounter_updated);
-        let catch_attempts = encounter_updated::catch_attempts(encounter_updated);
+        let is_existent = encounter::encounter_updated_is_existent(encounter_updated);
+        let monster_id = encounter::encounter_updated_monster_id(encounter_updated);
+        let catch_attempts = encounter::encounter_updated_catch_attempts(encounter_updated);
         let player_id = encounter::player_id(&encounter);
         let _ = player_id;
         encounter::set_is_existent(&mut encounter, is_existent);

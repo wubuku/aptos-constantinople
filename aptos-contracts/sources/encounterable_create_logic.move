@@ -1,6 +1,5 @@
 module aptos_constantinople_demo::encounterable_create_logic {
     use aptos_constantinople_demo::encounterable;
-    use aptos_constantinople_demo::encounterable_created;
 
     friend aptos_constantinople_demo::encounterable_aggregate;
 
@@ -21,8 +20,8 @@ module aptos_constantinople_demo::encounterable_create_logic {
         _account: &signer,
         encounterable_created: &encounterable::EncounterableCreated,
     ): encounterable::Encounterable {
-        let player_id = encounterable_created::player_id(encounterable_created);
-        let value = encounterable_created::value(encounterable_created);
+        let player_id = encounterable::encounterable_created_player_id(encounterable_created);
+        let value = encounterable::encounterable_created_value(encounterable_created);
         encounterable::create_encounterable(
             player_id,
             value,

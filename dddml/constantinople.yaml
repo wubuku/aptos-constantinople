@@ -273,3 +273,8 @@ services:
               type: u8
             PlayerId:
               type: address
+
+configuration:
+  sequenceNumber: 10
+  metadata:
+    NO_MOVE_EVENT_MODULE: true

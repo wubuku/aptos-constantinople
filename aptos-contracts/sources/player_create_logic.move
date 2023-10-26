@@ -1,6 +1,5 @@
 module aptos_constantinople_demo::player_create_logic {
     use aptos_constantinople_demo::player;
-    use aptos_constantinople_demo::player_created;
 
     friend aptos_constantinople_demo::player_aggregate;
 
@@ -21,8 +20,8 @@ module aptos_constantinople_demo::player_create_logic {
         _account: &signer,
         player_created: &player::PlayerCreated,
     ): player::Player {
-        let player_id = player_created::player_id(player_created);
-        let value = player_created::value(player_created);
+        let player_id = player::player_created_player_id(player_created);
+        let value = player::player_created_value(player_created);
         player::create_player(
             player_id,
             value,

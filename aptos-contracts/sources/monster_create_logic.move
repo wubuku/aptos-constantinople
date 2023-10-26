@@ -1,6 +1,5 @@
 module aptos_constantinople_demo::monster_create_logic {
     use aptos_constantinople_demo::monster;
-    use aptos_constantinople_demo::monster_created;
 
     friend aptos_constantinople_demo::monster_aggregate;
 
@@ -21,8 +20,8 @@ module aptos_constantinople_demo::monster_create_logic {
         _account: &signer,
         monster_created: &monster::MonsterCreated,
     ): monster::Monster {
-        let monster_id = monster_created::monster_id(monster_created);
-        let monster_type = monster_created::monster_type(monster_created);
+        let monster_id = monster::monster_created_monster_id(monster_created);
+        let monster_type = monster::monster_created_monster_type(monster_created);
         monster::create_monster(
             monster_id,
             monster_type,

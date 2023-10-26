@@ -1,6 +1,5 @@
 module aptos_constantinople_demo::player_position_update_logic {
     use aptos_constantinople_demo::player_position;
-    use aptos_constantinople_demo::player_position_updated;
     use aptos_constantinople_demo::position::Position;
 
     friend aptos_constantinople_demo::player_position_aggregate;
@@ -22,7 +21,7 @@ module aptos_constantinople_demo::player_position_update_logic {
         player_position_updated: &player_position::PlayerPositionUpdated,
         player_position: player_position::PlayerPosition,
     ): player_position::PlayerPosition {
-        let position = player_position_updated::position(player_position_updated);
+        let position = player_position::player_position_updated_position(player_position_updated);
         let player_id = player_position::player_id(&player_position);
         let _ = player_id;
         player_position::set_position(&mut player_position, position);

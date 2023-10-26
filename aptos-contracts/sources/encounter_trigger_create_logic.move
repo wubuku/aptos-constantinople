@@ -1,6 +1,5 @@
 module aptos_constantinople_demo::encounter_trigger_create_logic {
     use aptos_constantinople_demo::encounter_trigger;
-    use aptos_constantinople_demo::encounter_trigger_created;
     use aptos_constantinople_demo::position::Position;
 
     friend aptos_constantinople_demo::encounter_trigger_aggregate;
@@ -22,8 +21,8 @@ module aptos_constantinople_demo::encounter_trigger_create_logic {
         _account: &signer,
         encounter_trigger_created: &encounter_trigger::EncounterTriggerCreated,
     ): encounter_trigger::EncounterTrigger {
-        let position = encounter_trigger_created::position(encounter_trigger_created);
-        let value = encounter_trigger_created::value(encounter_trigger_created);
+        let position = encounter_trigger::encounter_trigger_created_position(encounter_trigger_created);
+        let value = encounter_trigger::encounter_trigger_created_value(encounter_trigger_created);
         encounter_trigger::create_encounter_trigger(
             position,
             value,

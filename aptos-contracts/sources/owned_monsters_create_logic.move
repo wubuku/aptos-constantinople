@@ -1,6 +1,5 @@
 module aptos_constantinople_demo::owned_monsters_create_logic {
     use aptos_constantinople_demo::owned_monsters;
-    use aptos_constantinople_demo::owned_monsters_created;
 
     friend aptos_constantinople_demo::owned_monsters_aggregate;
 
@@ -21,8 +20,8 @@ module aptos_constantinople_demo::owned_monsters_create_logic {
         _account: &signer,
         owned_monsters_created: &owned_monsters::OwnedMonstersCreated,
     ): owned_monsters::OwnedMonsters {
-        let player_id = owned_monsters_created::player_id(owned_monsters_created);
-        let monsters = owned_monsters_created::monsters(owned_monsters_created);
+        let player_id = owned_monsters::owned_monsters_created_player_id(owned_monsters_created);
+        let monsters = owned_monsters::owned_monsters_created_monsters(owned_monsters_created);
         owned_monsters::create_owned_monsters(
             player_id,
             monsters,

@@ -1,6 +1,5 @@
 module aptos_constantinople_demo::encounter_create_logic {
     use aptos_constantinople_demo::encounter;
-    use aptos_constantinople_demo::encounter_created;
 
     friend aptos_constantinople_demo::encounter_aggregate;
 
@@ -25,10 +24,10 @@ module aptos_constantinople_demo::encounter_create_logic {
         _account: &signer,
         encounter_created: &encounter::EncounterCreated,
     ): encounter::Encounter {
-        let player_id = encounter_created::player_id(encounter_created);
-        let is_existent = encounter_created::is_existent(encounter_created);
-        let monster_id = encounter_created::monster_id(encounter_created);
-        let catch_attempts = encounter_created::catch_attempts(encounter_created);
+        let player_id = encounter::encounter_created_player_id(encounter_created);
+        let is_existent = encounter::encounter_created_is_existent(encounter_created);
+        let monster_id = encounter::encounter_created_monster_id(encounter_created);
+        let catch_attempts = encounter::encounter_created_catch_attempts(encounter_created);
         encounter::create_encounter(
             player_id,
             is_existent,

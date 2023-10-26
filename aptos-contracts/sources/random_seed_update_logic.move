@@ -1,6 +1,5 @@
 module aptos_constantinople_demo::random_seed_update_logic {
     use aptos_constantinople_demo::random_seed;
-    use aptos_constantinople_demo::random_seed_updated;
 
     friend aptos_constantinople_demo::random_seed_aggregate;
 
@@ -21,7 +20,7 @@ module aptos_constantinople_demo::random_seed_update_logic {
         random_seed_updated: &random_seed::RandomSeedUpdated,
         random_seed: random_seed::RandomSeed,
     ): random_seed::RandomSeed {
-        let value = random_seed_updated::value(random_seed_updated);
+        let value = random_seed::random_seed_updated_value(random_seed_updated);
         random_seed::set_value(&mut random_seed, value);
         random_seed
     }

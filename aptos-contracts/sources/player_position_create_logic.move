@@ -1,6 +1,5 @@
 module aptos_constantinople_demo::player_position_create_logic {
     use aptos_constantinople_demo::player_position;
-    use aptos_constantinople_demo::player_position_created;
     use aptos_constantinople_demo::position::Position;
 
     friend aptos_constantinople_demo::player_position_aggregate;
@@ -22,8 +21,8 @@ module aptos_constantinople_demo::player_position_create_logic {
         _account: &signer,
         player_position_created: &player_position::PlayerPositionCreated,
     ): player_position::PlayerPosition {
-        let player_id = player_position_created::player_id(player_position_created);
-        let position = player_position_created::position(player_position_created);
+        let player_id = player_position::player_position_created_player_id(player_position_created);
+        let position = player_position::player_position_created_position(player_position_created);
         player_position::create_player_position(
             player_id,
             position,

@@ -1,6 +1,5 @@
 module aptos_constantinople_demo::movable_create_logic {
     use aptos_constantinople_demo::movable;
-    use aptos_constantinople_demo::movable_created;
 
     friend aptos_constantinople_demo::movable_aggregate;
 
@@ -21,8 +20,8 @@ module aptos_constantinople_demo::movable_create_logic {
         _account: &signer,
         movable_created: &movable::MovableCreated,
     ): movable::Movable {
-        let player_id = movable_created::player_id(movable_created);
-        let value = movable_created::value(movable_created);
+        let player_id = movable::movable_created_player_id(movable_created);
+        let value = movable::movable_created_value(movable_created);
         movable::create_movable(
             player_id,
             value,

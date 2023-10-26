@@ -1,6 +1,5 @@
 module aptos_constantinople_demo::obstruction_create_logic {
     use aptos_constantinople_demo::obstruction;
-    use aptos_constantinople_demo::obstruction_created;
     use aptos_constantinople_demo::position::Position;
 
     friend aptos_constantinople_demo::obstruction_aggregate;
@@ -22,8 +21,8 @@ module aptos_constantinople_demo::obstruction_create_logic {
         _account: &signer,
         obstruction_created: &obstruction::ObstructionCreated,
     ): obstruction::Obstruction {
-        let position = obstruction_created::position(obstruction_created);
-        let value = obstruction_created::value(obstruction_created);
+        let position = obstruction::obstruction_created_position(obstruction_created);
+        let value = obstruction::obstruction_created_value(obstruction_created);
         obstruction::create_obstruction(
             position,
             value,

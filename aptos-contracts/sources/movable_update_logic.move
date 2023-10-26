@@ -1,6 +1,5 @@
 module aptos_constantinople_demo::movable_update_logic {
     use aptos_constantinople_demo::movable;
-    use aptos_constantinople_demo::movable_updated;
 
     friend aptos_constantinople_demo::movable_aggregate;
 
@@ -21,7 +20,7 @@ module aptos_constantinople_demo::movable_update_logic {
         movable_updated: &movable::MovableUpdated,
         movable: movable::Movable,
     ): movable::Movable {
-        let value = movable_updated::value(movable_updated);
+        let value = movable::movable_updated_value(movable_updated);
         let player_id = movable::player_id(&movable);
         let _ = player_id;
         movable::set_value(&mut movable, value);
