@@ -241,3 +241,29 @@ singletonObjects:
         event:
           name: MapInitialized
 
+services:
+  RpgService:
+    methods:
+      InitMap:
+        parameters:
+      Register:
+        parameters:
+          X:
+            type: u64
+          Y:
+            type: u64
+      PlayerMove:
+        parameters:
+          X:
+            type: u64
+          Y:
+            type: u64
+      ThrowBall:
+        parameters:
+        event:
+          name: CatchResult
+          properties:
+            Value:
+              type: u8
+            PlayerId:
+              type: address
