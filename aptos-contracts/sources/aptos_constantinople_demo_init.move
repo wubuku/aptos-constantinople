@@ -16,6 +16,7 @@ module aptos_constantinople_demo::aptos_constantinople_demo_init {
     use aptos_constantinople_demo::player;
     use aptos_constantinople_demo::player_position;
     use aptos_constantinople_demo::random_seed;
+    use aptos_constantinople_demo::rpg_service;
 
     public entry fun initialize(account: &signer) {
         genesis_account::initialize(account);
@@ -30,6 +31,7 @@ module aptos_constantinople_demo::aptos_constantinople_demo_init {
         owned_monsters::initialize(account);
         random_seed::initialize(account);
         map::initialize(account);
+        rpg_service::initialize(account);
     }
 
 }

@@ -21,6 +21,7 @@ module aptos_constantinople_demo::genesis_account {
     friend aptos_constantinople_demo::owned_monsters;
     friend aptos_constantinople_demo::random_seed;
     friend aptos_constantinople_demo::map;
+    friend aptos_constantinople_demo::rpg_service;
 
     const ENotGenesisAccount: u64 = 100;
 
