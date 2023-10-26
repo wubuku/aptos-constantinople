@@ -12,8 +12,6 @@ module aptos_constantinople_demo::rpg_service {
     use aptos_constantinople_demo::encounterable_aggregate;
     use aptos_constantinople_demo::genesis_account;
     use aptos_constantinople_demo::map;
-    use aptos_constantinople_demo::map_aggregate;
-    use aptos_constantinople_demo::monster;
     use aptos_constantinople_demo::monster_aggregate;
     use aptos_constantinople_demo::movable;
     use aptos_constantinople_demo::movable_aggregate;
@@ -30,8 +28,7 @@ module aptos_constantinople_demo::rpg_service {
     use aptos_constantinople_demo::random_seed_aggregate;
     use aptos_framework::account;
     use aptos_framework::event;
-    use aptos_constantinople_demo::position::{Self, Position};
-    use aptos_constantinople_demo::obstruction::position;
+    use aptos_constantinople_demo::position;
 
     const ENotInitialized: u64 = 110;
 
@@ -174,12 +171,12 @@ module aptos_constantinople_demo::rpg_service {
         encounter_aggregate::create(account, player, true, monster, 0);
     }
 
-    fun random(account: &signer, player: address, position: Position): (u64, address) {
+    fun random<T: drop>(account: &signer, player: address, value: T): (u64, address) {
         let random_seed = random_seed::singleton_value();
         random_seed_aggregate::update(account, random_seed + 1);
         let v = vector::empty<u8>();
         vector::append(&mut v, bcs::to_bytes(&player));
-        vector::append(&mut v, bcs::to_bytes(&position));
+        vector::append(&mut v, bcs::to_bytes(&value));
         vector::append(&mut v, bcs::to_bytes(&random_seed));
         let hash = keccak256(v);
         (
@@ -206,8 +203,40 @@ module aptos_constantinople_demo::rpg_service {
 
     public entry fun throw_ball(
         account: &signer,
-    ) {
-        // todo ...
+    ) acquires Events {
+        let player = signer::address_of(account);
+        // error not in encounter
+        assert!(encounter::contains_encounter(player), ENotInEcounter);
+
+        let encounter = encounter::get_encounter(player);
+        let monster = encounter::monster_id(pass_object::borrow(&encounter));
+        let catch_attempts = encounter::catch_attempts(pass_object::borrow(&encounter));
+        encounter::return_encounter(encounter);
+
+        let (random, _) = random(account, player, monster);
+        if (random % 2 == 0) {
+            // 50% chance to catch monster
+            // MonsterCatchAttempt.emitEphemeral(player, MonsterCatchResult.Caught);
+            if (owned_monsters::contains_owned_monsters(player)) {
+                // let owned_monsters = owned_monsters::get_owned_monsters(player);
+                // let monsters = owned_monsters::monsters(pass_object::borrow(&owned_monsters));
+                //vector::push_back(&mut monsters, monster);
+                owned_monsters_aggregate::add_monster(account, player, monster);
+            } else {
+                owned_monsters_aggregate::create(account, player, vector[monster]);
+            };
+            encounter_aggregate::delete(account, player);
+            emit_catch_result(new_catch_result(Caught, player));
+        } else if (catch_attempts >= 2) {
+            // Missed 2 times, monster escapes
+            monster_aggregate::delete(account, monster);
+            encounter_aggregate::delete(account, player);
+            emit_catch_result(new_catch_result(Fled, player));
+        } else {
+            // Throw missed!
+            encounter_aggregate::update(account, player, true, monster, catch_attempts + 1);
+            emit_catch_result(new_catch_result(Missed, player));
+        }
     }
 
     struct InitMapEvent has store, drop {}

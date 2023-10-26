@@ -42,3 +42,79 @@ Operations (`public entry fun`s):
 * `move_t`: player move. Modifies the `position` entity. If encountered with 👾, will modify `monster`, `encounter` entity.
 * `throw_ball`: catch 👾. May modify the `owned_monsters` entity, as well as the `monster`, `encounter` entities.
 
+
+## Test Example
+
+### Compile Aptos Move contracts
+
+#### Some preparatory work that may need to be done
+
+It should be noted that below we assume that you will publish the Move contract to the Aptos devnet, so we skip the explanation of the modifications to some configuration files required for publishing to other networks.
+
+We can create a new account on devnet to perform the following test.
+
+Confirm that Aptos CLI is installed and enter the directory `aptos-contracts`, then run:
+
+```shell
+aptos init
+# Press Enter to confirm using the default values:
+aptos account fund-with-faucet --account default --amount 50000000000
+# View Aptos Profiles:
+aptos config show-profiles
+```
+
+It should display similar information:
+
+```shell
+{
+  "Result": {
+    "default": {
+      "has_private_key": true,
+      "public_key": "...",
+      "account": "{ACCOUNT_ADDRESS}",
+      "rest_url": "https://fullnode.devnet.aptoslabs.com",
+      "faucet_url": "https://faucet.devnet.aptoslabs.com"
+    }
+  }
+}
+```
+
+---
+
+In the directory `aptos-contracts`, execute the compilation, which should now succeed:
+
+```shell
+aptos move compile --named-addresses aptos_constantinople_demo=default
+```
+
+At this point, the coding phase of the application development is complete! Isn't it very simple?
+
+---
+
+Next, we will deploy and test the Demo application.
+
+### Publish the Aptos contracts
+
+Execute the following command in the directory `aptos-contracts` to publish the contracts to the chain:
+
+```shell
+aptos move publish --named-addresses aptos_constantinople_demo=default --assume-yes
+```
+
+If the command is executed successfully, it should display similar information:
+
+```shell
+{
+  "Result": {
+    "transaction_hash": "{TRANSACTION_HASH}"
+    "gas_used": 20722,
+    "gas_unit_price": 100,
+    "sender": "{ACCOUNT_ADDRESS}",
+    "sequence_number": 0,
+    "success": true,
+    "timestamp_us": 1688909362156606,
+    "version": 11446005,
+    "vm_status": "Executed successfully"
+  }
+}
+```

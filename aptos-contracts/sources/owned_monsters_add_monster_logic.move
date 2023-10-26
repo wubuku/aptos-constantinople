@@ -1,6 +1,5 @@
 module aptos_constantinople_demo::owned_monsters_add_monster_logic {
     use std::vector;
-    use aptos_constantinople_demo::monster_added_to_player;
     use aptos_constantinople_demo::owned_monsters;
 
     friend aptos_constantinople_demo::owned_monsters_aggregate;
@@ -19,7 +18,7 @@ module aptos_constantinople_demo::owned_monsters_add_monster_logic {
         monster_added_to_player: &owned_monsters::MonsterAddedToPlayer,
         owned_monsters: owned_monsters::OwnedMonsters,
     ): owned_monsters::OwnedMonsters {
-        let monster_id = monster_added_to_player::monster_id(monster_added_to_player);
+        let monster_id = owned_monsters::monster_added_to_player_monster_id(monster_added_to_player);
         //let player_id = owned_monsters::player_id(&owned_monsters);
         let monsters = owned_monsters::monsters(&owned_monsters);
         vector::push_back(&mut monsters, monster_id);
