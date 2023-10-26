@@ -60,10 +60,6 @@ module aptos_constantinople_demo::player_position {
         player_position.version
     }
 
-    public fun position(player_position: &PlayerPosition): Position {
-        player_position.position
-    }
-
     public(friend) fun set_position(player_position: &mut PlayerPosition, position: Position) {
         player_position.position = position;
     }
@@ -171,14 +167,11 @@ module aptos_constantinople_demo::player_position {
         table::add(&mut tables.player_position_table, player_id(&player_position), player_position);
     }
 
-    public fun get_player_position(player_id: address): pass_object::PassObject<PlayerPosition> acquires Tables {
-        let player_position = remove_player_position(player_id);
-        pass_object::new(player_position)
-    }
-
-    public fun return_player_position(player_position_pass_obj: pass_object::PassObject<PlayerPosition>) acquires Tables {
-        let player_position = pass_object::extract(player_position_pass_obj);
-        private_add_player_position(player_position);
+    public fun get_all_porperties(player_id: address): Position acquires Tables {
+        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
+        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        let player_position = table::borrow(&tables.player_position_table, player_id);
+        player_position.position
     }
 
     public(friend) fun drop_player_position(player_position: PlayerPosition) {

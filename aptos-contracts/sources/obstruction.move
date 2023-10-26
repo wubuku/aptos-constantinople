@@ -57,10 +57,6 @@ module aptos_constantinople_demo::obstruction {
         obstruction.version
     }
 
-    public fun value(obstruction: &Obstruction): bool {
-        obstruction.value
-    }
-
     public(friend) fun set_value(obstruction: &mut Obstruction, value: bool) {
         obstruction.value = value;
     }
@@ -143,14 +139,11 @@ module aptos_constantinople_demo::obstruction {
         table::add(&mut tables.obstruction_table, position(&obstruction), obstruction);
     }
 
-    public fun get_obstruction(position: Position): pass_object::PassObject<Obstruction> acquires Tables {
-        let obstruction = remove_obstruction(position);
-        pass_object::new(obstruction)
-    }
-
-    public fun return_obstruction(obstruction_pass_obj: pass_object::PassObject<Obstruction>) acquires Tables {
-        let obstruction = pass_object::extract(obstruction_pass_obj);
-        private_add_obstruction(obstruction);
+    public fun get_all_porperties(position: Position): bool acquires Tables {
+        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
+        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        let obstruction = table::borrow(&tables.obstruction_table, position);
+        obstruction.value
     }
 
     public(friend) fun drop_obstruction(obstruction: Obstruction) {

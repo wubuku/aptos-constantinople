@@ -57,10 +57,6 @@ module aptos_constantinople_demo::encounter_trigger {
         encounter_trigger.version
     }
 
-    public fun value(encounter_trigger: &EncounterTrigger): bool {
-        encounter_trigger.value
-    }
-
     public(friend) fun set_value(encounter_trigger: &mut EncounterTrigger, value: bool) {
         encounter_trigger.value = value;
     }
@@ -143,14 +139,11 @@ module aptos_constantinople_demo::encounter_trigger {
         table::add(&mut tables.encounter_trigger_table, position(&encounter_trigger), encounter_trigger);
     }
 
-    public fun get_encounter_trigger(position: Position): pass_object::PassObject<EncounterTrigger> acquires Tables {
-        let encounter_trigger = remove_encounter_trigger(position);
-        pass_object::new(encounter_trigger)
-    }
-
-    public fun return_encounter_trigger(encounter_trigger_pass_obj: pass_object::PassObject<EncounterTrigger>) acquires Tables {
-        let encounter_trigger = pass_object::extract(encounter_trigger_pass_obj);
-        private_add_encounter_trigger(encounter_trigger);
+    public fun get_all_porperties(position: Position): bool acquires Tables {
+        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
+        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        let encounter_trigger = table::borrow(&tables.encounter_trigger_table, position);
+        encounter_trigger.value
     }
 
     public(friend) fun drop_encounter_trigger(encounter_trigger: EncounterTrigger) {

@@ -19,7 +19,6 @@ module aptos_constantinople_demo::rpg_service {
     use aptos_constantinople_demo::obstruction_aggregate;
     use aptos_constantinople_demo::owned_monsters;
     use aptos_constantinople_demo::owned_monsters_aggregate;
-    use aptos_constantinople_demo::pass_object;
     use aptos_constantinople_demo::player;
     use aptos_constantinople_demo::player_aggregate;
     use aptos_constantinople_demo::player_position;
@@ -129,19 +128,22 @@ module aptos_constantinople_demo::rpg_service {
         assert!(y >= 0 && y <= height, EExceedingMapLimits);
 
         // error cannot move
-        let movable = movable::get_movable(player);
-        assert!(movable::value(pass_object::borrow(&movable)), ECannotMove);
-        movable::return_movable(movable);
+        // let movable = movable::get_movable(player);
+        // assert!(movable::value(pass_object::borrow(&movable)), ECannotMove);
+        // movable::return_movable(movable);
+        assert!(movable::get_all_porperties(player), ECannotMove);
 
         // error cannot move during an encounter
         assert!(!encounter::contains_encounter(player), ECannotMoveInEncounter);
 
-        let player_position = player_position::get_player_position(player);
-        let position = player_position::position(pass_object::borrow(&player_position));
+        // let player_position = player_position::get_player_position(player);
+        // let position = player_position::position(pass_object::borrow(&player_position));
+        // let from_x = position::x(&position);
+        // let from_y = position::y(&position);
+        // player_position::return_player_position(player_position);
+        let position = player_position::get_all_porperties(player);
         let from_x = position::x(&position);
         let from_y = position::y(&position);
-        player_position::return_player_position(player_position);
-
         // error can only move to adjacent spaces
         assert!(distance(from_x, from_y, x, y) == 1, EOnlyMoveToAdjacentSpaces);
 
@@ -202,10 +204,11 @@ module aptos_constantinople_demo::rpg_service {
         // error not in encounter
         assert!(encounter::contains_encounter(player), ENotInEcounter);
 
-        let encounter = encounter::get_encounter(player);
-        let monster = encounter::monster_id(pass_object::borrow(&encounter));
-        let catch_attempts = encounter::catch_attempts(pass_object::borrow(&encounter));
-        encounter::return_encounter(encounter);
+        // let encounter = encounter::get_encounter(player);
+        // let monster = encounter::monster_id(pass_object::borrow(&encounter));
+        // let catch_attempts = encounter::catch_attempts(pass_object::borrow(&encounter));
+        // encounter::return_encounter(encounter);
+        let (_, monster, catch_attempts) = encounter::get_all_porperties(player);
 
         let (random, _) = random(account, player, monster);
         if (random % 2 == 0) {

@@ -59,10 +59,6 @@ module aptos_constantinople_demo::monster {
         monster.version
     }
 
-    public fun monster_type(monster: &Monster): u64 {
-        monster.monster_type
-    }
-
     public(friend) fun set_monster_type(monster: &mut Monster, monster_type: u64) {
         monster.monster_type = monster_type;
     }
@@ -163,14 +159,11 @@ module aptos_constantinople_demo::monster {
         table::add(&mut tables.monster_table, monster_id(&monster), monster);
     }
 
-    public fun get_monster(monster_id: address): pass_object::PassObject<Monster> acquires Tables {
-        let monster = remove_monster(monster_id);
-        pass_object::new(monster)
-    }
-
-    public fun return_monster(monster_pass_obj: pass_object::PassObject<Monster>) acquires Tables {
-        let monster = pass_object::extract(monster_pass_obj);
-        private_add_monster(monster);
+    public fun get_all_porperties(monster_id: address): u64 acquires Tables {
+        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
+        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        let monster = table::borrow(&tables.monster_table, monster_id);
+        monster.monster_type
     }
 
     public(friend) fun drop_monster(monster: Monster) {

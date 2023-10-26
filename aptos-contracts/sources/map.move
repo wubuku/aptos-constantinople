@@ -39,24 +39,12 @@ module aptos_constantinople_demo::map {
         map.version
     }
 
-    public fun width(map: &Map): u64 {
-        map.width
-    }
-
     public(friend) fun set_width(map: &mut Map, width: u64) {
         map.width = width;
     }
 
-    public fun height(map: &Map): u64 {
-        map.height
-    }
-
     public(friend) fun set_height(map: &mut Map, height: u64) {
         map.height = height;
-    }
-
-    public fun terrain(map: &Map): vector<vector<u8>> {
-        map.terrain
     }
 
     public(friend) fun set_terrain(map: &mut Map, terrain: vector<vector<u8>>) {
@@ -132,11 +120,6 @@ module aptos_constantinople_demo::map {
         move_to(&genesis_account::resource_account_signer(), map);
     }
 
-    public fun get_map(): pass_object::PassObject<Map> acquires Map {
-        let map = remove_map();
-        pass_object::new(map)
-    }
-
     public fun singleton_width(): u64 acquires Map {
         let map = borrow_global<Map>(genesis_account::resouce_account_address());
         map.width
@@ -152,9 +135,10 @@ module aptos_constantinople_demo::map {
         map.terrain
     }
 
-    public fun return_map(map_pass_obj: pass_object::PassObject<Map>) {
-        let map = pass_object::extract(map_pass_obj);
-        private_add_map(map);
+    public fun get_all_porperties(): (u64, u64, vector<vector<u8>>) acquires Map {
+        assert!(exists<Map>(genesis_account::resouce_account_address()), ENotInitialized);
+        let map = borrow_global<Map>(genesis_account::resouce_account_address());
+        (map.width, map.height, map.terrain)
     }
 
     public(friend) fun drop_map(map: Map) {

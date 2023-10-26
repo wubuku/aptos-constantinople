@@ -56,10 +56,6 @@ module aptos_constantinople_demo::player {
         player.version
     }
 
-    public fun value(player: &Player): bool {
-        player.value
-    }
-
     public(friend) fun set_value(player: &mut Player, value: bool) {
         player.value = value;
     }
@@ -142,14 +138,11 @@ module aptos_constantinople_demo::player {
         table::add(&mut tables.player_table, player_id(&player), player);
     }
 
-    public fun get_player(player_id: address): pass_object::PassObject<Player> acquires Tables {
-        let player = remove_player(player_id);
-        pass_object::new(player)
-    }
-
-    public fun return_player(player_pass_obj: pass_object::PassObject<Player>) acquires Tables {
-        let player = pass_object::extract(player_pass_obj);
-        private_add_player(player);
+    public fun get_all_porperties(player_id: address): bool acquires Tables {
+        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
+        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        let player = table::borrow(&tables.player_table, player_id);
+        player.value
     }
 
     public(friend) fun drop_player(player: Player) {

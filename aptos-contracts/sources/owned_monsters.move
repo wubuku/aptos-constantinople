@@ -59,10 +59,6 @@ module aptos_constantinople_demo::owned_monsters {
         owned_monsters.version
     }
 
-    public fun monsters(owned_monsters: &OwnedMonsters): vector<address> {
-        owned_monsters.monsters
-    }
-
     public(friend) fun set_monsters(owned_monsters: &mut OwnedMonsters, monsters: vector<address>) {
         owned_monsters.monsters = monsters;
     }
@@ -170,14 +166,11 @@ module aptos_constantinople_demo::owned_monsters {
         table::add(&mut tables.owned_monsters_table, player_id(&owned_monsters), owned_monsters);
     }
 
-    public fun get_owned_monsters(player_id: address): pass_object::PassObject<OwnedMonsters> acquires Tables {
-        let owned_monsters = remove_owned_monsters(player_id);
-        pass_object::new(owned_monsters)
-    }
-
-    public fun return_owned_monsters(owned_monsters_pass_obj: pass_object::PassObject<OwnedMonsters>) acquires Tables {
-        let owned_monsters = pass_object::extract(owned_monsters_pass_obj);
-        private_add_owned_monsters(owned_monsters);
+    public fun get_all_porperties(player_id: address): vector<address> acquires Tables {
+        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
+        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        let owned_monsters = table::borrow(&tables.owned_monsters_table, player_id);
+        owned_monsters.monsters
     }
 
     public(friend) fun drop_owned_monsters(owned_monsters: OwnedMonsters) {

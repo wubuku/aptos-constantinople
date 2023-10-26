@@ -278,3 +278,5 @@ configuration:
   sequenceNumber: 10
   metadata:
     NO_MOVE_EVENT_MODULE: true
+    ONLY_GET_ALL_ENTITY_PROPERTIES_AT_ONCE: true
+

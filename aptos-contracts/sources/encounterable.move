@@ -56,10 +56,6 @@ module aptos_constantinople_demo::encounterable {
         encounterable.version
     }
 
-    public fun value(encounterable: &Encounterable): bool {
-        encounterable.value
-    }
-
     public(friend) fun set_value(encounterable: &mut Encounterable, value: bool) {
         encounterable.value = value;
     }
@@ -142,14 +138,11 @@ module aptos_constantinople_demo::encounterable {
         table::add(&mut tables.encounterable_table, player_id(&encounterable), encounterable);
     }
 
-    public fun get_encounterable(player_id: address): pass_object::PassObject<Encounterable> acquires Tables {
-        let encounterable = remove_encounterable(player_id);
-        pass_object::new(encounterable)
-    }
-
-    public fun return_encounterable(encounterable_pass_obj: pass_object::PassObject<Encounterable>) acquires Tables {
-        let encounterable = pass_object::extract(encounterable_pass_obj);
-        private_add_encounterable(encounterable);
+    public fun get_all_porperties(player_id: address): bool acquires Tables {
+        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
+        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        let encounterable = table::borrow(&tables.encounterable_table, player_id);
+        encounterable.value
     }
 
     public(friend) fun drop_encounterable(encounterable: Encounterable) {

@@ -40,10 +40,6 @@ module aptos_constantinople_demo::random_seed {
         random_seed.version
     }
 
-    public fun value(random_seed: &RandomSeed): u64 {
-        random_seed.value
-    }
-
     public(friend) fun set_value(random_seed: &mut RandomSeed, value: u64) {
         random_seed.value = value;
     }
@@ -106,19 +102,15 @@ module aptos_constantinople_demo::random_seed {
         move_to(&genesis_account::resource_account_signer(), random_seed);
     }
 
-    public fun get_random_seed(): pass_object::PassObject<RandomSeed> acquires RandomSeed {
-        let random_seed = remove_random_seed();
-        pass_object::new(random_seed)
-    }
-
     public fun singleton_value(): u64 acquires RandomSeed {
         let random_seed = borrow_global<RandomSeed>(genesis_account::resouce_account_address());
         random_seed.value
     }
 
-    public fun return_random_seed(random_seed_pass_obj: pass_object::PassObject<RandomSeed>) {
-        let random_seed = pass_object::extract(random_seed_pass_obj);
-        private_add_random_seed(random_seed);
+    public fun get_all_porperties(): u64 acquires RandomSeed {
+        assert!(exists<RandomSeed>(genesis_account::resouce_account_address()), ENotInitialized);
+        let random_seed = borrow_global<RandomSeed>(genesis_account::resouce_account_address());
+        random_seed.value
     }
 
     public(friend) fun drop_random_seed(random_seed: RandomSeed) {

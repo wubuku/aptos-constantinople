@@ -64,24 +64,12 @@ module aptos_constantinople_demo::encounter {
         encounter.version
     }
 
-    public fun is_existent(encounter: &Encounter): bool {
-        encounter.is_existent
-    }
-
     public(friend) fun set_is_existent(encounter: &mut Encounter, is_existent: bool) {
         encounter.is_existent = is_existent;
     }
 
-    public fun monster_id(encounter: &Encounter): address {
-        encounter.monster_id
-    }
-
     public(friend) fun set_monster_id(encounter: &mut Encounter, monster_id: address) {
         encounter.monster_id = monster_id;
-    }
-
-    public fun catch_attempts(encounter: &Encounter): u64 {
-        encounter.catch_attempts
     }
 
     public(friend) fun set_catch_attempts(encounter: &mut Encounter, catch_attempts: u64) {
@@ -245,14 +233,11 @@ module aptos_constantinople_demo::encounter {
         table::add(&mut tables.encounter_table, player_id(&encounter), encounter);
     }
 
-    public fun get_encounter(player_id: address): pass_object::PassObject<Encounter> acquires Tables {
-        let encounter = remove_encounter(player_id);
-        pass_object::new(encounter)
-    }
-
-    public fun return_encounter(encounter_pass_obj: pass_object::PassObject<Encounter>) acquires Tables {
-        let encounter = pass_object::extract(encounter_pass_obj);
-        private_add_encounter(encounter);
+    public fun get_all_porperties(player_id: address): (bool, address, u64) acquires Tables {
+        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
+        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        let encounter = table::borrow(&tables.encounter_table, player_id);
+        (encounter.is_existent, encounter.monster_id, encounter.catch_attempts)
     }
 
     public(friend) fun drop_encounter(encounter: Encounter) {

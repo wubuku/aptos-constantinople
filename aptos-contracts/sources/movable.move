@@ -56,10 +56,6 @@ module aptos_constantinople_demo::movable {
         movable.version
     }
 
-    public fun value(movable: &Movable): bool {
-        movable.value
-    }
-
     public(friend) fun set_value(movable: &mut Movable, value: bool) {
         movable.value = value;
     }
@@ -142,14 +138,11 @@ module aptos_constantinople_demo::movable {
         table::add(&mut tables.movable_table, player_id(&movable), movable);
     }
 
-    public fun get_movable(player_id: address): pass_object::PassObject<Movable> acquires Tables {
-        let movable = remove_movable(player_id);
-        pass_object::new(movable)
-    }
-
-    public fun return_movable(movable_pass_obj: pass_object::PassObject<Movable>) acquires Tables {
-        let movable = pass_object::extract(movable_pass_obj);
-        private_add_movable(movable);
+    public fun get_all_porperties(player_id: address): bool acquires Tables {
+        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
+        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        let movable = table::borrow(&tables.movable_table, player_id);
+        movable.value
     }
 
     public(friend) fun drop_movable(movable: Movable) {
