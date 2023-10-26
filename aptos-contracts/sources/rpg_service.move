@@ -52,9 +52,6 @@ module aptos_constantinople_demo::rpg_service {
     const EOnlyMoveToAdjacentSpaces: u64 = 6;
 
     struct Events has key {
-        init_map_event_handle: event::EventHandle<InitMapEvent>,
-        register_event_handle: event::EventHandle<RegisterEvent>,
-        player_move_event_handle: event::EventHandle<PlayerMoveEvent>,
         catch_result_handle: event::EventHandle<CatchResult>,
     }
 
@@ -63,9 +60,6 @@ module aptos_constantinople_demo::rpg_service {
 
         let res_account = genesis_account::resource_account_signer();
         move_to(&res_account, Events {
-            init_map_event_handle: account::new_event_handle<InitMapEvent>(&res_account),
-            register_event_handle: account::new_event_handle<RegisterEvent>(&res_account),
-            player_move_event_handle: account::new_event_handle<PlayerMoveEvent>(&res_account),
             catch_result_handle: account::new_event_handle<CatchResult>(&res_account),
         });
     }
@@ -239,24 +233,6 @@ module aptos_constantinople_demo::rpg_service {
         }
     }
 
-    struct InitMapEvent has store, drop {}
-
-    public(friend) fun new_init_map_event(): InitMapEvent {
-        InitMapEvent {}
-    }
-
-    struct RegisterEvent has store, drop {}
-
-    public(friend) fun new_register_event(): RegisterEvent {
-        RegisterEvent {}
-    }
-
-    struct PlayerMoveEvent has store, drop {}
-
-    public(friend) fun new_player_move_event(): PlayerMoveEvent {
-        PlayerMoveEvent {}
-    }
-
     struct CatchResult has store, drop {
         value: u8,
         player_id: address,
@@ -278,24 +254,6 @@ module aptos_constantinople_demo::rpg_service {
             value,
             player_id,
         }
-    }
-
-    public(friend) fun emit_init_map_event(init_map_event: InitMapEvent) acquires Events {
-        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
-        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
-        event::emit_event(&mut events.init_map_event_handle, init_map_event);
-    }
-
-    public(friend) fun emit_register_event(register_event: RegisterEvent) acquires Events {
-        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
-        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
-        event::emit_event(&mut events.register_event_handle, register_event);
-    }
-
-    public(friend) fun emit_player_move_event(player_move_event: PlayerMoveEvent) acquires Events {
-        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
-        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
-        event::emit_event(&mut events.player_move_event_handle, player_move_event);
     }
 
     public(friend) fun emit_catch_result(catch_result: CatchResult) acquires Events {
