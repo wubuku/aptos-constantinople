@@ -10,7 +10,6 @@ module aptos_constantinople_demo::player {
     use aptos_framework::event;
     use aptos_std::table::{Self, Table};
     friend aptos_constantinople_demo::player_create_logic;
-    friend aptos_constantinople_demo::player_update_logic;
     friend aptos_constantinople_demo::player_aggregate;
 
     const EIdAlreadyExists: u64 = 101;
@@ -20,7 +19,6 @@ module aptos_constantinople_demo::player {
 
     struct Events has key {
         player_created_handle: event::EventHandle<PlayerCreated>,
-        player_updated_handle: event::EventHandle<PlayerUpdated>,
     }
 
     struct Tables has key {
@@ -33,7 +31,6 @@ module aptos_constantinople_demo::player {
         let res_account = genesis_account::resource_account_signer();
         move_to(&res_account, Events {
             player_created_handle: account::new_event_handle<PlayerCreated>(&res_account),
-            player_updated_handle: account::new_event_handle<PlayerUpdated>(&res_account),
         });
 
         move_to(
@@ -97,31 +94,6 @@ module aptos_constantinople_demo::player {
     ): PlayerCreated {
         PlayerCreated {
             player_id,
-            value,
-        }
-    }
-
-    struct PlayerUpdated has store, drop {
-        player_id: address,
-        version: u64,
-        value: bool,
-    }
-
-    public fun player_updated_player_id(player_updated: &PlayerUpdated): address {
-        player_updated.player_id
-    }
-
-    public fun player_updated_value(player_updated: &PlayerUpdated): bool {
-        player_updated.value
-    }
-
-    public(friend) fun new_player_updated(
-        player: &Player,
-        value: bool,
-    ): PlayerUpdated {
-        PlayerUpdated {
-            player_id: player_id(player),
-            version: version(player),
             value,
         }
     }
@@ -197,12 +169,6 @@ module aptos_constantinople_demo::player {
         assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
         let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
         event::emit_event(&mut events.player_created_handle, player_created);
-    }
-
-    public(friend) fun emit_player_updated(player_updated: PlayerUpdated) acquires Events {
-        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
-        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
-        event::emit_event(&mut events.player_updated_handle, player_updated);
     }
 
 }

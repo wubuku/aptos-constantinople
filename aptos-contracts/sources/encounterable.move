@@ -10,7 +10,6 @@ module aptos_constantinople_demo::encounterable {
     use aptos_framework::event;
     use aptos_std::table::{Self, Table};
     friend aptos_constantinople_demo::encounterable_create_logic;
-    friend aptos_constantinople_demo::encounterable_update_logic;
     friend aptos_constantinople_demo::encounterable_aggregate;
 
     const EIdAlreadyExists: u64 = 101;
@@ -20,7 +19,6 @@ module aptos_constantinople_demo::encounterable {
 
     struct Events has key {
         encounterable_created_handle: event::EventHandle<EncounterableCreated>,
-        encounterable_updated_handle: event::EventHandle<EncounterableUpdated>,
     }
 
     struct Tables has key {
@@ -33,7 +31,6 @@ module aptos_constantinople_demo::encounterable {
         let res_account = genesis_account::resource_account_signer();
         move_to(&res_account, Events {
             encounterable_created_handle: account::new_event_handle<EncounterableCreated>(&res_account),
-            encounterable_updated_handle: account::new_event_handle<EncounterableUpdated>(&res_account),
         });
 
         move_to(
@@ -97,31 +94,6 @@ module aptos_constantinople_demo::encounterable {
     ): EncounterableCreated {
         EncounterableCreated {
             player_id,
-            value,
-        }
-    }
-
-    struct EncounterableUpdated has store, drop {
-        player_id: address,
-        version: u64,
-        value: bool,
-    }
-
-    public fun encounterable_updated_player_id(encounterable_updated: &EncounterableUpdated): address {
-        encounterable_updated.player_id
-    }
-
-    public fun encounterable_updated_value(encounterable_updated: &EncounterableUpdated): bool {
-        encounterable_updated.value
-    }
-
-    public(friend) fun new_encounterable_updated(
-        encounterable: &Encounterable,
-        value: bool,
-    ): EncounterableUpdated {
-        EncounterableUpdated {
-            player_id: player_id(encounterable),
-            version: version(encounterable),
             value,
         }
     }
@@ -197,12 +169,6 @@ module aptos_constantinople_demo::encounterable {
         assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
         let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
         event::emit_event(&mut events.encounterable_created_handle, encounterable_created);
-    }
-
-    public(friend) fun emit_encounterable_updated(encounterable_updated: EncounterableUpdated) acquires Events {
-        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
-        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
-        event::emit_event(&mut events.encounterable_updated_handle, encounterable_updated);
     }
 
 }

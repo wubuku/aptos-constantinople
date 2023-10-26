@@ -6,7 +6,6 @@
 module aptos_constantinople_demo::player_aggregate {
     use aptos_constantinople_demo::player;
     use aptos_constantinople_demo::player_create_logic;
-    use aptos_constantinople_demo::player_update_logic;
 
     friend aptos_constantinople_demo::rpg_service;
 
@@ -26,26 +25,6 @@ module aptos_constantinople_demo::player_aggregate {
         );
         player::add_player(player);
         player::emit_player_created(player_created);
-    }
-
-    public(friend) fun update(
-        account: &signer,
-        player_id: address,
-        value: bool,
-    ) {
-        let player = player::remove_player(player_id);
-        let player_updated = player_update_logic::verify(
-            account,
-            value,
-            &player,
-        );
-        let updated_player = player_update_logic::mutate(
-            account,
-            &player_updated,
-            player,
-        );
-        player::update_version_and_add(updated_player);
-        player::emit_player_updated(player_updated);
     }
 
 }

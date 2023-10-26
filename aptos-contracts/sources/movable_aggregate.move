@@ -6,7 +6,6 @@
 module aptos_constantinople_demo::movable_aggregate {
     use aptos_constantinople_demo::movable;
     use aptos_constantinople_demo::movable_create_logic;
-    use aptos_constantinople_demo::movable_update_logic;
 
     friend aptos_constantinople_demo::rpg_service;
 
@@ -26,26 +25,6 @@ module aptos_constantinople_demo::movable_aggregate {
         );
         movable::add_movable(movable);
         movable::emit_movable_created(movable_created);
-    }
-
-    public(friend) fun update(
-        account: &signer,
-        player_id: address,
-        value: bool,
-    ) {
-        let movable = movable::remove_movable(player_id);
-        let movable_updated = movable_update_logic::verify(
-            account,
-            value,
-            &movable,
-        );
-        let updated_movable = movable_update_logic::mutate(
-            account,
-            &movable_updated,
-            movable,
-        );
-        movable::update_version_and_add(updated_movable);
-        movable::emit_movable_updated(movable_updated);
     }
 
 }

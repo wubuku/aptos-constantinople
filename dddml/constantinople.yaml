@@ -2,7 +2,7 @@ aggregates:
   Player:
     metadata:
       Preprocessors: [ "MOVE_CRUD_IT" ]
-      #CRUD_IT_NO_UPDATE: true
+      CRUD_IT_NO_UPDATE: true
       CRUD_IT_NO_DELETE: true
     #friends: [ "", ""]
     id:
@@ -14,13 +14,13 @@ aggregates:
     methods:
       Create:
         isInternal: true
-      Update:
-        isInternal: true
+      #Update:
+      #  isInternal: true
 
   Movable:
     metadata:
       Preprocessors: [ "MOVE_CRUD_IT" ]
-      #CRUD_IT_NO_UPDATE: true
+      CRUD_IT_NO_UPDATE: true
       CRUD_IT_NO_DELETE: true
     #friends: [ "", ""]
     id:
@@ -32,13 +32,13 @@ aggregates:
     methods:
       Create:
         isInternal: true
-      Update:
-        isInternal: true
+      #Update:
+      #  isInternal: true
 
   Encounterable:
     metadata:
       Preprocessors: [ "MOVE_CRUD_IT" ]
-      #CRUD_IT_NO_UPDATE: true
+      CRUD_IT_NO_UPDATE: true
       CRUD_IT_NO_DELETE: true
     #friends: [ "", ""]
     id:
@@ -50,8 +50,8 @@ aggregates:
     methods:
       Create:
         isInternal: true
-      Update:
-        isInternal: true
+      #Update:
+      #  isInternal: true
 
   Monster:
     metadata:

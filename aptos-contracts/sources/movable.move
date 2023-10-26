@@ -10,7 +10,6 @@ module aptos_constantinople_demo::movable {
     use aptos_framework::event;
     use aptos_std::table::{Self, Table};
     friend aptos_constantinople_demo::movable_create_logic;
-    friend aptos_constantinople_demo::movable_update_logic;
     friend aptos_constantinople_demo::movable_aggregate;
 
     const EIdAlreadyExists: u64 = 101;
@@ -20,7 +19,6 @@ module aptos_constantinople_demo::movable {
 
     struct Events has key {
         movable_created_handle: event::EventHandle<MovableCreated>,
-        movable_updated_handle: event::EventHandle<MovableUpdated>,
     }
 
     struct Tables has key {
@@ -33,7 +31,6 @@ module aptos_constantinople_demo::movable {
         let res_account = genesis_account::resource_account_signer();
         move_to(&res_account, Events {
             movable_created_handle: account::new_event_handle<MovableCreated>(&res_account),
-            movable_updated_handle: account::new_event_handle<MovableUpdated>(&res_account),
         });
 
         move_to(
@@ -97,31 +94,6 @@ module aptos_constantinople_demo::movable {
     ): MovableCreated {
         MovableCreated {
             player_id,
-            value,
-        }
-    }
-
-    struct MovableUpdated has store, drop {
-        player_id: address,
-        version: u64,
-        value: bool,
-    }
-
-    public fun movable_updated_player_id(movable_updated: &MovableUpdated): address {
-        movable_updated.player_id
-    }
-
-    public fun movable_updated_value(movable_updated: &MovableUpdated): bool {
-        movable_updated.value
-    }
-
-    public(friend) fun new_movable_updated(
-        movable: &Movable,
-        value: bool,
-    ): MovableUpdated {
-        MovableUpdated {
-            player_id: player_id(movable),
-            version: version(movable),
             value,
         }
     }
@@ -197,12 +169,6 @@ module aptos_constantinople_demo::movable {
         assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
         let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
         event::emit_event(&mut events.movable_created_handle, movable_created);
-    }
-
-    public(friend) fun emit_movable_updated(movable_updated: MovableUpdated) acquires Events {
-        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
-        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
-        event::emit_event(&mut events.movable_updated_handle, movable_updated);
     }
 
 }
