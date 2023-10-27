@@ -12,6 +12,7 @@ module aptos_constantinople_demo::obstruction_aggregate {
 
     public(friend) fun create(
         account: &signer,
+        store: address,
         position_x: u64,
         position_y: u64,
         value: bool,
@@ -23,15 +24,17 @@ module aptos_constantinople_demo::obstruction_aggregate {
 
         let obstruction_created = obstruction_create_logic::verify(
             account,
+            store,
             position,
             value,
         );
         let obstruction = obstruction_create_logic::mutate(
             account,
+            store,
             &obstruction_created,
         );
-        obstruction::add_obstruction(obstruction);
-        obstruction::emit_obstruction_created(obstruction_created);
+        obstruction::add_obstruction(store, obstruction);
+        obstruction::emit_obstruction_created(store, obstruction_created);
     }
 
 }

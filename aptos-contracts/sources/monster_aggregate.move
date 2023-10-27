@@ -12,29 +12,34 @@ module aptos_constantinople_demo::monster_aggregate {
 
     public(friend) fun create(
         account: &signer,
+        store: address,
         monster_id: address,
         monster_type: u64,
     ) {
         let monster_created = monster_create_logic::verify(
             account,
+            store,
             monster_id,
             monster_type,
         );
         let monster = monster_create_logic::mutate(
             account,
+            store,
             &monster_created,
         );
-        monster::add_monster(monster);
-        monster::emit_monster_created(monster_created);
+        monster::add_monster(store, monster);
+        monster::emit_monster_created(store, monster_created);
     }
 
     public(friend) fun delete(
         account: &signer,
+        store: address,
         monster_id: address,
     ) {
-        let monster = monster::remove_monster(monster_id);
+        let monster = monster::remove_monster(store, monster_id);
         let monster_deleted = monster_delete_logic::verify(
             account,
+            store,
             &monster,
         );
         let updated_monster = monster_delete_logic::mutate(
@@ -43,7 +48,7 @@ module aptos_constantinople_demo::monster_aggregate {
             monster,
         );
         monster::drop_monster(updated_monster);
-        monster::emit_monster_deleted(monster_deleted);
+        monster::emit_monster_deleted(store, monster_deleted);
     }
 
 }

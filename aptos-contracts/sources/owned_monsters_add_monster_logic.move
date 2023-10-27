@@ -6,6 +6,7 @@ module aptos_constantinople_demo::owned_monsters_add_monster_logic {
 
     public(friend) fun verify(
         account: &signer,
+        _store: address,
         monster_id: address,
         owned_monsters: &owned_monsters::OwnedMonsters,
     ): owned_monsters::MonsterAddedToPlayer {
@@ -19,7 +20,7 @@ module aptos_constantinople_demo::owned_monsters_add_monster_logic {
         owned_monsters: owned_monsters::OwnedMonsters,
     ): owned_monsters::OwnedMonsters {
         let (player_id, monster_id) = owned_monsters::get_monster_added_to_player_all_properties(monster_added_to_player);
-        let monsters = owned_monsters::get_all_porperties(player_id);
+        let monsters = owned_monsters::all_porperties(&owned_monsters);
         vector::push_back(&mut monsters, monster_id);
         owned_monsters::set_monsters(&mut owned_monsters, monsters);
         owned_monsters

@@ -13,6 +13,7 @@ module aptos_constantinople_demo::player_position_aggregate {
 
     public(friend) fun create(
         account: &signer,
+        store: address,
         player_id: address,
         position_x: u64,
         position_y: u64,
@@ -23,19 +24,22 @@ module aptos_constantinople_demo::player_position_aggregate {
         );
         let player_position_created = player_position_create_logic::verify(
             account,
+            store,
             player_id,
             position,
         );
         let player_position = player_position_create_logic::mutate(
             account,
+            store,
             &player_position_created,
         );
-        player_position::add_player_position(player_position);
-        player_position::emit_player_position_created(player_position_created);
+        player_position::add_player_position(store, player_position);
+        player_position::emit_player_position_created(store, player_position_created);
     }
 
     public(friend) fun update(
         account: &signer,
+        store: address,
         player_id: address,
         position_x: u64,
         position_y: u64,
@@ -44,9 +48,10 @@ module aptos_constantinople_demo::player_position_aggregate {
             position_x,
             position_y,
         );
-        let player_position = player_position::remove_player_position(player_id);
+        let player_position = player_position::remove_player_position(store, player_id);
         let player_position_updated = player_position_update_logic::verify(
             account,
+            store,
             position,
             &player_position,
         );
@@ -55,8 +60,8 @@ module aptos_constantinople_demo::player_position_aggregate {
             &player_position_updated,
             player_position,
         );
-        player_position::update_version_and_add(updated_player_position);
-        player_position::emit_player_position_updated(player_position_updated);
+        player_position::update_version_and_add(store, updated_player_position);
+        player_position::emit_player_position_updated(store, player_position_updated);
     }
 
 }

@@ -281,3 +281,5 @@ configuration:
     ONLY_GET_ENTITY_ALL_PROPERTIES_AT_ONCE: true
     ONLY_GET_EVENT_ALL_PROPERTIES_AT_ONCE: true
 
+  aptos:
+    isExternalStoreEnabled: true
