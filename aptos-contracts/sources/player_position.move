@@ -130,8 +130,8 @@ module aptos_constantinople_demo::player_position {
     public(friend) fun asset_player_position_not_exists(
         player_id: address,
     ) acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(genesis_account::resource_account_address());
         assert!(!table::contains(&tables.player_position_table, player_id), EIdAlreadyExists);
     }
 
@@ -147,20 +147,20 @@ module aptos_constantinople_demo::player_position {
     }
 
     public(friend) fun remove_player_position(player_id: address): PlayerPosition acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(genesis_account::resource_account_address());
         table::remove(&mut tables.player_position_table, player_id)
     }
 
     fun private_add_player_position(player_position: PlayerPosition) acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(genesis_account::resource_account_address());
         table::add(&mut tables.player_position_table, player_position.player_id, player_position);
     }
 
     public fun get_all_porperties(player_id: address): Position acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global<Tables>(genesis_account::resource_account_address());
         let player_position = table::borrow(&tables.player_position_table, player_id);
         player_position.position
     }
@@ -174,19 +174,19 @@ module aptos_constantinople_demo::player_position {
     }
 
     public fun contains_player_position(player_id: address): bool acquires Tables {
-        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        let tables = borrow_global<Tables>(genesis_account::resource_account_address());
         table::contains(&tables.player_position_table, player_id)
     }
 
     public(friend) fun emit_player_position_created(player_position_created: PlayerPositionCreated) acquires Events {
-        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
-        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
+        assert!(exists<Events>(genesis_account::resource_account_address()), ENotInitialized);
+        let events = borrow_global_mut<Events>(genesis_account::resource_account_address());
         event::emit_event(&mut events.player_position_created_handle, player_position_created);
     }
 
     public(friend) fun emit_player_position_updated(player_position_updated: PlayerPositionUpdated) acquires Events {
-        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
-        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
+        assert!(exists<Events>(genesis_account::resource_account_address()), ENotInitialized);
+        let events = borrow_global_mut<Events>(genesis_account::resource_account_address());
         event::emit_event(&mut events.player_position_updated_handle, player_position_updated);
     }
 

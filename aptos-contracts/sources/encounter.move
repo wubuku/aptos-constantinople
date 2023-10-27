@@ -180,8 +180,8 @@ module aptos_constantinople_demo::encounter {
     public(friend) fun asset_encounter_not_exists(
         player_id: address,
     ) acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(genesis_account::resource_account_address());
         assert!(!table::contains(&tables.encounter_table, player_id), EIdAlreadyExists);
     }
 
@@ -197,20 +197,20 @@ module aptos_constantinople_demo::encounter {
     }
 
     public(friend) fun remove_encounter(player_id: address): Encounter acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(genesis_account::resource_account_address());
         table::remove(&mut tables.encounter_table, player_id)
     }
 
     fun private_add_encounter(encounter: Encounter) acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(genesis_account::resource_account_address());
         table::add(&mut tables.encounter_table, encounter.player_id, encounter);
     }
 
     public fun get_all_porperties(player_id: address): (bool, address, u64) acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global<Tables>(genesis_account::resource_account_address());
         let encounter = table::borrow(&tables.encounter_table, player_id);
         (encounter.is_existent, encounter.monster_id, encounter.catch_attempts)
     }
@@ -226,25 +226,25 @@ module aptos_constantinople_demo::encounter {
     }
 
     public fun contains_encounter(player_id: address): bool acquires Tables {
-        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        let tables = borrow_global<Tables>(genesis_account::resource_account_address());
         table::contains(&tables.encounter_table, player_id)
     }
 
     public(friend) fun emit_encounter_created(encounter_created: EncounterCreated) acquires Events {
-        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
-        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
+        assert!(exists<Events>(genesis_account::resource_account_address()), ENotInitialized);
+        let events = borrow_global_mut<Events>(genesis_account::resource_account_address());
         event::emit_event(&mut events.encounter_created_handle, encounter_created);
     }
 
     public(friend) fun emit_encounter_updated(encounter_updated: EncounterUpdated) acquires Events {
-        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
-        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
+        assert!(exists<Events>(genesis_account::resource_account_address()), ENotInitialized);
+        let events = borrow_global_mut<Events>(genesis_account::resource_account_address());
         event::emit_event(&mut events.encounter_updated_handle, encounter_updated);
     }
 
     public(friend) fun emit_encounter_deleted(encounter_deleted: EncounterDeleted) acquires Events {
-        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
-        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
+        assert!(exists<Events>(genesis_account::resource_account_address()), ENotInitialized);
+        let events = borrow_global_mut<Events>(genesis_account::resource_account_address());
         event::emit_event(&mut events.encounter_deleted_handle, encounter_deleted);
     }
 

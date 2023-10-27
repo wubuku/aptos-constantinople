@@ -106,8 +106,8 @@ module aptos_constantinople_demo::encounter_trigger {
     public(friend) fun asset_encounter_trigger_not_exists(
         position: Position,
     ) acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(genesis_account::resource_account_address());
         assert!(!table::contains(&tables.encounter_trigger_table, position), EIdAlreadyExists);
     }
 
@@ -123,20 +123,20 @@ module aptos_constantinople_demo::encounter_trigger {
     }
 
     public(friend) fun remove_encounter_trigger(position: Position): EncounterTrigger acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(genesis_account::resource_account_address());
         table::remove(&mut tables.encounter_trigger_table, position)
     }
 
     fun private_add_encounter_trigger(encounter_trigger: EncounterTrigger) acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(genesis_account::resource_account_address());
         table::add(&mut tables.encounter_trigger_table, encounter_trigger.position, encounter_trigger);
     }
 
     public fun get_all_porperties(position: Position): bool acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global<Tables>(genesis_account::resource_account_address());
         let encounter_trigger = table::borrow(&tables.encounter_trigger_table, position);
         encounter_trigger.value
     }
@@ -150,13 +150,13 @@ module aptos_constantinople_demo::encounter_trigger {
     }
 
     public fun contains_encounter_trigger(position: Position): bool acquires Tables {
-        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        let tables = borrow_global<Tables>(genesis_account::resource_account_address());
         table::contains(&tables.encounter_trigger_table, position)
     }
 
     public(friend) fun emit_encounter_trigger_created(encounter_trigger_created: EncounterTriggerCreated) acquires Events {
-        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
-        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
+        assert!(exists<Events>(genesis_account::resource_account_address()), ENotInitialized);
+        let events = borrow_global_mut<Events>(genesis_account::resource_account_address());
         event::emit_event(&mut events.encounter_trigger_created_handle, encounter_trigger_created);
     }
 

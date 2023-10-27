@@ -106,8 +106,8 @@ module aptos_constantinople_demo::obstruction {
     public(friend) fun asset_obstruction_not_exists(
         position: Position,
     ) acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(genesis_account::resource_account_address());
         assert!(!table::contains(&tables.obstruction_table, position), EIdAlreadyExists);
     }
 
@@ -123,20 +123,20 @@ module aptos_constantinople_demo::obstruction {
     }
 
     public(friend) fun remove_obstruction(position: Position): Obstruction acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(genesis_account::resource_account_address());
         table::remove(&mut tables.obstruction_table, position)
     }
 
     fun private_add_obstruction(obstruction: Obstruction) acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(genesis_account::resource_account_address());
         table::add(&mut tables.obstruction_table, obstruction.position, obstruction);
     }
 
     public fun get_all_porperties(position: Position): bool acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global<Tables>(genesis_account::resource_account_address());
         let obstruction = table::borrow(&tables.obstruction_table, position);
         obstruction.value
     }
@@ -150,13 +150,13 @@ module aptos_constantinople_demo::obstruction {
     }
 
     public fun contains_obstruction(position: Position): bool acquires Tables {
-        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        let tables = borrow_global<Tables>(genesis_account::resource_account_address());
         table::contains(&tables.obstruction_table, position)
     }
 
     public(friend) fun emit_obstruction_created(obstruction_created: ObstructionCreated) acquires Events {
-        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
-        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
+        assert!(exists<Events>(genesis_account::resource_account_address()), ENotInitialized);
+        let events = borrow_global_mut<Events>(genesis_account::resource_account_address());
         event::emit_event(&mut events.obstruction_created_handle, obstruction_created);
     }
 

@@ -129,8 +129,8 @@ module aptos_constantinople_demo::owned_monsters {
     public(friend) fun asset_owned_monsters_not_exists(
         player_id: address,
     ) acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(genesis_account::resource_account_address());
         assert!(!table::contains(&tables.owned_monsters_table, player_id), EIdAlreadyExists);
     }
 
@@ -146,20 +146,20 @@ module aptos_constantinople_demo::owned_monsters {
     }
 
     public(friend) fun remove_owned_monsters(player_id: address): OwnedMonsters acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(genesis_account::resource_account_address());
         table::remove(&mut tables.owned_monsters_table, player_id)
     }
 
     fun private_add_owned_monsters(owned_monsters: OwnedMonsters) acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(genesis_account::resource_account_address());
         table::add(&mut tables.owned_monsters_table, owned_monsters.player_id, owned_monsters);
     }
 
     public fun get_all_porperties(player_id: address): vector<address> acquires Tables {
-        assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
-        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        assert!(exists<Tables>(genesis_account::resource_account_address()), ENotInitialized);
+        let tables = borrow_global<Tables>(genesis_account::resource_account_address());
         let owned_monsters = table::borrow(&tables.owned_monsters_table, player_id);
         owned_monsters.monsters
     }
@@ -173,19 +173,19 @@ module aptos_constantinople_demo::owned_monsters {
     }
 
     public fun contains_owned_monsters(player_id: address): bool acquires Tables {
-        let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
+        let tables = borrow_global<Tables>(genesis_account::resource_account_address());
         table::contains(&tables.owned_monsters_table, player_id)
     }
 
     public(friend) fun emit_owned_monsters_created(owned_monsters_created: OwnedMonstersCreated) acquires Events {
-        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
-        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
+        assert!(exists<Events>(genesis_account::resource_account_address()), ENotInitialized);
+        let events = borrow_global_mut<Events>(genesis_account::resource_account_address());
         event::emit_event(&mut events.owned_monsters_created_handle, owned_monsters_created);
     }
 
     public(friend) fun emit_monster_added_to_player(monster_added_to_player: MonsterAddedToPlayer) acquires Events {
-        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
-        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
+        assert!(exists<Events>(genesis_account::resource_account_address()), ENotInitialized);
+        let events = borrow_global_mut<Events>(genesis_account::resource_account_address());
         event::emit_event(&mut events.monster_added_to_player_handle, monster_added_to_player);
     }
 

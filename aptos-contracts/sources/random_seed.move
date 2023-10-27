@@ -93,8 +93,8 @@ module aptos_constantinople_demo::random_seed {
     }
 
     public(friend) fun remove_random_seed(): RandomSeed acquires RandomSeed {
-        assert!(exists<RandomSeed>(genesis_account::resouce_account_address()), ENotInitialized);
-        move_from<RandomSeed>(genesis_account::resouce_account_address())
+        assert!(exists<RandomSeed>(genesis_account::resource_account_address()), ENotInitialized);
+        move_from<RandomSeed>(genesis_account::resource_account_address())
     }
 
     fun private_add_random_seed(random_seed: RandomSeed) {
@@ -102,13 +102,13 @@ module aptos_constantinople_demo::random_seed {
     }
 
     public fun singleton_value(): u64 acquires RandomSeed {
-        let random_seed = borrow_global<RandomSeed>(genesis_account::resouce_account_address());
+        let random_seed = borrow_global<RandomSeed>(genesis_account::resource_account_address());
         random_seed.value
     }
 
     public fun get_all_porperties(): u64 acquires RandomSeed {
-        assert!(exists<RandomSeed>(genesis_account::resouce_account_address()), ENotInitialized);
-        let random_seed = borrow_global<RandomSeed>(genesis_account::resouce_account_address());
+        assert!(exists<RandomSeed>(genesis_account::resource_account_address()), ENotInitialized);
+        let random_seed = borrow_global<RandomSeed>(genesis_account::resource_account_address());
         random_seed.value
     }
 
@@ -120,12 +120,12 @@ module aptos_constantinople_demo::random_seed {
     }
 
     public fun random_seed_exists(): bool {
-        exists<RandomSeed>(genesis_account::resouce_account_address())
+        exists<RandomSeed>(genesis_account::resource_account_address())
     }
 
     public(friend) fun emit_random_seed_updated(random_seed_updated: RandomSeedUpdated) acquires Events {
-        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
-        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
+        assert!(exists<Events>(genesis_account::resource_account_address()), ENotInitialized);
+        let events = borrow_global_mut<Events>(genesis_account::resource_account_address());
         event::emit_event(&mut events.random_seed_updated_handle, random_seed_updated);
     }
 

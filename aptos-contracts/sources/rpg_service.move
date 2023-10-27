@@ -260,8 +260,8 @@ module aptos_constantinople_demo::rpg_service {
     }
 
     public(friend) fun emit_catch_result(catch_result: CatchResult) acquires Events {
-        assert!(exists<Events>(genesis_account::resouce_account_address()), ENotInitialized);
-        let events = borrow_global_mut<Events>(genesis_account::resouce_account_address());
+        assert!(exists<Events>(genesis_account::resource_account_address()), ENotInitialized);
+        let events = borrow_global_mut<Events>(genesis_account::resource_account_address());
         event::emit_event(&mut events.catch_result_handle, catch_result);
     }
 }

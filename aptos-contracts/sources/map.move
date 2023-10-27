@@ -111,8 +111,8 @@ module aptos_constantinople_demo::map {
     }
 
     public(friend) fun remove_map(): Map acquires Map {
-        assert!(exists<Map>(genesis_account::resouce_account_address()), ENotInitialized);
-        move_from<Map>(genesis_account::resouce_account_address())
+        assert!(exists<Map>(genesis_account::resource_account_address()), ENotInitialized);
+        move_from<Map>(genesis_account::resource_account_address())
     }
 
     fun private_add_map(map: Map) {
@@ -120,23 +120,23 @@ module aptos_constantinople_demo::map {
     }
 
     public fun singleton_width(): u64 acquires Map {
-        let map = borrow_global<Map>(genesis_account::resouce_account_address());
+        let map = borrow_global<Map>(genesis_account::resource_account_address());
         map.width
     }
 
     public fun singleton_height(): u64 acquires Map {
-        let map = borrow_global<Map>(genesis_account::resouce_account_address());
+        let map = borrow_global<Map>(genesis_account::resource_account_address());
         map.height
     }
 
     public fun singleton_terrain(): vector<vector<u8>> acquires Map {
-        let map = borrow_global<Map>(genesis_account::resouce_account_address());
+        let map = borrow_global<Map>(genesis_account::resource_account_address());
         map.terrain
     }
 
     public fun get_all_porperties(): (u64, u64, vector<vector<u8>>) acquires Map {
-        assert!(exists<Map>(genesis_account::resouce_account_address()), ENotInitialized);
-        let map = borrow_global<Map>(genesis_account::resouce_account_address());
+        assert!(exists<Map>(genesis_account::resource_account_address()), ENotInitialized);
+        let map = borrow_global<Map>(genesis_account::resource_account_address());
         (map.width, map.height, map.terrain)
     }
 
@@ -150,7 +150,7 @@ module aptos_constantinople_demo::map {
     }
 
     public fun map_exists(): bool {
-        exists<Map>(genesis_account::resouce_account_address())
+        exists<Map>(genesis_account::resource_account_address())
     }
 
 }
