@@ -5,7 +5,7 @@ module aptos_constantinople_demo::monster_delete_logic {
 
     public(friend) fun verify(
         account: &signer,
-        store: address,      
+        store_address: address,      
         monster: &monster::Monster,
     ): monster::MonsterDeleted {
         let _ = account;

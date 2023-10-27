@@ -5,7 +5,7 @@ module aptos_constantinople_demo::encounter_delete_logic {
 
     public(friend) fun verify(
         account: &signer,
-        store: address,      
+        store_address: address,      
         encounter: &encounter::Encounter,
     ): encounter::EncounterDeleted {
         let _ = account;

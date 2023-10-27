@@ -12,35 +12,35 @@ module aptos_constantinople_demo::owned_monsters_aggregate {
 
     public(friend) fun create(
         account: &signer,
-        store: address,
+        store_address: address,
         player_id: address,
         monsters: vector<address>,
     ) {
         let owned_monsters_created = owned_monsters_create_logic::verify(
             account,
-            store,
+            store_address,
             player_id,
             monsters,
         );
         let owned_monsters = owned_monsters_create_logic::mutate(
             account,
-            store,
+            store_address,
             &owned_monsters_created,
         );
-        owned_monsters::add_owned_monsters(store, owned_monsters);
-        owned_monsters::emit_owned_monsters_created(store, owned_monsters_created);
+        owned_monsters::add_owned_monsters(store_address, owned_monsters);
+        owned_monsters::emit_owned_monsters_created(store_address, owned_monsters_created);
     }
 
     public(friend) fun add_monster(
         account: &signer,
-        store: address,
+        store_address: address,
         player_id: address,
         monster_id: address,
     ) {
-        let owned_monsters = owned_monsters::remove_owned_monsters(store, player_id);
+        let owned_monsters = owned_monsters::remove_owned_monsters(store_address, player_id);
         let monster_added_to_player = owned_monsters_add_monster_logic::verify(
             account,
-            store,
+            store_address,
             monster_id,
             &owned_monsters,
         );
@@ -49,8 +49,8 @@ module aptos_constantinople_demo::owned_monsters_aggregate {
             &monster_added_to_player,
             owned_monsters,
         );
-        owned_monsters::update_version_and_add(store, updated_owned_monsters);
-        owned_monsters::emit_monster_added_to_player(store, monster_added_to_player);
+        owned_monsters::update_version_and_add(store_address, updated_owned_monsters);
+        owned_monsters::emit_monster_added_to_player(store_address, monster_added_to_player);
     }
 
 }

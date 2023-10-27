@@ -11,23 +11,23 @@ module aptos_constantinople_demo::player_aggregate {
 
     public(friend) fun create(
         account: &signer,
-        store: address,
+        store_address: address,
         player_id: address,
         value: bool,
     ) {
         let player_created = player_create_logic::verify(
             account,
-            store,
+            store_address,
             player_id,
             value,
         );
         let player = player_create_logic::mutate(
             account,
-            store,
+            store_address,
             &player_created,
         );
-        player::add_player(store, player);
-        player::emit_player_created(store, player_created);
+        player::add_player(store_address, player);
+        player::emit_player_created(store_address, player_created);
     }
 
 }

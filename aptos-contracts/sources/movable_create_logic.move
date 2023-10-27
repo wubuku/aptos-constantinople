@@ -5,12 +5,12 @@ module aptos_constantinople_demo::movable_create_logic {
 
     public(friend) fun verify(
         account: &signer,
-        store: address,      
+        store_address: address,      
         player_id: address,
         value: bool,
     ): movable::MovableCreated {
         let _ = account;
-        movable::asset_movable_not_exists(store, player_id);
+        movable::asset_movable_not_exists(store_address, player_id);
         movable::new_movable_created(
             player_id,
             value,
@@ -19,12 +19,12 @@ module aptos_constantinople_demo::movable_create_logic {
 
     public(friend) fun mutate(
         _account: &signer,
-        store: address,
+        store_address: address,
         movable_created: &movable::MovableCreated,
     ): movable::Movable {
         let (player_id, value) = movable::get_movable_created_all_properties(movable_created);
         movable::create_movable(
-            store,
+            store_address,
             player_id,
             value,
         )

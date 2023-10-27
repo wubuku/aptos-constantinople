@@ -87,11 +87,11 @@ module aptos_constantinople_demo::player {
 
 
     public(friend) fun create_player(
-        store: address,
+        store_address: address,
         player_id: address,
         value: bool,
     ): Player acquires Tables {
-        asset_player_not_exists(store, player_id);
+        asset_player_not_exists(store_address, player_id);
         let player = new_player(
             player_id,
             value,
@@ -100,39 +100,39 @@ module aptos_constantinople_demo::player {
     }
 
     public(friend) fun asset_player_not_exists(
-        store: address, player_id: address,
+        store_address: address, player_id: address,
     ) acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         assert!(!table::contains(&tables.player_table, player_id), EIdAlreadyExists);
     }
 
-    public(friend) fun update_version_and_add(store: address, player: Player) acquires Tables {
+    public(friend) fun update_version_and_add(store_address: address, player: Player) acquires Tables {
         player.version = player.version + 1;
         //assert!(player.version != 0, EInappropriateVersion);
-        private_add_player(store, player);
+        private_add_player(store_address, player);
     }
 
-    public(friend) fun add_player(store: address, player: Player) acquires Tables {
+    public(friend) fun add_player(store_address: address, player: Player) acquires Tables {
         assert!(player.version == 0, EInappropriateVersion);
-        private_add_player(store, player);
+        private_add_player(store_address, player);
     }
 
-    public(friend) fun remove_player(store: address, player_id: address): Player acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+    public(friend) fun remove_player(store_address: address, player_id: address): Player acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         table::remove(&mut tables.player_table, player_id)
     }
 
-    fun private_add_player(store: address, player: Player) acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+    fun private_add_player(store_address: address, player: Player) acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         table::add(&mut tables.player_table, player.player_id, player);
     }
 
-    public fun get_all_porperties(store: address, player_id: address): bool acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global<Tables>(store);
+    public fun get_all_porperties(store_address: address, player_id: address): bool acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global<Tables>(store_address);
         let player = table::borrow(&tables.player_table, player_id);
         all_porperties(player)
     }
@@ -149,14 +149,14 @@ module aptos_constantinople_demo::player {
         } = player;
     }
 
-    public fun contains_player(store: address, player_id: address): bool acquires Tables {
-        let tables = borrow_global<Tables>(store);
+    public fun contains_player(store_address: address, player_id: address): bool acquires Tables {
+        let tables = borrow_global<Tables>(store_address);
         table::contains(&tables.player_table, player_id)
     }
 
-    public(friend) fun emit_player_created(store: address, player_created: PlayerCreated) acquires Events {
-        assert!(exists<Events>(store), ENotInitialized);
-        let events = borrow_global_mut<Events>(store);
+    public(friend) fun emit_player_created(store_address: address, player_created: PlayerCreated) acquires Events {
+        assert!(exists<Events>(store_address), ENotInitialized);
+        let events = borrow_global_mut<Events>(store_address);
         event::emit_event(&mut events.player_created_handle, player_created);
     }
 

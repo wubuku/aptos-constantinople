@@ -88,23 +88,23 @@ module aptos_constantinople_demo::random_seed {
         private_add_random_seed(store_account, random_seed);
     }
 
-    public(friend) fun remove_random_seed(store: address, ): RandomSeed acquires RandomSeed {
-        assert!(exists<RandomSeed>(store), ENotInitialized);
-        move_from<RandomSeed>(store)
+    public(friend) fun remove_random_seed(store_address: address, ): RandomSeed acquires RandomSeed {
+        assert!(exists<RandomSeed>(store_address), ENotInitialized);
+        move_from<RandomSeed>(store_address)
     }
 
     fun private_add_random_seed(store_account: &signer, random_seed: RandomSeed) {
         move_to(store_account, random_seed);
     }
 
-    public fun singleton_value(store: address, ): u64 acquires RandomSeed {
-        let random_seed = borrow_global<RandomSeed>(store);
+    public fun singleton_value(store_address: address, ): u64 acquires RandomSeed {
+        let random_seed = borrow_global<RandomSeed>(store_address);
         random_seed.value
     }
 
-    public fun get_all_porperties(store: address, ): u64 acquires RandomSeed {
-        assert!(exists<RandomSeed>(store), ENotInitialized);
-        let random_seed = borrow_global<RandomSeed>(store);
+    public fun get_all_porperties(store_address: address, ): u64 acquires RandomSeed {
+        assert!(exists<RandomSeed>(store_address), ENotInitialized);
+        let random_seed = borrow_global<RandomSeed>(store_address);
         all_porperties(random_seed)
     }
 
@@ -119,13 +119,13 @@ module aptos_constantinople_demo::random_seed {
         } = random_seed;
     }
 
-    public fun random_seed_exists(store: address, ): bool {
-        exists<RandomSeed>(store)
+    public fun random_seed_exists(store_address: address, ): bool {
+        exists<RandomSeed>(store_address)
     }
 
-    public(friend) fun emit_random_seed_updated(store: address, random_seed_updated: RandomSeedUpdated) acquires Events {
-        assert!(exists<Events>(store), ENotInitialized);
-        let events = borrow_global_mut<Events>(store);
+    public(friend) fun emit_random_seed_updated(store_address: address, random_seed_updated: RandomSeedUpdated) acquires Events {
+        assert!(exists<Events>(store_address), ENotInitialized);
+        let events = borrow_global_mut<Events>(store_address);
         event::emit_event(&mut events.random_seed_updated_handle, random_seed_updated);
     }
 

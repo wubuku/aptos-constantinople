@@ -88,11 +88,11 @@ module aptos_constantinople_demo::obstruction {
 
 
     public(friend) fun create_obstruction(
-        store: address,
+        store_address: address,
         position: Position,
         value: bool,
     ): Obstruction acquires Tables {
-        asset_obstruction_not_exists(store, position);
+        asset_obstruction_not_exists(store_address, position);
         let obstruction = new_obstruction(
             position,
             value,
@@ -101,39 +101,39 @@ module aptos_constantinople_demo::obstruction {
     }
 
     public(friend) fun asset_obstruction_not_exists(
-        store: address, position: Position,
+        store_address: address, position: Position,
     ) acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         assert!(!table::contains(&tables.obstruction_table, position), EIdAlreadyExists);
     }
 
-    public(friend) fun update_version_and_add(store: address, obstruction: Obstruction) acquires Tables {
+    public(friend) fun update_version_and_add(store_address: address, obstruction: Obstruction) acquires Tables {
         obstruction.version = obstruction.version + 1;
         //assert!(obstruction.version != 0, EInappropriateVersion);
-        private_add_obstruction(store, obstruction);
+        private_add_obstruction(store_address, obstruction);
     }
 
-    public(friend) fun add_obstruction(store: address, obstruction: Obstruction) acquires Tables {
+    public(friend) fun add_obstruction(store_address: address, obstruction: Obstruction) acquires Tables {
         assert!(obstruction.version == 0, EInappropriateVersion);
-        private_add_obstruction(store, obstruction);
+        private_add_obstruction(store_address, obstruction);
     }
 
-    public(friend) fun remove_obstruction(store: address, position: Position): Obstruction acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+    public(friend) fun remove_obstruction(store_address: address, position: Position): Obstruction acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         table::remove(&mut tables.obstruction_table, position)
     }
 
-    fun private_add_obstruction(store: address, obstruction: Obstruction) acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+    fun private_add_obstruction(store_address: address, obstruction: Obstruction) acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         table::add(&mut tables.obstruction_table, obstruction.position, obstruction);
     }
 
-    public fun get_all_porperties(store: address, position: Position): bool acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global<Tables>(store);
+    public fun get_all_porperties(store_address: address, position: Position): bool acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global<Tables>(store_address);
         let obstruction = table::borrow(&tables.obstruction_table, position);
         all_porperties(obstruction)
     }
@@ -150,14 +150,14 @@ module aptos_constantinople_demo::obstruction {
         } = obstruction;
     }
 
-    public fun contains_obstruction(store: address, position: Position): bool acquires Tables {
-        let tables = borrow_global<Tables>(store);
+    public fun contains_obstruction(store_address: address, position: Position): bool acquires Tables {
+        let tables = borrow_global<Tables>(store_address);
         table::contains(&tables.obstruction_table, position)
     }
 
-    public(friend) fun emit_obstruction_created(store: address, obstruction_created: ObstructionCreated) acquires Events {
-        assert!(exists<Events>(store), ENotInitialized);
-        let events = borrow_global_mut<Events>(store);
+    public(friend) fun emit_obstruction_created(store_address: address, obstruction_created: ObstructionCreated) acquires Events {
+        assert!(exists<Events>(store_address), ENotInitialized);
+        let events = borrow_global_mut<Events>(store_address);
         event::emit_event(&mut events.obstruction_created_handle, obstruction_created);
     }
 

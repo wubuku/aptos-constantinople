@@ -87,11 +87,11 @@ module aptos_constantinople_demo::movable {
 
 
     public(friend) fun create_movable(
-        store: address,
+        store_address: address,
         player_id: address,
         value: bool,
     ): Movable acquires Tables {
-        asset_movable_not_exists(store, player_id);
+        asset_movable_not_exists(store_address, player_id);
         let movable = new_movable(
             player_id,
             value,
@@ -100,39 +100,39 @@ module aptos_constantinople_demo::movable {
     }
 
     public(friend) fun asset_movable_not_exists(
-        store: address, player_id: address,
+        store_address: address, player_id: address,
     ) acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         assert!(!table::contains(&tables.movable_table, player_id), EIdAlreadyExists);
     }
 
-    public(friend) fun update_version_and_add(store: address, movable: Movable) acquires Tables {
+    public(friend) fun update_version_and_add(store_address: address, movable: Movable) acquires Tables {
         movable.version = movable.version + 1;
         //assert!(movable.version != 0, EInappropriateVersion);
-        private_add_movable(store, movable);
+        private_add_movable(store_address, movable);
     }
 
-    public(friend) fun add_movable(store: address, movable: Movable) acquires Tables {
+    public(friend) fun add_movable(store_address: address, movable: Movable) acquires Tables {
         assert!(movable.version == 0, EInappropriateVersion);
-        private_add_movable(store, movable);
+        private_add_movable(store_address, movable);
     }
 
-    public(friend) fun remove_movable(store: address, player_id: address): Movable acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+    public(friend) fun remove_movable(store_address: address, player_id: address): Movable acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         table::remove(&mut tables.movable_table, player_id)
     }
 
-    fun private_add_movable(store: address, movable: Movable) acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+    fun private_add_movable(store_address: address, movable: Movable) acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         table::add(&mut tables.movable_table, movable.player_id, movable);
     }
 
-    public fun get_all_porperties(store: address, player_id: address): bool acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global<Tables>(store);
+    public fun get_all_porperties(store_address: address, player_id: address): bool acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global<Tables>(store_address);
         let movable = table::borrow(&tables.movable_table, player_id);
         all_porperties(movable)
     }
@@ -149,14 +149,14 @@ module aptos_constantinople_demo::movable {
         } = movable;
     }
 
-    public fun contains_movable(store: address, player_id: address): bool acquires Tables {
-        let tables = borrow_global<Tables>(store);
+    public fun contains_movable(store_address: address, player_id: address): bool acquires Tables {
+        let tables = borrow_global<Tables>(store_address);
         table::contains(&tables.movable_table, player_id)
     }
 
-    public(friend) fun emit_movable_created(store: address, movable_created: MovableCreated) acquires Events {
-        assert!(exists<Events>(store), ENotInitialized);
-        let events = borrow_global_mut<Events>(store);
+    public(friend) fun emit_movable_created(store_address: address, movable_created: MovableCreated) acquires Events {
+        assert!(exists<Events>(store_address), ENotInitialized);
+        let events = borrow_global_mut<Events>(store_address);
         event::emit_event(&mut events.movable_created_handle, movable_created);
     }
 

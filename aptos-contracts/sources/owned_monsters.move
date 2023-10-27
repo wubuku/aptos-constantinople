@@ -111,11 +111,11 @@ module aptos_constantinople_demo::owned_monsters {
 
 
     public(friend) fun create_owned_monsters(
-        store: address,
+        store_address: address,
         player_id: address,
         monsters: vector<address>,
     ): OwnedMonsters acquires Tables {
-        asset_owned_monsters_not_exists(store, player_id);
+        asset_owned_monsters_not_exists(store_address, player_id);
         let owned_monsters = new_owned_monsters(
             player_id,
             monsters,
@@ -124,39 +124,39 @@ module aptos_constantinople_demo::owned_monsters {
     }
 
     public(friend) fun asset_owned_monsters_not_exists(
-        store: address, player_id: address,
+        store_address: address, player_id: address,
     ) acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         assert!(!table::contains(&tables.owned_monsters_table, player_id), EIdAlreadyExists);
     }
 
-    public(friend) fun update_version_and_add(store: address, owned_monsters: OwnedMonsters) acquires Tables {
+    public(friend) fun update_version_and_add(store_address: address, owned_monsters: OwnedMonsters) acquires Tables {
         owned_monsters.version = owned_monsters.version + 1;
         //assert!(owned_monsters.version != 0, EInappropriateVersion);
-        private_add_owned_monsters(store, owned_monsters);
+        private_add_owned_monsters(store_address, owned_monsters);
     }
 
-    public(friend) fun add_owned_monsters(store: address, owned_monsters: OwnedMonsters) acquires Tables {
+    public(friend) fun add_owned_monsters(store_address: address, owned_monsters: OwnedMonsters) acquires Tables {
         assert!(owned_monsters.version == 0, EInappropriateVersion);
-        private_add_owned_monsters(store, owned_monsters);
+        private_add_owned_monsters(store_address, owned_monsters);
     }
 
-    public(friend) fun remove_owned_monsters(store: address, player_id: address): OwnedMonsters acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+    public(friend) fun remove_owned_monsters(store_address: address, player_id: address): OwnedMonsters acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         table::remove(&mut tables.owned_monsters_table, player_id)
     }
 
-    fun private_add_owned_monsters(store: address, owned_monsters: OwnedMonsters) acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+    fun private_add_owned_monsters(store_address: address, owned_monsters: OwnedMonsters) acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         table::add(&mut tables.owned_monsters_table, owned_monsters.player_id, owned_monsters);
     }
 
-    public fun get_all_porperties(store: address, player_id: address): vector<address> acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global<Tables>(store);
+    public fun get_all_porperties(store_address: address, player_id: address): vector<address> acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global<Tables>(store_address);
         let owned_monsters = table::borrow(&tables.owned_monsters_table, player_id);
         all_porperties(owned_monsters)
     }
@@ -173,20 +173,20 @@ module aptos_constantinople_demo::owned_monsters {
         } = owned_monsters;
     }
 
-    public fun contains_owned_monsters(store: address, player_id: address): bool acquires Tables {
-        let tables = borrow_global<Tables>(store);
+    public fun contains_owned_monsters(store_address: address, player_id: address): bool acquires Tables {
+        let tables = borrow_global<Tables>(store_address);
         table::contains(&tables.owned_monsters_table, player_id)
     }
 
-    public(friend) fun emit_owned_monsters_created(store: address, owned_monsters_created: OwnedMonstersCreated) acquires Events {
-        assert!(exists<Events>(store), ENotInitialized);
-        let events = borrow_global_mut<Events>(store);
+    public(friend) fun emit_owned_monsters_created(store_address: address, owned_monsters_created: OwnedMonstersCreated) acquires Events {
+        assert!(exists<Events>(store_address), ENotInitialized);
+        let events = borrow_global_mut<Events>(store_address);
         event::emit_event(&mut events.owned_monsters_created_handle, owned_monsters_created);
     }
 
-    public(friend) fun emit_monster_added_to_player(store: address, monster_added_to_player: MonsterAddedToPlayer) acquires Events {
-        assert!(exists<Events>(store), ENotInitialized);
-        let events = borrow_global_mut<Events>(store);
+    public(friend) fun emit_monster_added_to_player(store_address: address, monster_added_to_player: MonsterAddedToPlayer) acquires Events {
+        assert!(exists<Events>(store_address), ENotInitialized);
+        let events = borrow_global_mut<Events>(store_address);
         event::emit_event(&mut events.monster_added_to_player_handle, monster_added_to_player);
     }
 

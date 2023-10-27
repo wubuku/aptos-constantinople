@@ -5,7 +5,7 @@ module aptos_constantinople_demo::random_seed_update_logic {
 
     public(friend) fun verify(
         account: &signer,
-        store: address,      
+        store_address: address,      
         value: u64,
         random_seed: &random_seed::RandomSeed,
     ): random_seed::RandomSeedUpdated {

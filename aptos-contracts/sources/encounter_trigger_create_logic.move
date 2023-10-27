@@ -6,12 +6,12 @@ module aptos_constantinople_demo::encounter_trigger_create_logic {
 
     public(friend) fun verify(
         account: &signer,
-        store: address,      
+        store_address: address,      
         position: Position,
         value: bool,
     ): encounter_trigger::EncounterTriggerCreated {
         let _ = account;
-        encounter_trigger::asset_encounter_trigger_not_exists(store, position);
+        encounter_trigger::asset_encounter_trigger_not_exists(store_address, position);
         encounter_trigger::new_encounter_trigger_created(
             position,
             value,
@@ -20,12 +20,12 @@ module aptos_constantinople_demo::encounter_trigger_create_logic {
 
     public(friend) fun mutate(
         _account: &signer,
-        store: address,
+        store_address: address,
         encounter_trigger_created: &encounter_trigger::EncounterTriggerCreated,
     ): encounter_trigger::EncounterTrigger {
         let (position, value) = encounter_trigger::get_encounter_trigger_created_all_properties(encounter_trigger_created);
         encounter_trigger::create_encounter_trigger(
-            store,
+            store_address,
             position,
             value,
         )

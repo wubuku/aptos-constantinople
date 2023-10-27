@@ -12,7 +12,7 @@ module aptos_constantinople_demo::encounter_trigger_aggregate {
 
     public(friend) fun create(
         account: &signer,
-        store: address,
+        store_address: address,
         position_x: u64,
         position_y: u64,
         value: bool,
@@ -24,17 +24,17 @@ module aptos_constantinople_demo::encounter_trigger_aggregate {
 
         let encounter_trigger_created = encounter_trigger_create_logic::verify(
             account,
-            store,
+            store_address,
             position,
             value,
         );
         let encounter_trigger = encounter_trigger_create_logic::mutate(
             account,
-            store,
+            store_address,
             &encounter_trigger_created,
         );
-        encounter_trigger::add_encounter_trigger(store, encounter_trigger);
-        encounter_trigger::emit_encounter_trigger_created(store, encounter_trigger_created);
+        encounter_trigger::add_encounter_trigger(store_address, encounter_trigger);
+        encounter_trigger::emit_encounter_trigger_created(store_address, encounter_trigger_created);
     }
 
 }

@@ -106,33 +106,33 @@ module aptos_constantinople_demo::map {
         private_add_map(store_account, map);
     }
 
-    public(friend) fun remove_map(store: address, ): Map acquires Map {
-        assert!(exists<Map>(store), ENotInitialized);
-        move_from<Map>(store)
+    public(friend) fun remove_map(store_address: address, ): Map acquires Map {
+        assert!(exists<Map>(store_address), ENotInitialized);
+        move_from<Map>(store_address)
     }
 
     fun private_add_map(store_account: &signer, map: Map) {
         move_to(store_account, map);
     }
 
-    public fun singleton_width(store: address, ): u64 acquires Map {
-        let map = borrow_global<Map>(store);
+    public fun singleton_width(store_address: address, ): u64 acquires Map {
+        let map = borrow_global<Map>(store_address);
         map.width
     }
 
-    public fun singleton_height(store: address, ): u64 acquires Map {
-        let map = borrow_global<Map>(store);
+    public fun singleton_height(store_address: address, ): u64 acquires Map {
+        let map = borrow_global<Map>(store_address);
         map.height
     }
 
-    public fun singleton_terrain(store: address, ): vector<vector<u8>> acquires Map {
-        let map = borrow_global<Map>(store);
+    public fun singleton_terrain(store_address: address, ): vector<vector<u8>> acquires Map {
+        let map = borrow_global<Map>(store_address);
         map.terrain
     }
 
-    public fun get_all_porperties(store: address, ): (u64, u64, vector<vector<u8>>) acquires Map {
-        assert!(exists<Map>(store), ENotInitialized);
-        let map = borrow_global<Map>(store);
+    public fun get_all_porperties(store_address: address, ): (u64, u64, vector<vector<u8>>) acquires Map {
+        assert!(exists<Map>(store_address), ENotInitialized);
+        let map = borrow_global<Map>(store_address);
         all_porperties(map)
     }
 
@@ -149,8 +149,8 @@ module aptos_constantinople_demo::map {
         } = map;
     }
 
-    public fun map_exists(store: address, ): bool {
-        exists<Map>(store)
+    public fun map_exists(store_address: address, ): bool {
+        exists<Map>(store_address)
     }
 
 }

@@ -88,11 +88,11 @@ module aptos_constantinople_demo::encounter_trigger {
 
 
     public(friend) fun create_encounter_trigger(
-        store: address,
+        store_address: address,
         position: Position,
         value: bool,
     ): EncounterTrigger acquires Tables {
-        asset_encounter_trigger_not_exists(store, position);
+        asset_encounter_trigger_not_exists(store_address, position);
         let encounter_trigger = new_encounter_trigger(
             position,
             value,
@@ -101,39 +101,39 @@ module aptos_constantinople_demo::encounter_trigger {
     }
 
     public(friend) fun asset_encounter_trigger_not_exists(
-        store: address, position: Position,
+        store_address: address, position: Position,
     ) acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         assert!(!table::contains(&tables.encounter_trigger_table, position), EIdAlreadyExists);
     }
 
-    public(friend) fun update_version_and_add(store: address, encounter_trigger: EncounterTrigger) acquires Tables {
+    public(friend) fun update_version_and_add(store_address: address, encounter_trigger: EncounterTrigger) acquires Tables {
         encounter_trigger.version = encounter_trigger.version + 1;
         //assert!(encounter_trigger.version != 0, EInappropriateVersion);
-        private_add_encounter_trigger(store, encounter_trigger);
+        private_add_encounter_trigger(store_address, encounter_trigger);
     }
 
-    public(friend) fun add_encounter_trigger(store: address, encounter_trigger: EncounterTrigger) acquires Tables {
+    public(friend) fun add_encounter_trigger(store_address: address, encounter_trigger: EncounterTrigger) acquires Tables {
         assert!(encounter_trigger.version == 0, EInappropriateVersion);
-        private_add_encounter_trigger(store, encounter_trigger);
+        private_add_encounter_trigger(store_address, encounter_trigger);
     }
 
-    public(friend) fun remove_encounter_trigger(store: address, position: Position): EncounterTrigger acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+    public(friend) fun remove_encounter_trigger(store_address: address, position: Position): EncounterTrigger acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         table::remove(&mut tables.encounter_trigger_table, position)
     }
 
-    fun private_add_encounter_trigger(store: address, encounter_trigger: EncounterTrigger) acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+    fun private_add_encounter_trigger(store_address: address, encounter_trigger: EncounterTrigger) acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         table::add(&mut tables.encounter_trigger_table, encounter_trigger.position, encounter_trigger);
     }
 
-    public fun get_all_porperties(store: address, position: Position): bool acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global<Tables>(store);
+    public fun get_all_porperties(store_address: address, position: Position): bool acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global<Tables>(store_address);
         let encounter_trigger = table::borrow(&tables.encounter_trigger_table, position);
         all_porperties(encounter_trigger)
     }
@@ -150,14 +150,14 @@ module aptos_constantinople_demo::encounter_trigger {
         } = encounter_trigger;
     }
 
-    public fun contains_encounter_trigger(store: address, position: Position): bool acquires Tables {
-        let tables = borrow_global<Tables>(store);
+    public fun contains_encounter_trigger(store_address: address, position: Position): bool acquires Tables {
+        let tables = borrow_global<Tables>(store_address);
         table::contains(&tables.encounter_trigger_table, position)
     }
 
-    public(friend) fun emit_encounter_trigger_created(store: address, encounter_trigger_created: EncounterTriggerCreated) acquires Events {
-        assert!(exists<Events>(store), ENotInitialized);
-        let events = borrow_global_mut<Events>(store);
+    public(friend) fun emit_encounter_trigger_created(store_address: address, encounter_trigger_created: EncounterTriggerCreated) acquires Events {
+        assert!(exists<Events>(store_address), ENotInitialized);
+        let events = borrow_global_mut<Events>(store_address);
         event::emit_event(&mut events.encounter_trigger_created_handle, encounter_trigger_created);
     }
 

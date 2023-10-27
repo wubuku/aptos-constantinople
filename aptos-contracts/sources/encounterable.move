@@ -87,11 +87,11 @@ module aptos_constantinople_demo::encounterable {
 
 
     public(friend) fun create_encounterable(
-        store: address,
+        store_address: address,
         player_id: address,
         value: bool,
     ): Encounterable acquires Tables {
-        asset_encounterable_not_exists(store, player_id);
+        asset_encounterable_not_exists(store_address, player_id);
         let encounterable = new_encounterable(
             player_id,
             value,
@@ -100,39 +100,39 @@ module aptos_constantinople_demo::encounterable {
     }
 
     public(friend) fun asset_encounterable_not_exists(
-        store: address, player_id: address,
+        store_address: address, player_id: address,
     ) acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         assert!(!table::contains(&tables.encounterable_table, player_id), EIdAlreadyExists);
     }
 
-    public(friend) fun update_version_and_add(store: address, encounterable: Encounterable) acquires Tables {
+    public(friend) fun update_version_and_add(store_address: address, encounterable: Encounterable) acquires Tables {
         encounterable.version = encounterable.version + 1;
         //assert!(encounterable.version != 0, EInappropriateVersion);
-        private_add_encounterable(store, encounterable);
+        private_add_encounterable(store_address, encounterable);
     }
 
-    public(friend) fun add_encounterable(store: address, encounterable: Encounterable) acquires Tables {
+    public(friend) fun add_encounterable(store_address: address, encounterable: Encounterable) acquires Tables {
         assert!(encounterable.version == 0, EInappropriateVersion);
-        private_add_encounterable(store, encounterable);
+        private_add_encounterable(store_address, encounterable);
     }
 
-    public(friend) fun remove_encounterable(store: address, player_id: address): Encounterable acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+    public(friend) fun remove_encounterable(store_address: address, player_id: address): Encounterable acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         table::remove(&mut tables.encounterable_table, player_id)
     }
 
-    fun private_add_encounterable(store: address, encounterable: Encounterable) acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+    fun private_add_encounterable(store_address: address, encounterable: Encounterable) acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         table::add(&mut tables.encounterable_table, encounterable.player_id, encounterable);
     }
 
-    public fun get_all_porperties(store: address, player_id: address): bool acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global<Tables>(store);
+    public fun get_all_porperties(store_address: address, player_id: address): bool acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global<Tables>(store_address);
         let encounterable = table::borrow(&tables.encounterable_table, player_id);
         all_porperties(encounterable)
     }
@@ -149,14 +149,14 @@ module aptos_constantinople_demo::encounterable {
         } = encounterable;
     }
 
-    public fun contains_encounterable(store: address, player_id: address): bool acquires Tables {
-        let tables = borrow_global<Tables>(store);
+    public fun contains_encounterable(store_address: address, player_id: address): bool acquires Tables {
+        let tables = borrow_global<Tables>(store_address);
         table::contains(&tables.encounterable_table, player_id)
     }
 
-    public(friend) fun emit_encounterable_created(store: address, encounterable_created: EncounterableCreated) acquires Events {
-        assert!(exists<Events>(store), ENotInitialized);
-        let events = borrow_global_mut<Events>(store);
+    public(friend) fun emit_encounterable_created(store_address: address, encounterable_created: EncounterableCreated) acquires Events {
+        assert!(exists<Events>(store_address), ENotInitialized);
+        let events = borrow_global_mut<Events>(store_address);
         event::emit_event(&mut events.encounterable_created_handle, encounterable_created);
     }
 

@@ -112,11 +112,11 @@ module aptos_constantinople_demo::player_position {
 
 
     public(friend) fun create_player_position(
-        store: address,
+        store_address: address,
         player_id: address,
         position: Position,
     ): PlayerPosition acquires Tables {
-        asset_player_position_not_exists(store, player_id);
+        asset_player_position_not_exists(store_address, player_id);
         let player_position = new_player_position(
             player_id,
             position,
@@ -125,39 +125,39 @@ module aptos_constantinople_demo::player_position {
     }
 
     public(friend) fun asset_player_position_not_exists(
-        store: address, player_id: address,
+        store_address: address, player_id: address,
     ) acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         assert!(!table::contains(&tables.player_position_table, player_id), EIdAlreadyExists);
     }
 
-    public(friend) fun update_version_and_add(store: address, player_position: PlayerPosition) acquires Tables {
+    public(friend) fun update_version_and_add(store_address: address, player_position: PlayerPosition) acquires Tables {
         player_position.version = player_position.version + 1;
         //assert!(player_position.version != 0, EInappropriateVersion);
-        private_add_player_position(store, player_position);
+        private_add_player_position(store_address, player_position);
     }
 
-    public(friend) fun add_player_position(store: address, player_position: PlayerPosition) acquires Tables {
+    public(friend) fun add_player_position(store_address: address, player_position: PlayerPosition) acquires Tables {
         assert!(player_position.version == 0, EInappropriateVersion);
-        private_add_player_position(store, player_position);
+        private_add_player_position(store_address, player_position);
     }
 
-    public(friend) fun remove_player_position(store: address, player_id: address): PlayerPosition acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+    public(friend) fun remove_player_position(store_address: address, player_id: address): PlayerPosition acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         table::remove(&mut tables.player_position_table, player_id)
     }
 
-    fun private_add_player_position(store: address, player_position: PlayerPosition) acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global_mut<Tables>(store);
+    fun private_add_player_position(store_address: address, player_position: PlayerPosition) acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global_mut<Tables>(store_address);
         table::add(&mut tables.player_position_table, player_position.player_id, player_position);
     }
 
-    public fun get_all_porperties(store: address, player_id: address): Position acquires Tables {
-        assert!(exists<Tables>(store), ENotInitialized);
-        let tables = borrow_global<Tables>(store);
+    public fun get_all_porperties(store_address: address, player_id: address): Position acquires Tables {
+        assert!(exists<Tables>(store_address), ENotInitialized);
+        let tables = borrow_global<Tables>(store_address);
         let player_position = table::borrow(&tables.player_position_table, player_id);
         all_porperties(player_position)
     }
@@ -174,20 +174,20 @@ module aptos_constantinople_demo::player_position {
         } = player_position;
     }
 
-    public fun contains_player_position(store: address, player_id: address): bool acquires Tables {
-        let tables = borrow_global<Tables>(store);
+    public fun contains_player_position(store_address: address, player_id: address): bool acquires Tables {
+        let tables = borrow_global<Tables>(store_address);
         table::contains(&tables.player_position_table, player_id)
     }
 
-    public(friend) fun emit_player_position_created(store: address, player_position_created: PlayerPositionCreated) acquires Events {
-        assert!(exists<Events>(store), ENotInitialized);
-        let events = borrow_global_mut<Events>(store);
+    public(friend) fun emit_player_position_created(store_address: address, player_position_created: PlayerPositionCreated) acquires Events {
+        assert!(exists<Events>(store_address), ENotInitialized);
+        let events = borrow_global_mut<Events>(store_address);
         event::emit_event(&mut events.player_position_created_handle, player_position_created);
     }
 
-    public(friend) fun emit_player_position_updated(store: address, player_position_updated: PlayerPositionUpdated) acquires Events {
-        assert!(exists<Events>(store), ENotInitialized);
-        let events = borrow_global_mut<Events>(store);
+    public(friend) fun emit_player_position_updated(store_address: address, player_position_updated: PlayerPositionUpdated) acquires Events {
+        assert!(exists<Events>(store_address), ENotInitialized);
+        let events = borrow_global_mut<Events>(store_address);
         event::emit_event(&mut events.player_position_updated_handle, player_position_updated);
     }
 
