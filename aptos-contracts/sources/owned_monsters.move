@@ -79,12 +79,8 @@ module aptos_constantinople_demo::owned_monsters {
         monsters: vector<address>,
     }
 
-    public fun owned_monsters_created_player_id(owned_monsters_created: &OwnedMonstersCreated): address {
-        owned_monsters_created.player_id
-    }
-
-    public fun owned_monsters_created_monsters(owned_monsters_created: &OwnedMonstersCreated): vector<address> {
-        owned_monsters_created.monsters
+    public fun get_owned_monsters_created_all_properties(owned_monsters_created: &OwnedMonstersCreated): (address, vector<address>) {
+        (owned_monsters_created.player_id, owned_monsters_created.monsters)
     }
 
     public(friend) fun new_owned_monsters_created(
@@ -103,12 +99,8 @@ module aptos_constantinople_demo::owned_monsters {
         monster_id: address,
     }
 
-    public fun monster_added_to_player_player_id(monster_added_to_player: &MonsterAddedToPlayer): address {
-        monster_added_to_player.player_id
-    }
-
-    public fun monster_added_to_player_monster_id(monster_added_to_player: &MonsterAddedToPlayer): address {
-        monster_added_to_player.monster_id
+    public fun get_monster_added_to_player_all_properties(monster_added_to_player: &MonsterAddedToPlayer): (address, address) {
+        (monster_added_to_player.player_id, monster_added_to_player.monster_id)
     }
 
     public(friend) fun new_monster_added_to_player(

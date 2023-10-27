@@ -79,12 +79,8 @@ module aptos_constantinople_demo::monster {
         monster_type: u64,
     }
 
-    public fun monster_created_monster_id(monster_created: &MonsterCreated): address {
-        monster_created.monster_id
-    }
-
-    public fun monster_created_monster_type(monster_created: &MonsterCreated): u64 {
-        monster_created.monster_type
+    public fun get_monster_created_all_properties(monster_created: &MonsterCreated): (address, u64) {
+        (monster_created.monster_id, monster_created.monster_type)
     }
 
     public(friend) fun new_monster_created(
@@ -102,7 +98,7 @@ module aptos_constantinople_demo::monster {
         version: u64,
     }
 
-    public fun monster_deleted_monster_id(monster_deleted: &MonsterDeleted): address {
+    public fun get_monster_deleted_all_properties(monster_deleted: &MonsterDeleted): address {
         monster_deleted.monster_id
     }
 

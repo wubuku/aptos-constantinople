@@ -98,20 +98,8 @@ module aptos_constantinople_demo::encounter {
         catch_attempts: u64,
     }
 
-    public fun encounter_created_player_id(encounter_created: &EncounterCreated): address {
-        encounter_created.player_id
-    }
-
-    public fun encounter_created_is_existent(encounter_created: &EncounterCreated): bool {
-        encounter_created.is_existent
-    }
-
-    public fun encounter_created_monster_id(encounter_created: &EncounterCreated): address {
-        encounter_created.monster_id
-    }
-
-    public fun encounter_created_catch_attempts(encounter_created: &EncounterCreated): u64 {
-        encounter_created.catch_attempts
+    public fun get_encounter_created_all_properties(encounter_created: &EncounterCreated): (address, bool, address, u64) {
+        (encounter_created.player_id, encounter_created.is_existent, encounter_created.monster_id, encounter_created.catch_attempts)
     }
 
     public(friend) fun new_encounter_created(
@@ -136,20 +124,8 @@ module aptos_constantinople_demo::encounter {
         catch_attempts: u64,
     }
 
-    public fun encounter_updated_player_id(encounter_updated: &EncounterUpdated): address {
-        encounter_updated.player_id
-    }
-
-    public fun encounter_updated_is_existent(encounter_updated: &EncounterUpdated): bool {
-        encounter_updated.is_existent
-    }
-
-    public fun encounter_updated_monster_id(encounter_updated: &EncounterUpdated): address {
-        encounter_updated.monster_id
-    }
-
-    public fun encounter_updated_catch_attempts(encounter_updated: &EncounterUpdated): u64 {
-        encounter_updated.catch_attempts
+    public fun get_encounter_updated_all_properties(encounter_updated: &EncounterUpdated): (address, bool, address, u64) {
+        (encounter_updated.player_id, encounter_updated.is_existent, encounter_updated.monster_id, encounter_updated.catch_attempts)
     }
 
     public(friend) fun new_encounter_updated(
@@ -172,7 +148,7 @@ module aptos_constantinople_demo::encounter {
         version: u64,
     }
 
-    public fun encounter_deleted_player_id(encounter_deleted: &EncounterDeleted): address {
+    public fun get_encounter_deleted_all_properties(encounter_deleted: &EncounterDeleted): address {
         encounter_deleted.player_id
     }
 

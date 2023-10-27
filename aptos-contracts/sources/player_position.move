@@ -80,12 +80,8 @@ module aptos_constantinople_demo::player_position {
         position: Position,
     }
 
-    public fun player_position_created_player_id(player_position_created: &PlayerPositionCreated): address {
-        player_position_created.player_id
-    }
-
-    public fun player_position_created_position(player_position_created: &PlayerPositionCreated): Position {
-        player_position_created.position
+    public fun get_player_position_created_all_properties(player_position_created: &PlayerPositionCreated): (address, Position) {
+        (player_position_created.player_id, player_position_created.position)
     }
 
     public(friend) fun new_player_position_created(
@@ -104,12 +100,8 @@ module aptos_constantinople_demo::player_position {
         position: Position,
     }
 
-    public fun player_position_updated_player_id(player_position_updated: &PlayerPositionUpdated): address {
-        player_position_updated.player_id
-    }
-
-    public fun player_position_updated_position(player_position_updated: &PlayerPositionUpdated): Position {
-        player_position_updated.position
+    public fun get_player_position_updated_all_properties(player_position_updated: &PlayerPositionUpdated): (address, Position) {
+        (player_position_updated.player_id, player_position_updated.position)
     }
 
     public(friend) fun new_player_position_updated(

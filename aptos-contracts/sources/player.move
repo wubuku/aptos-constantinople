@@ -76,12 +76,8 @@ module aptos_constantinople_demo::player {
         value: bool,
     }
 
-    public fun player_created_player_id(player_created: &PlayerCreated): address {
-        player_created.player_id
-    }
-
-    public fun player_created_value(player_created: &PlayerCreated): bool {
-        player_created.value
+    public fun get_player_created_all_properties(player_created: &PlayerCreated): (address, bool) {
+        (player_created.player_id, player_created.value)
     }
 
     public(friend) fun new_player_created(

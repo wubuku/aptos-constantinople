@@ -76,12 +76,8 @@ module aptos_constantinople_demo::movable {
         value: bool,
     }
 
-    public fun movable_created_player_id(movable_created: &MovableCreated): address {
-        movable_created.player_id
-    }
-
-    public fun movable_created_value(movable_created: &MovableCreated): bool {
-        movable_created.value
+    public fun get_movable_created_all_properties(movable_created: &MovableCreated): (address, bool) {
+        (movable_created.player_id, movable_created.value)
     }
 
     public(friend) fun new_movable_created(

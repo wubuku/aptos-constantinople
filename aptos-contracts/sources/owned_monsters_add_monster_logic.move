@@ -18,8 +18,7 @@ module aptos_constantinople_demo::owned_monsters_add_monster_logic {
         monster_added_to_player: &owned_monsters::MonsterAddedToPlayer,
         owned_monsters: owned_monsters::OwnedMonsters,
     ): owned_monsters::OwnedMonsters {
-        let monster_id = owned_monsters::monster_added_to_player_monster_id(monster_added_to_player);
-        let player_id = owned_monsters::player_id(&owned_monsters);
+        let (player_id, monster_id) = owned_monsters::get_monster_added_to_player_all_properties(monster_added_to_player);
         let monsters = owned_monsters::get_all_porperties(player_id);
         vector::push_back(&mut monsters, monster_id);
         owned_monsters::set_monsters(&mut owned_monsters, monsters);

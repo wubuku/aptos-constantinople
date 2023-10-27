@@ -77,12 +77,8 @@ module aptos_constantinople_demo::obstruction {
         value: bool,
     }
 
-    public fun obstruction_created_position(obstruction_created: &ObstructionCreated): Position {
-        obstruction_created.position
-    }
-
-    public fun obstruction_created_value(obstruction_created: &ObstructionCreated): bool {
-        obstruction_created.value
+    public fun get_obstruction_created_all_properties(obstruction_created: &ObstructionCreated): (Position, bool) {
+        (obstruction_created.position, obstruction_created.value)
     }
 
     public(friend) fun new_obstruction_created(

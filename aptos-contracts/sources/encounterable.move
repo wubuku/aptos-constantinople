@@ -76,12 +76,8 @@ module aptos_constantinople_demo::encounterable {
         value: bool,
     }
 
-    public fun encounterable_created_player_id(encounterable_created: &EncounterableCreated): address {
-        encounterable_created.player_id
-    }
-
-    public fun encounterable_created_value(encounterable_created: &EncounterableCreated): bool {
-        encounterable_created.value
+    public fun get_encounterable_created_all_properties(encounterable_created: &EncounterableCreated): (address, bool) {
+        (encounterable_created.player_id, encounterable_created.value)
     }
 
     public(friend) fun new_encounterable_created(

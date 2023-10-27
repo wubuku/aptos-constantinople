@@ -77,12 +77,8 @@ module aptos_constantinople_demo::encounter_trigger {
         value: bool,
     }
 
-    public fun encounter_trigger_created_position(encounter_trigger_created: &EncounterTriggerCreated): Position {
-        encounter_trigger_created.position
-    }
-
-    public fun encounter_trigger_created_value(encounter_trigger_created: &EncounterTriggerCreated): bool {
-        encounter_trigger_created.value
+    public fun get_encounter_trigger_created_all_properties(encounter_trigger_created: &EncounterTriggerCreated): (Position, bool) {
+        (encounter_trigger_created.position, encounter_trigger_created.value)
     }
 
     public(friend) fun new_encounter_trigger_created(

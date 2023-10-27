@@ -19,6 +19,7 @@ module aptos_constantinople_demo::monster_delete_logic {
         monster: monster::Monster,
     ): monster::Monster {
         let monster_id = monster::monster_id(&monster);
+        let _ = monster::get_monster_deleted_all_properties(monster_deleted);
         let _ = monster_id;
         let _ = monster_deleted;
         monster

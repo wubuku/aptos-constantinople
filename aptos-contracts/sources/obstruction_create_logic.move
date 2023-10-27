@@ -21,8 +21,7 @@ module aptos_constantinople_demo::obstruction_create_logic {
         _account: &signer,
         obstruction_created: &obstruction::ObstructionCreated,
     ): obstruction::Obstruction {
-        let position = obstruction::obstruction_created_position(obstruction_created);
-        let value = obstruction::obstruction_created_value(obstruction_created);
+        let (position, value,) = obstruction::get_obstruction_created_all_properties(obstruction_created);
         obstruction::create_obstruction(
             position,
             value,

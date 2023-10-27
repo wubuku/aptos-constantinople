@@ -67,7 +67,7 @@ module aptos_constantinople_demo::random_seed {
         value: u64,
     }
 
-    public fun random_seed_updated_value(random_seed_updated: &RandomSeedUpdated): u64 {
+    public fun get_random_seed_updated_all_properties(random_seed_updated: &RandomSeedUpdated): u64 {
         random_seed_updated.value
     }
 

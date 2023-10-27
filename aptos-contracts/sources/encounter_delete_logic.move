@@ -19,6 +19,7 @@ module aptos_constantinople_demo::encounter_delete_logic {
         encounter: encounter::Encounter,
     ): encounter::Encounter {
         let player_id = encounter::player_id(&encounter);
+        let _ = encounter::get_encounter_deleted_all_properties(encounter_deleted);
         let _ = player_id;
         let _ = encounter_deleted;
         encounter

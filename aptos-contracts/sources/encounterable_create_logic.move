@@ -20,8 +20,7 @@ module aptos_constantinople_demo::encounterable_create_logic {
         _account: &signer,
         encounterable_created: &encounterable::EncounterableCreated,
     ): encounterable::Encounterable {
-        let player_id = encounterable::encounterable_created_player_id(encounterable_created);
-        let value = encounterable::encounterable_created_value(encounterable_created);
+        let (player_id, value,) = encounterable::get_encounterable_created_all_properties(encounterable_created);
         encounterable::create_encounterable(
             player_id,
             value,

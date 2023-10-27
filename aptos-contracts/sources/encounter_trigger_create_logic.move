@@ -21,8 +21,7 @@ module aptos_constantinople_demo::encounter_trigger_create_logic {
         _account: &signer,
         encounter_trigger_created: &encounter_trigger::EncounterTriggerCreated,
     ): encounter_trigger::EncounterTrigger {
-        let position = encounter_trigger::encounter_trigger_created_position(encounter_trigger_created);
-        let value = encounter_trigger::encounter_trigger_created_value(encounter_trigger_created);
+        let (position, value,) = encounter_trigger::get_encounter_trigger_created_all_properties(encounter_trigger_created);
         encounter_trigger::create_encounter_trigger(
             position,
             value,
