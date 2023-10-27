@@ -11,13 +11,13 @@ module aptos_constantinople_demo::random_seed_aggregate {
 
     public(friend) fun update(
         account: &signer,
-        store: address,
+        store_address: address,
         value: u64,
     ) {
-        // let random_seed = random_seed::remove_random_seed(store, );
+        // let random_seed = random_seed::remove_random_seed(store_address, );
         // let random_seed_updated = random_seed_update_logic::verify(
         //     account,
-        //     store,
+        //     store_address,
         //     value,
         //     &random_seed,
         // );
@@ -26,8 +26,8 @@ module aptos_constantinople_demo::random_seed_aggregate {
         //     &random_seed_updated,
         //     random_seed,
         // );
-        // random_seed::update_version_and_add(store, updated_random_seed);//todo !!!
-        // random_seed::emit_random_seed_updated(store, random_seed_updated);
+        // random_seed::update_version_and_add(store_address, updated_random_seed); //todo !!!
+        // random_seed::emit_random_seed_updated(store_address, random_seed_updated);
     }
 
 }
