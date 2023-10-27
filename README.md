@@ -1,5 +1,9 @@
 # Constantinople
 
+The original [constantinople](https://github.com/0xobelisk/constantinople) is a game that was developed using the full-chain game engine [obelisk](https://obelisk.build) and runs on Sui.
+
+Here we try to migrate this game to Aptos using the dddappp low-code development tool.
+
 ## Analysis of the Original Version
 
 The key (ID) of an entity is address, which feels like a limitation of the current obelisk framework.
@@ -74,7 +78,18 @@ git pull wubuku/dddappp-aptos:0.0.1
 In repository root directory, run:
 
 ```shell
-[TBD]
+docker run \
+-v .:/myapp \
+wubuku/dddappp-aptos:0.0.1 \
+--dddmlDirectoryPath /myapp/dddml \
+--boundedContextName Test.AptosConstantinopleDemo \
+--aptosMoveProjectDirectoryPath /myapp/aptos-contracts \
+--boundedContextAptosPackageName AptosConstantinopleDemo \
+--boundedContextAptosNamedAddress aptos_constantinople_demo \
+--boundedContextJavaPackageName org.test.aptosconstantinopledemo \
+--javaProjectsDirectoryPath /myapp/aptos-java-service \
+--javaProjectNamePrefix aptosconstantinopledemo \
+--pomGroupId test.aptosconstantinopledemo
 ```
 
 The command parameters above are straightforward:

@@ -1,8 +1,12 @@
 # Constantinople
 
+原版的 [constantinople](https://github.com/0xobelisk/constantinople) 是一个基于全链游戏引擎 [obelisk](https://obelisk.build) 开发的运行在 Sui 上的游戏。
+
+下面我们尝试使用 dddappp 低代码开发工具，将这个游戏迁移到 Aptos 上。
+
 ## 原版分析
 
-实体的 key（ID）都是 address，感觉这个是目前 obelisk 架的限制。
+实体的 key（ID）都是 address，感觉这个是目前 obelisk 框架的限制。
 
 如果我们做领域分析的时候，认为某个实体的领域 ID 不是 address 呢？那么实现的时候可以将这个领域 ID 映射为 address（比如通过一个 hash 函数）。
 
@@ -47,9 +51,28 @@
 
 ### 编写 DDDML 模型文件
 
+在代码库的根目录下的 `dddml` 目录，创建一个名为 `constantinople.dddml` DDDML 文件。文件内容像[这样](./dddml/constantinople.yaml)。
+
 [TBD]
 
 ### 运行 dddappp 项目创建工具
+
+在代码库的根目录，执行：
+
+```shell
+docker run \
+-v .:/myapp \
+wubuku/dddappp-aptos:0.0.1 \
+--dddmlDirectoryPath /myapp/dddml \
+--boundedContextName Test.AptosConstantinopleDemo \
+--aptosMoveProjectDirectoryPath /myapp/aptos-contracts \
+--boundedContextAptosPackageName AptosConstantinopleDemo \
+--boundedContextAptosNamedAddress aptos_constantinople_demo \
+--boundedContextJavaPackageName org.test.aptosconstantinopledemo \
+--javaProjectsDirectoryPath /myapp/aptos-java-service \
+--javaProjectNamePrefix aptosconstantinopledemo \
+--pomGroupId test.aptosconstantinopledemo
+```
 
 [TBD]
 
