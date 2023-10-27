@@ -61,12 +61,12 @@ module aptos_constantinople_demo::rpg_service {
 
     public entry fun init_map(
         account: &signer,
-        store: address,
+        store_address: address,
     ) {
         //let map = pass_object::borrow(&map::get_map());
-        let width = map::singleton_width(store);
-        let height = map::singleton_height(store);
-        let terrain = map::singleton_terrain(store);
+        let width = map::singleton_width(store_address);
+        let height = map::singleton_height(store_address);
+        let terrain = map::singleton_terrain(store_address);
 
         let y = 0;
         while (y < height) {
@@ -74,10 +74,10 @@ module aptos_constantinople_demo::rpg_service {
             while (x < width) {
                 let value = *vector::borrow(vector::borrow(&terrain, y), x);
                 if (value == 20) {
-                    encounter_trigger_aggregate::create(account, store, x, y, true);
+                    encounter_trigger_aggregate::create(account, store_address, x, y, true);
                 };
                 if (value >= 40) {
-                    obstruction_aggregate::create(account, store, x, y, true);
+                    obstruction_aggregate::create(account, store_address, x, y, true);
                 };
                 x = x + 1;
             };
@@ -87,42 +87,42 @@ module aptos_constantinople_demo::rpg_service {
 
     public entry fun register(
         account: &signer,
-        store: address,
+        store_address: address,
         x: u64,
         y: u64,
     ) {
         let player = signer::address_of(account);
 
         // error constrain position to map size
-        let width = map::singleton_width(store);
-        let height = map::singleton_height(store);
+        let width = map::singleton_width(store_address);
+        let height = map::singleton_height(store_address);
         assert!(x >= 0 && x <= width, EExceedingMapLimits);
         assert!(y >= 0 && y <= height, EExceedingMapLimits);
 
         // error already register
-        assert!(!player::contains_player(store, player), EAlreadyRegister);
+        assert!(!player::contains_player(store_address, player), EAlreadyRegister);
 
         let position = position::new(x, y);
         // error this space is obstructed
-        assert!(!obstruction::contains_obstruction(store, position), EObstaclesExist);
+        assert!(!obstruction::contains_obstruction(store_address, position), EObstaclesExist);
 
-        player_aggregate::create(account, store, player, true);
-        player_position_aggregate::create(account, store, player, x, y);
-        movable_aggregate::create(account, store, player, true);
-        encounterable_aggregate::create(account, store, player, true);
+        player_aggregate::create(account, store_address, player, true);
+        player_position_aggregate::create(account, store_address, player, x, y);
+        movable_aggregate::create(account, store_address, player, true);
+        encounterable_aggregate::create(account, store_address, player, true);
     }
 
     public entry fun player_move(
         account: &signer,
-        store: address,
+        store_address: address,
         x: u64,
         y: u64,
     ) {
         let player = signer::address_of(account);
 
         // error constrain position to map size
-        let width = map::singleton_width(store);
-        let height = map::singleton_height(store);
+        let width = map::singleton_width(store_address);
+        let height = map::singleton_height(store_address);
         assert!(x >= 0 && x <= width, EExceedingMapLimits);
         assert!(y >= 0 && y <= height, EExceedingMapLimits);
 
@@ -130,17 +130,17 @@ module aptos_constantinople_demo::rpg_service {
         // let movable = movable::get_movable(player);
         // assert!(movable::value(pass_object::borrow(&movable)), ECannotMove);
         // movable::return_movable(movable);
-        assert!(movable::get_all_porperties(store, player), ECannotMove);
+        assert!(movable::get_all_porperties(store_address, player), ECannotMove);
 
         // error cannot move during an encounter
-        assert!(!encounter::contains_encounter(store, player), ECannotMoveInEncounter);
+        assert!(!encounter::contains_encounter(store_address, player), ECannotMoveInEncounter);
 
         // let player_position = player_position::get_player_position(player);
         // let position = player_position::position(pass_object::borrow(&player_position));
         // let from_x = position::x(&position);
         // let from_y = position::y(&position);
         // player_position::return_player_position(player_position);
-        let position = player_position::get_all_porperties(store, player);
+        let position = player_position::get_all_porperties(store_address, player);
         let from_x = position::x(&position);
         let from_y = position::y(&position);
         // error can only move to adjacent spaces
@@ -148,27 +148,27 @@ module aptos_constantinople_demo::rpg_service {
 
         let position = position::new(x, y);
         // error this space is obstructed
-        assert!(!obstruction::contains_obstruction(store, position), EObstaclesExist);
+        assert!(!obstruction::contains_obstruction(store_address, position), EObstaclesExist);
 
-        player_position_aggregate::update(account, store, player, x, y);
+        player_position_aggregate::update(account, store_address, player, x, y);
 
-        if (encounterable::contains_encounterable(player, store) && encounter_trigger::contains_encounter_trigger(store, position)) {
-            let (random, monster) = random(account, store, player, position);
+        if (encounterable::contains_encounterable(player, store_address) && encounter_trigger::contains_encounter_trigger(store_address, position)) {
+            let (random, monster) = random(account, store_address, player, position);
             if (random % 3 == 0) {
-                start_encounter(account, store, player, monster);
+                start_encounter(account, store_address, player, monster);
             };
         };
     }
 
-    fun start_encounter(account: &signer, store: address, player: address, monster: address) {
+    fun start_encounter(account: &signer, store_address: address, player: address, monster: address) {
         let monster_type = bytes_to_u64(bcs::to_bytes(&monster)) % 3;
-        monster_aggregate::create(account, monster, store, monster_type);
-        encounter_aggregate::create(account, store, player, true, monster, 0);
+        monster_aggregate::create(account, monster, store_address, monster_type);
+        encounter_aggregate::create(account, store_address, player, true, monster, 0);
     }
 
-    fun random<T: drop>(account: &signer, store: address, player: address, value: T): (u64, address) {
-        let random_seed = random_seed::singleton_value(store);
-        random_seed_aggregate::update(account, store, random_seed + 1);
+    fun random<T: drop>(account: &signer, store_address: address, player: address, value: T): (u64, address) {
+        let random_seed = random_seed::singleton_value(store_address);
+        random_seed_aggregate::update(account, store_address, random_seed + 1);
         let v = vector::empty<u8>();
         vector::append(&mut v, bcs::to_bytes(&player));
         vector::append(&mut v, bcs::to_bytes(&value));
@@ -198,41 +198,41 @@ module aptos_constantinople_demo::rpg_service {
 
     public entry fun throw_ball(
         account: &signer,
-        store: address,
+        store_address: address,
     ) acquires Events {
         let player = signer::address_of(account);
         // error not in encounter
-        assert!(encounter::contains_encounter(store, player), ENotInEcounter);
+        assert!(encounter::contains_encounter(store_address, player), ENotInEcounter);
 
         // let encounter = encounter::get_encounter(player);
         // let monster = encounter::monster_id(pass_object::borrow(&encounter));
         // let catch_attempts = encounter::catch_attempts(pass_object::borrow(&encounter));
         // encounter::return_encounter(encounter);
-        let (_, monster, catch_attempts) = encounter::get_all_porperties(store, player);
+        let (_, monster, catch_attempts) = encounter::get_all_porperties(store_address, player);
 
-        let (random, _) = random(account, store, player, monster);
+        let (random, _) = random(account, store_address, player, monster);
         if (random % 2 == 0) {
             // 50% chance to catch monster
             // MonsterCatchAttempt.emitEphemeral(player, MonsterCatchResult.Caught);
-            if (owned_monsters::contains_owned_monsters(store, player)) {
+            if (owned_monsters::contains_owned_monsters(store_address, player)) {
                 // let owned_monsters = owned_monsters::get_owned_monsters(player);
                 // let monsters = owned_monsters::monsters(pass_object::borrow(&owned_monsters));
                 //vector::push_back(&mut monsters, monster);
-                owned_monsters_aggregate::add_monster(account, store, player, monster);
+                owned_monsters_aggregate::add_monster(account, store_address, player, monster);
             } else {
-                owned_monsters_aggregate::create(account, store, player, vector[monster]);
+                owned_monsters_aggregate::create(account, store_address, player, vector[monster]);
             };
-            encounter_aggregate::delete(account, store, player);
-            emit_catch_result(store, new_catch_result(Caught, player));
+            encounter_aggregate::delete(account, store_address, player);
+            emit_catch_result(store_address, new_catch_result(Caught, player));
         } else if (catch_attempts >= 2) {
             // Missed 2 times, monster escapes
-            monster_aggregate::delete(account, store, monster);
-            encounter_aggregate::delete(account, store, player);
-            emit_catch_result(store, new_catch_result(Fled, player));
+            monster_aggregate::delete(account, store_address, monster);
+            encounter_aggregate::delete(account, store_address, player);
+            emit_catch_result(store_address, new_catch_result(Fled, player));
         } else {
             // Throw missed!
-            encounter_aggregate::update(account, store, player, true, monster, catch_attempts + 1);
-            emit_catch_result(store, new_catch_result(Missed, player));
+            encounter_aggregate::update(account, store_address, player, true, monster, catch_attempts + 1);
+            emit_catch_result(store_address, new_catch_result(Missed, player));
         }
     }
 
@@ -259,9 +259,9 @@ module aptos_constantinople_demo::rpg_service {
         }
     }
 
-    public(friend) fun emit_catch_result(store: address, catch_result: CatchResult) acquires Events {
-        assert!(exists<Events>(store), ENotInitialized);
-        let events = borrow_global_mut<Events>(store);
+    public(friend) fun emit_catch_result(store_address: address, catch_result: CatchResult) acquires Events {
+        assert!(exists<Events>(store_address), ENotInitialized);
+        let events = borrow_global_mut<Events>(store_address);
         event::emit_event(&mut events.catch_result_handle, catch_result);
     }
 }
