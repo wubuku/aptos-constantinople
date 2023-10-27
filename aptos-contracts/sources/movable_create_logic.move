@@ -20,7 +20,7 @@ module aptos_constantinople_demo::movable_create_logic {
         _account: &signer,
         movable_created: &movable::MovableCreated,
     ): movable::Movable {
-        let (player_id, value,) = movable::get_movable_created_all_properties(movable_created);
+        let (player_id, value) = movable::get_movable_created_all_properties(movable_created);
         movable::create_movable(
             player_id,
             value,

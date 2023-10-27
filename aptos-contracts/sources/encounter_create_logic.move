@@ -24,7 +24,7 @@ module aptos_constantinople_demo::encounter_create_logic {
         _account: &signer,
         encounter_created: &encounter::EncounterCreated,
     ): encounter::Encounter {
-        let (player_id, is_existent, monster_id, catch_attempts,) = encounter::get_encounter_created_all_properties(encounter_created);
+        let (player_id, is_existent, monster_id, catch_attempts) = encounter::get_encounter_created_all_properties(encounter_created);
         encounter::create_encounter(
             player_id,
             is_existent,

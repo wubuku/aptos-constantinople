@@ -21,7 +21,7 @@ module aptos_constantinople_demo::player_position_create_logic {
         _account: &signer,
         player_position_created: &player_position::PlayerPositionCreated,
     ): player_position::PlayerPosition {
-        let (player_id, position,) = player_position::get_player_position_created_all_properties(player_position_created);
+        let (player_id, position) = player_position::get_player_position_created_all_properties(player_position_created);
         player_position::create_player_position(
             player_id,
             position,

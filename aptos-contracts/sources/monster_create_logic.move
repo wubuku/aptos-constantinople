@@ -20,7 +20,7 @@ module aptos_constantinople_demo::monster_create_logic {
         _account: &signer,
         monster_created: &monster::MonsterCreated,
     ): monster::Monster {
-        let (monster_id, monster_type,) = monster::get_monster_created_all_properties(monster_created);
+        let (monster_id, monster_type) = monster::get_monster_created_all_properties(monster_created);
         monster::create_monster(
             monster_id,
             monster_type,

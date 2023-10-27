@@ -20,7 +20,7 @@ module aptos_constantinople_demo::player_create_logic {
         _account: &signer,
         player_created: &player::PlayerCreated,
     ): player::Player {
-        let (player_id, value,) = player::get_player_created_all_properties(player_created);
+        let (player_id, value) = player::get_player_created_all_properties(player_created);
         player::create_player(
             player_id,
             value,

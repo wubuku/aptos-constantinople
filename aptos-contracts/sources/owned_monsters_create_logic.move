@@ -20,7 +20,7 @@ module aptos_constantinople_demo::owned_monsters_create_logic {
         _account: &signer,
         owned_monsters_created: &owned_monsters::OwnedMonstersCreated,
     ): owned_monsters::OwnedMonsters {
-        let (player_id, monsters,) = owned_monsters::get_owned_monsters_created_all_properties(owned_monsters_created);
+        let (player_id, monsters) = owned_monsters::get_owned_monsters_created_all_properties(owned_monsters_created);
         owned_monsters::create_owned_monsters(
             player_id,
             monsters,
