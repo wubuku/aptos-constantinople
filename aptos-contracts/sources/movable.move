@@ -5,7 +5,6 @@
 
 module aptos_constantinople_demo::movable {
     use aptos_constantinople_demo::genesis_account;
-    use aptos_constantinople_demo::pass_object;
     use aptos_framework::account;
     use aptos_framework::event;
     use aptos_std::table::{Self, Table};
@@ -131,7 +130,7 @@ module aptos_constantinople_demo::movable {
     fun private_add_movable(movable: Movable) acquires Tables {
         assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
         let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
-        table::add(&mut tables.movable_table, player_id(&movable), movable);
+        table::add(&mut tables.movable_table, movable.player_id, movable);
     }
 
     public fun get_all_porperties(player_id: address): bool acquires Tables {
@@ -151,7 +150,7 @@ module aptos_constantinople_demo::movable {
 
     public fun contains_movable(player_id: address): bool acquires Tables {
         let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
-        table::contains(&tables.movable_table,  player_id)
+        table::contains(&tables.movable_table, player_id)
     }
 
     public(friend) fun emit_movable_created(movable_created: MovableCreated) acquires Events {

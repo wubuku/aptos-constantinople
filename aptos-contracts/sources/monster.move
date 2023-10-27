@@ -5,7 +5,6 @@
 
 module aptos_constantinople_demo::monster {
     use aptos_constantinople_demo::genesis_account;
-    use aptos_constantinople_demo::pass_object;
     use aptos_framework::account;
     use aptos_framework::event;
     use aptos_std::table::{Self, Table};
@@ -152,7 +151,7 @@ module aptos_constantinople_demo::monster {
     fun private_add_monster(monster: Monster) acquires Tables {
         assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
         let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
-        table::add(&mut tables.monster_table, monster_id(&monster), monster);
+        table::add(&mut tables.monster_table, monster.monster_id, monster);
     }
 
     public fun get_all_porperties(monster_id: address): u64 acquires Tables {
@@ -172,7 +171,7 @@ module aptos_constantinople_demo::monster {
 
     public fun contains_monster(monster_id: address): bool acquires Tables {
         let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
-        table::contains(&tables.monster_table,  monster_id)
+        table::contains(&tables.monster_table, monster_id)
     }
 
     public(friend) fun emit_monster_created(monster_created: MonsterCreated) acquires Events {

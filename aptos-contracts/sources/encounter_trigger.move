@@ -5,7 +5,6 @@
 
 module aptos_constantinople_demo::encounter_trigger {
     use aptos_constantinople_demo::genesis_account;
-    use aptos_constantinople_demo::pass_object;
     use aptos_constantinople_demo::position::Position;
     use aptos_framework::account;
     use aptos_framework::event;
@@ -132,7 +131,7 @@ module aptos_constantinople_demo::encounter_trigger {
     fun private_add_encounter_trigger(encounter_trigger: EncounterTrigger) acquires Tables {
         assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
         let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
-        table::add(&mut tables.encounter_trigger_table, position(&encounter_trigger), encounter_trigger);
+        table::add(&mut tables.encounter_trigger_table, encounter_trigger.position, encounter_trigger);
     }
 
     public fun get_all_porperties(position: Position): bool acquires Tables {
@@ -152,7 +151,7 @@ module aptos_constantinople_demo::encounter_trigger {
 
     public fun contains_encounter_trigger(position: Position): bool acquires Tables {
         let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
-        table::contains(&tables.encounter_trigger_table,  position)
+        table::contains(&tables.encounter_trigger_table, position)
     }
 
     public(friend) fun emit_encounter_trigger_created(encounter_trigger_created: EncounterTriggerCreated) acquires Events {

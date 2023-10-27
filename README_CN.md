@@ -41,3 +41,28 @@
 * move_t: 玩家移动。修改 position 实体。如果和👾相遇，会修改 monster、encounter 实体。
 * throw_ball：抓👾。可能修改 owned_monsters 实体，以及 monster、encounter 实体。
 
+## 编码
+
+[TBD]
+
+### 编写 DDDML 模型文件
+
+[TBD]
+
+### 运行 dddappp 项目创建工具
+
+[TBD]
+
+### 实现业务逻辑
+
+dddappp CLI 已经为我们生成了应用的大部分代码。
+
+只有以下文件是需要我们填充业务逻辑的：
+
+* [owned_monsters_add_monster_logic.move](./aptos-contracts/sources/owned_monsters_add_monster_logic.move)。这是一个在聚合（实体）上定义方法的例子。我们不想直接生成和使用 UPDATE 方法。我们想让对单个实体的操作方法具有更好的语义。 
+* [rpg_service.move](./aptos-contracts/sources/rpg_service.move)。领域服务的实现。这里的 public entry fun 的签名部分，是工具已经生成好的，我们只需要实现方法体。
+
+
+## 测试应用
+
+[TBD]

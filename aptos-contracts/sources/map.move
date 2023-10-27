@@ -5,7 +5,6 @@
 
 module aptos_constantinople_demo::map {
     use aptos_constantinople_demo::genesis_account;
-    use aptos_constantinople_demo::pass_object;
     use aptos_framework::account;
     use aptos_framework::event;
     friend aptos_constantinople_demo::map_aggregate;

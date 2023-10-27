@@ -5,7 +5,6 @@
 
 module aptos_constantinople_demo::encounterable {
     use aptos_constantinople_demo::genesis_account;
-    use aptos_constantinople_demo::pass_object;
     use aptos_framework::account;
     use aptos_framework::event;
     use aptos_std::table::{Self, Table};
@@ -131,7 +130,7 @@ module aptos_constantinople_demo::encounterable {
     fun private_add_encounterable(encounterable: Encounterable) acquires Tables {
         assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
         let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
-        table::add(&mut tables.encounterable_table, player_id(&encounterable), encounterable);
+        table::add(&mut tables.encounterable_table, encounterable.player_id, encounterable);
     }
 
     public fun get_all_porperties(player_id: address): bool acquires Tables {
@@ -151,7 +150,7 @@ module aptos_constantinople_demo::encounterable {
 
     public fun contains_encounterable(player_id: address): bool acquires Tables {
         let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
-        table::contains(&tables.encounterable_table,  player_id)
+        table::contains(&tables.encounterable_table, player_id)
     }
 
     public(friend) fun emit_encounterable_created(encounterable_created: EncounterableCreated) acquires Events {

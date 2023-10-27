@@ -5,7 +5,6 @@
 
 module aptos_constantinople_demo::owned_monsters {
     use aptos_constantinople_demo::genesis_account;
-    use aptos_constantinople_demo::pass_object;
     use aptos_framework::account;
     use aptos_framework::event;
     use aptos_std::table::{Self, Table};
@@ -155,7 +154,7 @@ module aptos_constantinople_demo::owned_monsters {
     fun private_add_owned_monsters(owned_monsters: OwnedMonsters) acquires Tables {
         assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
         let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
-        table::add(&mut tables.owned_monsters_table, player_id(&owned_monsters), owned_monsters);
+        table::add(&mut tables.owned_monsters_table, owned_monsters.player_id, owned_monsters);
     }
 
     public fun get_all_porperties(player_id: address): vector<address> acquires Tables {
@@ -175,7 +174,7 @@ module aptos_constantinople_demo::owned_monsters {
 
     public fun contains_owned_monsters(player_id: address): bool acquires Tables {
         let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
-        table::contains(&tables.owned_monsters_table,  player_id)
+        table::contains(&tables.owned_monsters_table, player_id)
     }
 
     public(friend) fun emit_owned_monsters_created(owned_monsters_created: OwnedMonstersCreated) acquires Events {

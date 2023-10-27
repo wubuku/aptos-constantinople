@@ -5,7 +5,6 @@
 
 module aptos_constantinople_demo::player_position {
     use aptos_constantinople_demo::genesis_account;
-    use aptos_constantinople_demo::pass_object;
     use aptos_constantinople_demo::position::Position;
     use aptos_framework::account;
     use aptos_framework::event;
@@ -156,7 +155,7 @@ module aptos_constantinople_demo::player_position {
     fun private_add_player_position(player_position: PlayerPosition) acquires Tables {
         assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
         let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
-        table::add(&mut tables.player_position_table, player_id(&player_position), player_position);
+        table::add(&mut tables.player_position_table, player_position.player_id, player_position);
     }
 
     public fun get_all_porperties(player_id: address): Position acquires Tables {
@@ -176,7 +175,7 @@ module aptos_constantinople_demo::player_position {
 
     public fun contains_player_position(player_id: address): bool acquires Tables {
         let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
-        table::contains(&tables.player_position_table,  player_id)
+        table::contains(&tables.player_position_table, player_id)
     }
 
     public(friend) fun emit_player_position_created(player_position_created: PlayerPositionCreated) acquires Events {

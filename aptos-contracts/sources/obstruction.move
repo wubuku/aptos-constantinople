@@ -5,7 +5,6 @@
 
 module aptos_constantinople_demo::obstruction {
     use aptos_constantinople_demo::genesis_account;
-    use aptos_constantinople_demo::pass_object;
     use aptos_constantinople_demo::position::Position;
     use aptos_framework::account;
     use aptos_framework::event;
@@ -132,7 +131,7 @@ module aptos_constantinople_demo::obstruction {
     fun private_add_obstruction(obstruction: Obstruction) acquires Tables {
         assert!(exists<Tables>(genesis_account::resouce_account_address()), ENotInitialized);
         let tables = borrow_global_mut<Tables>(genesis_account::resouce_account_address());
-        table::add(&mut tables.obstruction_table, position(&obstruction), obstruction);
+        table::add(&mut tables.obstruction_table, obstruction.position, obstruction);
     }
 
     public fun get_all_porperties(position: Position): bool acquires Tables {
@@ -152,7 +151,7 @@ module aptos_constantinople_demo::obstruction {
 
     public fun contains_obstruction(position: Position): bool acquires Tables {
         let tables = borrow_global<Tables>(genesis_account::resouce_account_address());
-        table::contains(&tables.obstruction_table,  position)
+        table::contains(&tables.obstruction_table, position)
     }
 
     public(friend) fun emit_obstruction_created(obstruction_created: ObstructionCreated) acquires Events {
