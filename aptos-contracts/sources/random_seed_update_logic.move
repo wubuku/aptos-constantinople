@@ -7,23 +7,21 @@ module aptos_constantinople_demo::random_seed_update_logic {
         account: &signer,
         store_address: address,      
         value: u64,
-        random_seed: &random_seed::RandomSeed,
     ): random_seed::RandomSeedUpdated {
         let _ = account;
         random_seed::new_random_seed_updated(
-            random_seed,
+            store_address,
             value,
         )
     }
 
     public(friend) fun mutate(
         _account: &signer,
+        store_address: address,
         random_seed_updated: &random_seed::RandomSeedUpdated,
-        random_seed: random_seed::RandomSeed,
-    ): random_seed::RandomSeed {
+    ) {
         let value = random_seed::get_random_seed_updated_all_properties(random_seed_updated);
-        random_seed::set_value(&mut random_seed, value);
-        random_seed
+        random_seed::set_all_porperties(store_address, value);
     }
 
 }

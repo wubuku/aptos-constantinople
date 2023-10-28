@@ -67,11 +67,11 @@ module aptos_constantinople_demo::random_seed {
     }
 
     public(friend) fun new_random_seed_updated(
-        random_seed: &RandomSeed,
+        store_address: address,
         value: u64,
-    ): RandomSeedUpdated {
+    ): RandomSeedUpdated  acquires RandomSeed {
         RandomSeedUpdated {
-            version: version(random_seed),
+            version: singleton_version(store_address),
             value,
         }
     }
@@ -97,6 +97,11 @@ module aptos_constantinople_demo::random_seed {
         move_to(store_account, random_seed);
     }
 
+    public fun singleton_version(store_address: address, ): u64 acquires RandomSeed {
+        let random_seed = borrow_global<RandomSeed>(store_address);
+        random_seed.version
+    }
+
     public fun singleton_value(store_address: address, ): u64 acquires RandomSeed {
         let random_seed = borrow_global<RandomSeed>(store_address);
         random_seed.value
@@ -110,6 +115,13 @@ module aptos_constantinople_demo::random_seed {
 
     public fun all_porperties(random_seed: &RandomSeed): u64 {
         random_seed.value
+    }
+
+    public fun set_all_porperties(store_address: address, value: u64) acquires RandomSeed {
+        assert!(exists<RandomSeed>(store_address), ENotInitialized);
+        let random_seed = borrow_global_mut<RandomSeed>(store_address);
+        random_seed.version = random_seed.version + 1;
+        random_seed.value = value
     }
 
     public(friend) fun drop_random_seed(random_seed: RandomSeed) {
