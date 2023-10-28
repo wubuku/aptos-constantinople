@@ -115,6 +115,11 @@ module aptos_constantinople_demo::map {
         move_to(store_account, map);
     }
 
+    public fun singleton_version(store_address: address, ): u64 acquires Map {
+        let map = borrow_global<Map>(store_address);
+        map.version
+    }
+
     public fun singleton_width(store_address: address, ): u64 acquires Map {
         let map = borrow_global<Map>(store_address);
         map.width
@@ -138,6 +143,15 @@ module aptos_constantinople_demo::map {
 
     public fun all_porperties(map: &Map): (u64, u64, vector<vector<u8>>) {
         (map.width, map.height, map.terrain)
+    }
+
+    public(friend) fun set_all_porperties(store_address: address, width: u64, height: u64, terrain: vector<vector<u8>>) acquires Map {
+        assert!(exists<Map>(store_address), ENotInitialized);
+        let map = borrow_global_mut<Map>(store_address);
+        map.version = map.version + 1;
+        map.width = width;
+        map.height = height;
+        map.terrain = terrain;
     }
 
     public(friend) fun drop_map(map: Map) {
