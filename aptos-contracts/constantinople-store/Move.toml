@@ -1,0 +1,9 @@
+[package]
+name = "AptosConstantinopleDemoStore"
+version = "0.0.1"
+
+[addresses]
+aptos_constantinople_demo = "_"
+
+[dependencies]
+AptosFramework = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-framework", rev = "main" }

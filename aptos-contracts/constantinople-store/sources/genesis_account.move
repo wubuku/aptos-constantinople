@@ -10,19 +10,6 @@ module aptos_constantinople_demo::genesis_account {
     use std::error;
     use std::signer;
 
-    friend aptos_constantinople_demo::player;
-    friend aptos_constantinople_demo::movable;
-    friend aptos_constantinople_demo::encounterable;
-    friend aptos_constantinople_demo::monster;
-    friend aptos_constantinople_demo::obstruction;
-    friend aptos_constantinople_demo::encounter_trigger;
-    friend aptos_constantinople_demo::player_position;
-    friend aptos_constantinople_demo::encounter;
-    friend aptos_constantinople_demo::owned_monsters;
-    friend aptos_constantinople_demo::random_seed;
-    friend aptos_constantinople_demo::map;
-    friend aptos_constantinople_demo::rpg_service;
-
     const ENotGenesisAccount: u64 = 100;
 
     struct Events has key {
