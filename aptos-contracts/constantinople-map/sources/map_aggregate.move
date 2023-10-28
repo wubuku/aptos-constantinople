@@ -6,6 +6,6 @@
 module aptos_constantinople_demo::map_aggregate {
     use aptos_constantinople_demo::map;
 
-    friend aptos_constantinople_demo::rpg_service;
+    friend aptos_constantinople_demo::map_service;
 
 }

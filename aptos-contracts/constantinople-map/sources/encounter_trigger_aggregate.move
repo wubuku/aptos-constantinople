@@ -8,7 +8,7 @@ module aptos_constantinople_demo::encounter_trigger_aggregate {
     use aptos_constantinople_demo::encounter_trigger_create_logic;
     use aptos_constantinople_demo::position::{Self, Position};
 
-    friend aptos_constantinople_demo::rpg_service;
+    friend aptos_constantinople_demo::map_service;
 
     public(friend) fun create(
         account: &signer,

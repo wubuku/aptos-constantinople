@@ -2,3 +2,4 @@ aptos-contracts/build
 aptos-java-service
 aptos-contracts/constantinople-store/build
 aptos-contracts/constantinople/build
+aptos-contracts/constantinople-map/build

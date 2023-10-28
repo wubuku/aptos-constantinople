@@ -89,3 +89,78 @@ dddappp CLI 已经为我们生成了应用的大部分代码。
 ## 测试应用
 
 [TBD]
+
+### 部署合约
+
+在目录 `aptos-contracts/constantinople-map` 下，执行：
+
+```shell
+aptos move publish --named-addresses aptos_constantinople_demo=default --assume-yes
+```
+
+在目录 `aptos-contracts/constantinople` 下，执行：
+
+```shell
+aptos move publish --named-addresses aptos_constantinople_demo=default --assume-yes
+```
+
+在目录 `aptos-contracts/constantinople-store` 下，执行：
+
+```shell
+aptos move publish --named-addresses aptos_constantinople_demo=default --assume-yes
+```
+
+执行合约的初始化操作：
+
+```shell
+aptos move run --function-id 'default::aptos_constantinople_demo_store_init::initialize' --assume-yes
+```
+
+#### Get Resource Account Address
+
+Our contracts use a separate resource account to hold information of articles and comments.
+
+You can get the address of this resource account by using the following command:
+
+```shell
+curl https://fullnode.devnet.aptoslabs.com/v1/accounts/{ACCOUNT_ADDRESS}/resource/{ACCOUNT_ADDRESS}::resource_account::ResourceAccount
+```
+
+The output is similar to the following:
+
+```json
+{"type":"{ACCOUNT_ADDRESS}::resource_account::ResourceAccount","data":{"cap":{"account":"{RESOURCE_ACCOUNT_ADDRESS}"}}}
+```
+
+In the location `{RESOURCE_ACCOUNT_ADDRESS}` above, the address of the resource account will be displayed.
+
+比如得到的资源账户的地址是：0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f
+
+初始化地图信息：
+
+```shell
+aptos move run --function-id 'default::map_service::init_map' --args address:0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f --assume-yes
+```
+
+你可以使用浏览器来查看这个资源账户下都有哪些资源：
+
+```text
+https://explorer.aptoslabs.com/account/0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f/resources?network=devnet
+```
+
+#### 获取 EncounterTrigger 的创建事件（EncounterTriggerCreated）
+
+```shell
+curl --request GET \
+  --url 'https://fullnode.devnet.aptoslabs.com/v1/accounts/{RESOURCE_ACCOUNT_ADDRESS}/events/{ACCOUNT_ADDRESS}::encounter_trigger::Events/encounter_trigger_created_handle?start=0&limit=100' \
+  --header 'Accept: application/json'
+```
+
+我们下面假设 `{ACCOUNT_ADDRESS}` 是 `0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7`。 那么执行：
+
+```shell
+curl --request GET \
+  --url 'https://fullnode.devnet.aptoslabs.com/v1/accounts/0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f/events/0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7::encounter_trigger::Events/encounter_trigger_created_handle?start=0&limit=100' \
+  --header 'Accept: application/json'
+```
+

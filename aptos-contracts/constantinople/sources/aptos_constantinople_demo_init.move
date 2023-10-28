@@ -22,13 +22,10 @@ module aptos_constantinople_demo::aptos_constantinople_demo_init {
         movable::initialize(store_account);
         encounterable::initialize(store_account);
         monster::initialize(store_account);
-        obstruction::initialize(store_account);
-        encounter_trigger::initialize(store_account);
         player_position::initialize(store_account);
         encounter::initialize(store_account);
         owned_monsters::initialize(store_account);
         random_seed::initialize(store_account);
-        map::initialize(store_account);
         rpg_service::initialize(store_account);
     }
 
