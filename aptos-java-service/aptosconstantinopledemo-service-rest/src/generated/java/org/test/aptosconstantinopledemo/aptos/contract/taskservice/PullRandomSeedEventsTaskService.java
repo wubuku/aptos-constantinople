@@ -16,11 +16,6 @@ public class PullRandomSeedEventsTaskService {
     @Autowired
     private RandomSeedEventService randomSeedEventService;
 
-//    @Scheduled(fixedDelayString = "${aptos.contract.pull-random-seed-events.random-seed-initialized.fixed-delay:5000}")
-//    public void pullRandomSeedInitializedEvents() {
-//        randomSeedEventService.pullRandomSeedInitializedEvents();
-//    }
-
     @Scheduled(fixedDelayString = "${aptos.contract.pull-random-seed-events.random-seed-updated.fixed-delay:5000}")
     public void pullRandomSeedUpdatedEvents() {
         randomSeedEventService.pullRandomSeedUpdatedEvents();

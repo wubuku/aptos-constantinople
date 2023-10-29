@@ -16,9 +16,4 @@ public class PullMapEventsTaskService {
     @Autowired
     private MapEventService mapEventService;
 
-//    @Scheduled(fixedDelayString = "${aptos.contract.pull-map-events.map-initialized.fixed-delay:5000}")
-//    public void pullMapInitializedEvents() {
-//        mapEventService.pullMapInitializedEvents();
-//    }
-
 }

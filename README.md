@@ -423,8 +423,3 @@ curl http://localhost:1023/api/OwnedMonsters
 ### A More Complex Aptos Demo
 
 If you are interested, you can find a more complex Aptos Demo here: ["A Aptos Demo"](https://github.com/dddappp/A-Aptos-Demo).
-
-### Blog Example for Rooch
-
-Here is a Rooch version like this blog example: https://github.com/rooch-network/rooch/blob/main/examples/blog/README.md
-
