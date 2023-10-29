@@ -222,7 +222,7 @@ aptos move run --function-id 'default::aptos_constantinople_demo_store_init::ini
 
 #### Get Resource Account Address
 
-Our contracts use a separate resource account to hold information of articles and comments.
+Our contracts use a separate resource account to hold game information.
 
 You can get the address of this resource account by using the following command:
 
@@ -357,4 +357,74 @@ A successful capture of 👾 is indicated if a result similar to the following i
 
 It's normal if you don't see such a result. This is because the probability of catching 👾 is not 100%.
 You can repeat the "move" and "catch 👾" operations until you have caught 👾.
+
+
+### Test Off-chain Service (Indexer)
+
+After running the latest version of the dddappp tool, an Off-chain service project will be generated in the `aptos-java-service` directory.
+It can pull application events and entity states on the chain into the off-chain database, and provides query APIs.
+
+#### Creating and Initialize Database for Off-Chain Service
+
+Use a MySQL client to connect to the local MySQL server and execute the following script to create an empty database (assuming the name is `test2`):
+
+```sql
+CREATE SCHEMA `test2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+```
+
+Go to the `aptos-java-service` directory and package the Java project:
+
+```shell
+mvn package
+```
+
+Then, run a command-line tool to initialize the database:
+
+```shell
+aptos-java-service % java -jar ./aptosconstantinopledemo-service-cli/target/aptosconstantinopledemo-service-cli-0.0.1-SNAPSHOT.jar ddl -d "./scripts" -c "jdbc:mysql://127.0.0.1:3306/test2?enabledTLSProtocols=TLSv1.2&characterEncoding=utf8&serverTimezone=GMT%2b0&useLegacyDatetimeCode=false" -u root -p 123456
+```
+
+
+#### Configuring Off-Chain Service
+
+Open the `application-test.yml` file located in the directory `aptos-java-service/aptosconstantinopledemo-service-rest/src/main/resources` and set the published contract address.
+After setting, it should look like this:
+
+```yaml
+aptos:
+  contract:
+    address:
+      "0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7"
+    node-api:
+      base-url: "https://fullnode.devnet.aptoslabs.com/v1"
+```
+
+#### Starting Off-Chain Service
+
+In the `aptos-java-service` directory, run the following command to start the off-chain service:
+
+```shell
+mvn -pl aptosconstantinopledemo-service-rest -am spring-boot:run
+```
+
+#### Query Off-chain Service APIs
+
+You can use the following command to query:
+
+```shell
+curl http://localhost:1023/api/Players
+curl http://localhost:1023/api/OwnedMonsters
+```
+
+[TBD]
+
+## Others
+
+### A More Complex Aptos Demo
+
+If you are interested, you can find a more complex Aptos Demo here: ["A Aptos Demo"](https://github.com/dddappp/A-Aptos-Demo).
+
+### Blog Example for Rooch
+
+Here is a Rooch version like this blog example: https://github.com/rooch-network/rooch/blob/main/examples/blog/README.md
 
