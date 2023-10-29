@@ -118,27 +118,27 @@ aptos move publish --named-addresses aptos_constantinople_demo=default --assume-
 aptos move run --function-id 'default::aptos_constantinople_demo_store_init::initialize' --assume-yes
 ```
 
-#### Get Resource Account Address
+#### 获取资源账户地址
 
-Our contracts use a separate resource account to hold information of articles and comments.
-
-You can get the address of this resource account by using the following command:
+执行命令：
 
 ```shell
 curl https://fullnode.devnet.aptoslabs.com/v1/accounts/{ACCOUNT_ADDRESS}/resource/{ACCOUNT_ADDRESS}::resource_account::ResourceAccount
 ```
 
-The output is similar to the following:
+输出类似这样：
 
 ```json
 {"type":"{ACCOUNT_ADDRESS}::resource_account::ResourceAccount","data":{"cap":{"account":"{RESOURCE_ACCOUNT_ADDRESS}"}}}
 ```
 
-In the location `{RESOURCE_ACCOUNT_ADDRESS}` above, the address of the resource account will be displayed.
+在上面 `{RESOURCE_ACCOUNT_ADDRESS}` 这个位置，显示的是资源账户的地址。
 
-比如得到的资源账户的地址是：0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f
+在下面的示例命令中，我们假设取得的资源账户的地址是：`0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f`。
 
-初始化地图信息：
+#### 初始化地图信息
+
+执行：
 
 ```shell
 aptos move run --function-id 'default::map_service::init_map' --args address:0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f --assume-yes
@@ -197,6 +197,8 @@ curl --request GET \
 aptos move run --function-id 'default::rpg_service::register' --args address:0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f u64:10 u64:2 --assume-yes
 ```
 
+我们有意把玩家的位置初始化为 (10, 2)。这个位置离一个可以“触发相遇”的位置只有“一步”的距离。
+
 查看 `EncounterableCreated` 事件：
 
 ```shell
@@ -250,3 +252,4 @@ curl --request GET \
 [{"version":"776829","guid":{"creation_number":"14","account_address":"0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f"},"sequence_number":"0","type":"0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7::owned_monsters::OwnedMonstersCreated","data":{"monsters":["0x3fe946e82fd59a0ecf0276ac0f40f6dcc270cca03ab5796982bd29806d096033"],"player_id":"0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7"}}]
 ```
 
+如果没有看到这样的结果，也是正常的。因为抓住👾的概率并不是 100%。你可以重复“移动”和抓👾的操作，直到抓住👾为止。

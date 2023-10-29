@@ -162,7 +162,7 @@ It should display similar information:
 
 ---
 
-In the directory `aptos-contracts`, execute the compilation, which should now succeed:
+In the directory `aptos-contracts/constantinople`, execute the compilation, which should now succeed:
 
 ```shell
 aptos move compile --named-addresses aptos_constantinople_demo=default
@@ -176,7 +176,7 @@ Next, we will deploy and test the Demo application.
 
 ### Publish the Aptos contracts
 
-Execute the following command in the directory `aptos-contracts` to publish the contracts to the chain:
+In the directory `aptos-contracts/constantinople-map`, execute:
 
 ```shell
 aptos move publish --named-addresses aptos_constantinople_demo=default --assume-yes
@@ -200,4 +200,161 @@ If the command is executed successfully, it should display similar information:
 }
 ```
 
-[TBD]
+In the directory `aptos-contracts/constantinople`, execute:
+
+```shell
+aptos move publish --named-addresses aptos_constantinople_demo=default --assume-yes
+```
+
+In the directory `aptos-contracts/constantinople-store`, execute:
+
+```shell
+aptos move publish --named-addresses aptos_constantinople_demo=default --assume-yes
+```
+
+### Initialization
+
+Performs the initialization operation of the contracts:
+
+```shell
+aptos move run --function-id 'default::aptos_constantinople_demo_store_init::initialize' --assume-yes
+```
+
+#### Get Resource Account Address
+
+Our contracts use a separate resource account to hold information of articles and comments.
+
+You can get the address of this resource account by using the following command:
+
+```shell
+curl https://fullnode.devnet.aptoslabs.com/v1/accounts/{ACCOUNT_ADDRESS}/resource/{ACCOUNT_ADDRESS}::resource_account::ResourceAccount
+```
+
+The output is similar to the following:
+
+```json
+{"type":"{ACCOUNT_ADDRESS}::resource_account::ResourceAccount","data":{"cap":{"account":"{RESOURCE_ACCOUNT_ADDRESS}"}}}
+```
+
+In the location `{RESOURCE_ACCOUNT_ADDRESS}` above, the address of the resource account will be displayed.
+
+In the following sample command, we assume that the address of the resource account obtained is: `0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f`.
+
+#### Initialize Map Information
+
+Execute:
+
+```shell
+aptos move run --function-id 'default::map_service::init_map' --args address:0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f --assume-yes
+```
+
+You can use a web browser to see what resources are available under the resource account:
+
+```text
+https://explorer.aptoslabs.com/account/0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f/resources?network=devnet
+```
+
+#### Getting the creation event of an EncounterTrigger (EncounterTriggerCreated)
+
+```shell
+curl --request GET \
+  --url 'https://fullnode.devnet.aptoslabs.com/v1/accounts/{RESOURCE_ACCOUNT_ADDRESS}/events/{ACCOUNT_ADDRESS}::encounter_trigger::Events/encounter_trigger_created_handle?start=0&limit=100' \
+  --header 'Accept: application/json'
+```
+
+We assume below that `{ACCOUNT_ADDRESS}` is `0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7`. Then execute:
+
+```shell
+curl --request GET \
+  --url 'https://fullnode.devnet.aptoslabs.com/v1/accounts/0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f/events/0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7::encounter_trigger::Events/encounter_trigger_created_handle?start=0&limit=100' \
+  --header 'Accept: application/json'
+```
+
+You can see where you can "trigger encounters":
+
+```json
+//...
+  {
+    "version": "483285",
+    "guid": {
+      "creation_number": "3",
+      "account_address": "0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f"
+    },
+    "sequence_number": "0",
+    "type": "0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7::encounter_trigger::EncounterTriggerCreated",
+    "data": {
+      "position": {
+        "x": "9",
+        "y": "2"
+      },
+      "value": true
+    }
+  },
+//...
+```
+
+### Player Registration
+
+Execute:
+
+```shell
+aptos move run --function-id 'default::rpg_service::register' --args address:0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f u64:10 u64:2 --assume-yes
+```
+
+We intentionally initialize the player's position to (10, 2). This position is only one step away from a position where an encounter can be "triggered".
+
+Check out the `EncounterableCreated` event:
+
+```shell
+curl --request GET \
+  --url 'https://fullnode.devnet.aptoslabs.com/v1/accounts/0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f/events/0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7::encounterable::Events/encounterable_created_handle?start=0&limit=100' \
+  --header 'Accept: application/json'
+```
+
+### Player Movement
+
+Execute the following two lines alternately until you get the error `... ::rpg_service: ECannotMoveInEncounter(0x4): error cannot move during an encounter`:
+
+```shell
+aptos move run --function-id 'default::rpg_service::player_move' --args address:0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f u64:9 u64:2 --assume-yes
+```
+
+```shell
+aptos move run --function-id 'default::rpg_service::player_move' --args address:0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f u64:10 u64:2 --assume-yes
+```
+
+Then, look at the `EncounterCreated` event:
+
+```shell
+curl --request GET \
+  --url 'https://fullnode.devnet.aptoslabs.com/v1/accounts/0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f/events/0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7::encounter::Events/encounter_created_handle?start=0&limit=100' \
+  --header 'Accept: application/json'
+```
+
+The player can be seen encountering 👾.
+
+### Catching 👾
+
+Repeat the following command until you are returned to the prompt `... .Move abort... `:
+
+```shell
+aptos move run --function-id 'default::rpg_service::throw_ball' --args address:0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f --assume-yes
+```
+
+Then, look for the `OwnedMonstersCreated` event:
+
+```shell
+curl --request GET \
+  --url 'https://fullnode.devnet.aptoslabs.com/v1/accounts/0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f/events/0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7::owned_monsters::Events/owned_monsters_created_handle?start=0&limit=100' \
+  --header 'Accept: application/json'
+```
+
+A successful capture of 👾 is indicated if a result similar to the following is returned:
+
+```json
+[{"version":"776829","guid":{"creation_number":"14","account_address":"0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f"},"sequence_number":"0","type":"0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7::owned_monsters::OwnedMonstersCreated","data":{"monsters":["0x3fe946e82fd59a0ecf0276ac0f40f6dcc270cca03ab5796982bd29806d096033"],"player_id":"0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7"}}]
+```
+
+It's normal if you don't see such a result. This is because the probability of catching 👾 is not 100%.
+You can repeat the "move" and "catch 👾" operations until you have caught 👾.
+
