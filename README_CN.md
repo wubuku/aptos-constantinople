@@ -110,6 +110,8 @@ aptos move publish --named-addresses aptos_constantinople_demo=default --assume-
 aptos move publish --named-addresses aptos_constantinople_demo=default --assume-yes
 ```
 
+### 初始化
+
 执行合约的初始化操作：
 
 ```shell
@@ -163,4 +165,54 @@ curl --request GET \
   --url 'https://fullnode.devnet.aptoslabs.com/v1/accounts/0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f/events/0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7::encounter_trigger::Events/encounter_trigger_created_handle?start=0&limit=100' \
   --header 'Accept: application/json'
 ```
+
+可以看到有哪些位置可以“触发相遇”：
+
+```json
+//...
+  {
+    "version": "483285",
+    "guid": {
+      "creation_number": "3",
+      "account_address": "0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f"
+    },
+    "sequence_number": "0",
+    "type": "0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7::encounter_trigger::EncounterTriggerCreated",
+    "data": {
+      "position": {
+        "x": "9",
+        "y": "2"
+      },
+      "value": true
+    }
+  },
+//...
+```
+
+### 玩家注册
+
+执行：
+
+```shell
+aptos move run --function-id 'default::rpg_service::register' --args address:0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f u64:10 u64:2 --assume-yes
+```
+
+查看 `EncounterableCreated` 事件：
+
+```shell
+curl --request GET \
+  --url 'https://fullnode.devnet.aptoslabs.com/v1/accounts/0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f/events/0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7::encounterable::Events/encounterable_created_handle?start=0&limit=100' \
+  --header 'Accept: application/json'
+```
+
+
+### 玩家移动
+
+执行：
+
+```shell
+aptos move run --function-id 'default::rpg_service::player_move' --args address:0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f u64:9 u64:2 --assume-yes
+```
+
+
 

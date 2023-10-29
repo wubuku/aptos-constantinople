@@ -124,7 +124,7 @@ module aptos_constantinople_demo::rpg_service {
 
         player_position_aggregate::update(account, store_address, player, x, y);
 
-        if (encounterable::contains_encounterable(player, store_address) && encounter_trigger::contains_encounter_trigger(store_address, position)) {
+        if (encounterable::contains_encounterable(store_address, player) && encounter_trigger::contains_encounter_trigger(store_address, position)) {
             let (random, monster) = random(account, store_address, player, position);
             if (random % 3 == 0) {
                 start_encounter(account, store_address, player, monster);
@@ -134,7 +134,7 @@ module aptos_constantinople_demo::rpg_service {
 
     fun start_encounter(account: &signer, store_address: address, player: address, monster: address) {
         let monster_type = bytes_to_u64(bcs::to_bytes(&monster)) % 3;
-        monster_aggregate::create(account, monster, store_address, monster_type);
+        monster_aggregate::create(account, store_address, monster, monster_type);
         encounter_aggregate::create(account, store_address, player, true, monster, 0);
     }
 
