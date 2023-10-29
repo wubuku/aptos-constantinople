@@ -208,11 +208,45 @@ curl --request GET \
 
 ### 玩家移动
 
-执行：
+交替执行下面两行命令， 直到出现错误提示 `...::rpg_service: ECannotMoveInEncounter(0x4): error cannot move during an encounter` 为止：
 
 ```shell
 aptos move run --function-id 'default::rpg_service::player_move' --args address:0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f u64:9 u64:2 --assume-yes
 ```
 
+```shell
+aptos move run --function-id 'default::rpg_service::player_move' --args address:0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f u64:10 u64:2 --assume-yes
+```
 
+然后，查看 `EncounterCreated` 事件：
+
+```shell
+curl --request GET \
+  --url 'https://fullnode.devnet.aptoslabs.com/v1/accounts/0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f/events/0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7::encounter::Events/encounter_created_handle?start=0&limit=100' \
+  --header 'Accept: application/json'
+```
+
+可以看到玩家和👾相遇了。
+
+### 抓👾
+
+反复执行下面的命令，直到返回提示 `...Move abort...` 为止：
+
+```shell
+aptos move run --function-id 'default::rpg_service::throw_ball' --args address:0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f --assume-yes
+```
+
+然后，查看 `OwnedMonstersCreated` 事件：
+
+```shell
+curl --request GET \
+  --url 'https://fullnode.devnet.aptoslabs.com/v1/accounts/0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f/events/0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7::owned_monsters::Events/owned_monsters_created_handle?start=0&limit=100' \
+  --header 'Accept: application/json'
+```
+
+如果返回类似下面的结果，即表示成功抓住了👾：
+
+```json
+[{"version":"776829","guid":{"creation_number":"14","account_address":"0x309015d18113265726eaf676ae4b05954cfe0c18934569f9d46aea50a514321f"},"sequence_number":"0","type":"0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7::owned_monsters::OwnedMonstersCreated","data":{"monsters":["0x3fe946e82fd59a0ecf0276ac0f40f6dcc270cca03ab5796982bd29806d096033"],"player_id":"0x48fce222d854eefc165e642797933bd71f8424c52e889e07044b5c5ddc762de7"}}]
+```
 
