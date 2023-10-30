@@ -6,8 +6,8 @@
 module aptos_constantinople_demo::aptos_constantinople_demo_map_init {
     use aptos_constantinople_demo::encounter_trigger;
     use aptos_constantinople_demo::map;
-    use aptos_constantinople_demo::obstruction;
     use aptos_constantinople_demo::map_service;
+    use aptos_constantinople_demo::obstruction;
 
     public entry fun initialize(store_account: &signer) {
         obstruction::initialize(store_account);
