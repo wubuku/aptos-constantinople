@@ -5,12 +5,9 @@
 
 module aptos_constantinople_demo::aptos_constantinople_demo_init {
     use aptos_constantinople_demo::encounter;
-    use aptos_constantinople_demo::encounter_trigger;
     use aptos_constantinople_demo::encounterable;
-    use aptos_constantinople_demo::map;
     use aptos_constantinople_demo::monster;
     use aptos_constantinople_demo::movable;
-    use aptos_constantinople_demo::obstruction;
     use aptos_constantinople_demo::owned_monsters;
     use aptos_constantinople_demo::player;
     use aptos_constantinople_demo::player_position;

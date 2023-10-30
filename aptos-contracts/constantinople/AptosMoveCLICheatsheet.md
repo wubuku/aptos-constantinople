@@ -16,11 +16,5 @@
 
 ## OwnedMonsters aggregate
 
-## Obstruction aggregate
-
-## EncounterTrigger aggregate
-
 ## RandomSeed singleton object
-
-## Map singleton object
 
