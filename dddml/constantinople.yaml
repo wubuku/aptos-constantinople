@@ -70,38 +70,6 @@ aggregates:
       Delete:
         isInternal: true
 
-  Obstruction:
-    metadata:
-      Preprocessors: [ "MOVE_CRUD_IT" ]
-      CRUD_IT_NO_UPDATE: true
-      CRUD_IT_NO_DELETE: true
-    #friends: [ "", ""]
-    id:
-      name: Position
-      type: Position
-    properties:
-      Value:
-        type: bool
-    methods:
-      Create:
-        isInternal: true
-
-  EncounterTrigger:
-    metadata:
-      Preprocessors: [ "MOVE_CRUD_IT" ]
-      CRUD_IT_NO_UPDATE: true
-      CRUD_IT_NO_DELETE: true
-    #friends: [ "", ""]
-    id:
-      name: Position
-      type: Position
-    properties:
-      Value:
-        type: bool
-    methods:
-      Create:
-        isInternal: true
-
   PlayerPosition:
     metadata:
       Preprocessors: [ "MOVE_CRUD_IT" ]
@@ -164,8 +132,43 @@ aggregates:
         event:
           name: MonsterAddedToPlayer
 
+  Obstruction:
+    module: "Map"
+    metadata:
+      Preprocessors: [ "MOVE_CRUD_IT" ]
+      CRUD_IT_NO_UPDATE: true
+      CRUD_IT_NO_DELETE: true
+    #friends: [ "", ""]
+    id:
+      name: Position
+      type: Position
+    properties:
+      Value:
+        type: bool
+    methods:
+      Create:
+        isInternal: true
+
+  EncounterTrigger:
+    module: "Map"
+    metadata:
+      Preprocessors: [ "MOVE_CRUD_IT" ]
+      CRUD_IT_NO_UPDATE: true
+      CRUD_IT_NO_DELETE: true
+    #friends: [ "", ""]
+    id:
+      name: Position
+      type: Position
+    properties:
+      Value:
+        type: bool
+    methods:
+      Create:
+        isInternal: true
+
 valueObjects:
   Position:
+    module: "Map"
     properties:
       X:
         type: u64
@@ -192,6 +195,7 @@ singletonObjects:
         isInternal: true
 
   Map:
+    module: "Map"
     metadata:
       # Preprocessors: [ "MOVE_CRUD_IT" ]
       # CRUD_IT_NO_UPDATE: true
@@ -248,10 +252,13 @@ singletonObjects:
           name: MapInitialized
 
 services:
-  RpgService:
+  MapService:
+    module: "Map"
     methods:
       InitMap:
         parameters:
+  RpgService:
+    methods:
       Register:
         parameters:
           X:
@@ -283,3 +290,10 @@ configuration:
 
   aptos:
     isExternalStoreEnabled: true
+
+  defaultModule:
+    name: "Aptos.Constantinople"
+    requiredModules: [ "Map" ]
+  submodules:
+    Map:
+      requiredModules: [ ]

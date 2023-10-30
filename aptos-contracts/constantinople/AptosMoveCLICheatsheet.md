@@ -10,15 +10,15 @@
 
 ## Monster aggregate
 
-## Obstruction aggregate
-
-## EncounterTrigger aggregate
-
 ## PlayerPosition aggregate
 
 ## Encounter aggregate
 
 ## OwnedMonsters aggregate
+
+## Obstruction aggregate
+
+## EncounterTrigger aggregate
 
 ## RandomSeed singleton object
 
