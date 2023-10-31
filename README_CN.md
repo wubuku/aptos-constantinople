@@ -86,7 +86,8 @@ wubuku/dddappp-aptos:0.0.1 \
 --boundedContextJavaPackageName org.test.aptosconstantinopledemo \
 --javaProjectsDirectoryPath /myapp/aptos-java-service \
 --javaProjectNamePrefix aptosconstantinopledemo \
---pomGroupId test.aptosconstantinopledemo
+--pomGroupId test.aptosconstantinopledemo \
+--enableMultipleMoveProjects
 ```
 
 上述命令参数简单明了：
