@@ -74,6 +74,10 @@ wubuku/dddappp-aptos:0.0.1 \
 --pomGroupId test.aptosconstantinopledemo
 ```
 
+上述命令参数简单明了：
+
+* `enableMultipleMoveProjects` 表示生成多个 Move 合约项目。目前会根据模型中的 DDDML 模块（注意这里说的模块是 DDD 意义上的模块，不是 Move 模块）划分来生成项目。Aptos 对发布的包的大小有限制，不能超过 60k。
+
 [TBD]
 
 ### 实现业务逻辑
@@ -83,12 +87,15 @@ dddappp CLI 已经为我们生成了应用的大部分代码。
 只有以下文件是需要我们填充业务逻辑的：
 
 * [owned_monsters_add_monster_logic.move](aptos-contracts/constantinople/sources/owned_monsters_add_monster_logic.move)。这是一个在聚合（实体）上定义方法的例子。我们不想直接生成和使用 UPDATE 方法。我们想让对单个实体的操作方法具有更好的语义。 
-* [rpg_service.move](aptos-contracts/constantinople/sources/rpg_service.move)。领域服务的实现。这里的 public entry fun 的签名部分，是工具已经生成好的，我们只需要实现方法体。
+* [map_service.move](aptos-contracts/constantinople-map/sources/map_service.move). 这里实现了地图初始化逻辑。入口函数的签名部分已经由工具生成，我们只需实现函数体即可。
+* [rpg_service.move](aptos-contracts/constantinople/sources/rpg_service.move)。领域服务的实现。这里的 public entry fun 的签名部分，是工具已经生成好的，我们只需要实现函数体。
 
 
 ## 测试应用
 
 [TBD]
+
+【你还可以参考英文版本的 [README.md](./README.md) 来部署和测试应用。】
 
 ### 部署合约
 
