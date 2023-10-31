@@ -92,9 +92,56 @@ wubuku/dddappp-aptos:0.0.1 \
 
 上述命令参数简单明了：
 
+[TBD]
+
 * `enableMultipleMoveProjects` 表示生成多个 Move 合约项目。目前会根据模型中的 DDDML 模块（注意这里说的模块是 DDD 意义上的模块，不是 Move 模块）划分来生成项目。Aptos 对发布的包的大小有限制，不能超过 60k。
 
-[TBD]
+查看模型文件，可能你已经注意到里面包含了这样的模块信息：
+
+```yaml
+aggregates:
+  # ...
+  Obstruction:
+    module: "Map"
+    # ...
+
+  EncounterTrigger:
+    module: "Map"
+    # ...
+
+# ...
+valueObjects:
+  Position:
+    module: "Map"
+    properties:
+      # ...
+
+singletonObjects:
+  Map:
+    module: "Map"
+    # ...
+
+services:
+  MapService:
+    module: "Map"
+    # ...
+
+configuration:
+  # ...
+  defaultModule:
+    name: "Aptos.Constantinople"
+    requiredModules: [ "Map" ]
+  submodules:
+    Map:
+      requiredModules: [ ]
+```
+
+根据这些模块信息，我们可以生成三个 Move 合约项目：
+
+* 一个是“默认模块”项目。在目录 `aptos-contracts/constantinople` 下。
+* 一个是 Map 模块项目。在目录 `aptos-contracts/constantinople-map` 下。
+* 还有一个是 Store 项目，这个项目为其他项目提供一个默认的存储实现。在目录 `aptos-contracts/constantinople-store` 下。
+
 
 ### 实现业务逻辑
 

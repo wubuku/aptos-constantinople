@@ -109,6 +109,52 @@ The command parameters above are straightforward:
 
 After executing above command successfully, a directory `aptos-contracts` should be added to local current directory.
 
+Looking at the model file, you may have noticed that it contains some module information like this:
+
+```yaml
+aggregates:
+  # ...
+  Obstruction:
+    module: "Map"
+    # ...
+
+  EncounterTrigger:
+    module: "Map"
+    # ...
+
+# ...
+valueObjects:
+  Position:
+    module: "Map"
+    properties:
+      # ...
+
+singletonObjects:
+  Map:
+    module: "Map"
+    # ...
+
+services:
+  MapService:
+    module: "Map"
+    # ...
+
+configuration:
+  # ...
+  defaultModule:
+    name: "Aptos.Constantinople"
+    requiredModules: [ "Map" ]
+  submodules:
+    Map:
+      requiredModules: [ ]
+```
+
+Based on this module information, three Move contract projects can be generated:
+
+* One is the "Default Module" project. This is located in the `aptos-contracts/constantinople` directory.
+* One is the `Map` module project. This is in the directory `aptos-contracts/constantinople-map`.
+* Another is the "Store" project, which provides a default storage implementation for other projects. This is in the directory `aptos-contracts/constantinople-store`.
+
 
 ### Implementing Business Logic
 
