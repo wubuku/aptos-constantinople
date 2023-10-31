@@ -7,5 +7,5 @@ aptos_constantinople_demo = "_"
 
 [dependencies]
 AptosFramework = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-framework", rev = "main" }
-AptosConstantinopleDemoMap = { local = "../constantinople-map" }
 AptosConstantinopleDemo = { local = "../constantinople" }
+AptosConstantinopleDemoMap = { local = "../constantinople-map" }

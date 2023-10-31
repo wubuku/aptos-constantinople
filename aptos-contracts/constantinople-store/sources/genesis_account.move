@@ -10,6 +10,7 @@ module aptos_constantinople_demo::genesis_account {
     use std::error;
     use std::signer;
 
+
     const ENotGenesisAccount: u64 = 100;
 
     struct Events has key {
