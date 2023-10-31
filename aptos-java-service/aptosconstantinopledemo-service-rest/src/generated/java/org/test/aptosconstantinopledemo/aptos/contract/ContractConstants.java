@@ -26,12 +26,6 @@ public class ContractConstants {
     public static final String MONSTER_MODULE_MONSTER_DELETED = "monster::MonsterDeleted";
     public static final String MONSTER_MODULE_MONSTER_DELETED_HANDLE_FIELD = "monster_deleted_handle";
 
-    public static final String OBSTRUCTION_MODULE_OBSTRUCTION_CREATED = "obstruction::ObstructionCreated";
-    public static final String OBSTRUCTION_MODULE_OBSTRUCTION_CREATED_HANDLE_FIELD = "obstruction_created_handle";
-
-    public static final String ENCOUNTER_TRIGGER_MODULE_ENCOUNTER_TRIGGER_CREATED = "encounter_trigger::EncounterTriggerCreated";
-    public static final String ENCOUNTER_TRIGGER_MODULE_ENCOUNTER_TRIGGER_CREATED_HANDLE_FIELD = "encounter_trigger_created_handle";
-
     public static final String PLAYER_POSITION_MODULE_PLAYER_POSITION_CREATED = "player_position::PlayerPositionCreated";
     public static final String PLAYER_POSITION_MODULE_PLAYER_POSITION_CREATED_HANDLE_FIELD = "player_position_created_handle";
 
@@ -52,6 +46,12 @@ public class ContractConstants {
 
     public static final String OWNED_MONSTERS_MODULE_MONSTER_ADDED_TO_PLAYER = "owned_monsters::MonsterAddedToPlayer";
     public static final String OWNED_MONSTERS_MODULE_MONSTER_ADDED_TO_PLAYER_HANDLE_FIELD = "monster_added_to_player_handle";
+
+    public static final String OBSTRUCTION_MODULE_OBSTRUCTION_CREATED = "obstruction::ObstructionCreated";
+    public static final String OBSTRUCTION_MODULE_OBSTRUCTION_CREATED_HANDLE_FIELD = "obstruction_created_handle";
+
+    public static final String ENCOUNTER_TRIGGER_MODULE_ENCOUNTER_TRIGGER_CREATED = "encounter_trigger::EncounterTriggerCreated";
+    public static final String ENCOUNTER_TRIGGER_MODULE_ENCOUNTER_TRIGGER_CREATED_HANDLE_FIELD = "encounter_trigger_created_handle";
 
     public static final String RANDOM_SEED_MODULE_RANDOM_SEED_INITIALIZED = "random_seed::RandomSeedInitialized";
     public static final String RANDOM_SEED_MODULE_RANDOM_SEED_INITIALIZED_HANDLE_FIELD = "random_seed_initialized_handle";
@@ -78,14 +78,6 @@ public class ContractConstants {
 
     public static final String MONSTER_ID_TYPE = "address";
 
-    public static final String OBSTRUCTION_MODULE_OBSTRUCTION = "obstruction::Obstruction";
-
-    public static final String OBSTRUCTION_ID_TYPE = "aptos_constantinople_demo::position::Position";
-
-    public static final String ENCOUNTER_TRIGGER_MODULE_ENCOUNTER_TRIGGER = "encounter_trigger::EncounterTrigger";
-
-    public static final String ENCOUNTER_TRIGGER_ID_TYPE = "aptos_constantinople_demo::position::Position";
-
     public static final String PLAYER_POSITION_MODULE_PLAYER_POSITION = "player_position::PlayerPosition";
 
     public static final String PLAYER_POSITION_ID_TYPE = "address";
@@ -97,6 +89,14 @@ public class ContractConstants {
     public static final String OWNED_MONSTERS_MODULE_OWNED_MONSTERS = "owned_monsters::OwnedMonsters";
 
     public static final String OWNED_MONSTERS_ID_TYPE = "address";
+
+    public static final String OBSTRUCTION_MODULE_OBSTRUCTION = "obstruction::Obstruction";
+
+    public static final String OBSTRUCTION_ID_TYPE = "aptos_constantinople_demo::position::Position";
+
+    public static final String ENCOUNTER_TRIGGER_MODULE_ENCOUNTER_TRIGGER = "encounter_trigger::EncounterTrigger";
+
+    public static final String ENCOUNTER_TRIGGER_ID_TYPE = "aptos_constantinople_demo::position::Position";
 
     public static final String RANDOM_SEED_MODULE_RANDOM_SEED = "random_seed::RandomSeed";
 
@@ -122,14 +122,6 @@ public class ContractConstants {
 
     public static final String MONSTER_MODULE_EVENTS = "monster::Events";
 
-    public static final String OBSTRUCTION_MODULE_TABLES = "obstruction::Tables";
-
-    public static final String OBSTRUCTION_MODULE_EVENTS = "obstruction::Events";
-
-    public static final String ENCOUNTER_TRIGGER_MODULE_TABLES = "encounter_trigger::Tables";
-
-    public static final String ENCOUNTER_TRIGGER_MODULE_EVENTS = "encounter_trigger::Events";
-
     public static final String PLAYER_POSITION_MODULE_TABLES = "player_position::Tables";
 
     public static final String PLAYER_POSITION_MODULE_EVENTS = "player_position::Events";
@@ -141,6 +133,14 @@ public class ContractConstants {
     public static final String OWNED_MONSTERS_MODULE_TABLES = "owned_monsters::Tables";
 
     public static final String OWNED_MONSTERS_MODULE_EVENTS = "owned_monsters::Events";
+
+    public static final String OBSTRUCTION_MODULE_TABLES = "obstruction::Tables";
+
+    public static final String OBSTRUCTION_MODULE_EVENTS = "obstruction::Events";
+
+    public static final String ENCOUNTER_TRIGGER_MODULE_TABLES = "encounter_trigger::Tables";
+
+    public static final String ENCOUNTER_TRIGGER_MODULE_EVENTS = "encounter_trigger::Events";
 
     public static final String RANDOM_SEED_MODULE_EVENTS = "random_seed::Events";
 

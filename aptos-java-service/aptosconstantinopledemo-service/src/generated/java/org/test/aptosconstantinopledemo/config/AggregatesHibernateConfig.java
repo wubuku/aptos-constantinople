@@ -17,12 +17,6 @@ import org.test.aptosconstantinopledemo.domain.encounterable.hibernate.*;
 import org.test.aptosconstantinopledemo.domain.monster.*;
 import org.test.aptosconstantinopledemo.domain.*;
 import org.test.aptosconstantinopledemo.domain.monster.hibernate.*;
-import org.test.aptosconstantinopledemo.domain.obstruction.*;
-import org.test.aptosconstantinopledemo.domain.*;
-import org.test.aptosconstantinopledemo.domain.obstruction.hibernate.*;
-import org.test.aptosconstantinopledemo.domain.encountertrigger.*;
-import org.test.aptosconstantinopledemo.domain.*;
-import org.test.aptosconstantinopledemo.domain.encountertrigger.hibernate.*;
 import org.test.aptosconstantinopledemo.domain.playerposition.*;
 import org.test.aptosconstantinopledemo.domain.*;
 import org.test.aptosconstantinopledemo.domain.playerposition.hibernate.*;
@@ -32,6 +26,12 @@ import org.test.aptosconstantinopledemo.domain.encounter.hibernate.*;
 import org.test.aptosconstantinopledemo.domain.ownedmonsters.*;
 import org.test.aptosconstantinopledemo.domain.*;
 import org.test.aptosconstantinopledemo.domain.ownedmonsters.hibernate.*;
+import org.test.aptosconstantinopledemo.domain.obstruction.*;
+import org.test.aptosconstantinopledemo.domain.*;
+import org.test.aptosconstantinopledemo.domain.obstruction.hibernate.*;
+import org.test.aptosconstantinopledemo.domain.encountertrigger.*;
+import org.test.aptosconstantinopledemo.domain.*;
+import org.test.aptosconstantinopledemo.domain.encountertrigger.hibernate.*;
 import org.test.aptosconstantinopledemo.domain.randomseed.*;
 import org.test.aptosconstantinopledemo.domain.*;
 import org.test.aptosconstantinopledemo.domain.randomseed.hibernate.*;
@@ -232,96 +232,6 @@ public class AggregatesHibernateConfig {
 
 
     @Bean
-    public ObstructionStateRepository obstructionStateRepository(
-            SessionFactory hibernateSessionFactory,
-            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
-    ) {
-        HibernateObstructionStateRepository repository = new HibernateObstructionStateRepository();
-        repository.setSessionFactory(hibernateSessionFactory);
-        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
-        return repository;
-    }
-
-    @Bean
-    public ObstructionStateQueryRepository obstructionStateQueryRepository(
-            SessionFactory hibernateSessionFactory,
-            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
-    ) {
-        HibernateObstructionStateQueryRepository repository = new HibernateObstructionStateQueryRepository();
-        repository.setSessionFactory(hibernateSessionFactory);
-        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
-        return repository;
-    }
-
-    @Bean
-    public HibernateObstructionEventStore obstructionEventStore(SessionFactory hibernateSessionFactory) {
-        HibernateObstructionEventStore eventStore = new HibernateObstructionEventStore();
-        eventStore.setSessionFactory(hibernateSessionFactory);
-        return eventStore;
-    }
-
-    @Bean
-    public AbstractObstructionApplicationService.SimpleObstructionApplicationService obstructionApplicationService(
-            @Qualifier("obstructionEventStore") EventStore obstructionEventStore,
-            ObstructionStateRepository obstructionStateRepository,
-            ObstructionStateQueryRepository obstructionStateQueryRepository
-    ) {
-        AbstractObstructionApplicationService.SimpleObstructionApplicationService applicationService = new AbstractObstructionApplicationService.SimpleObstructionApplicationService(
-                obstructionEventStore,
-                obstructionStateRepository,
-                obstructionStateQueryRepository
-        );
-        return applicationService;
-    }
-
-
-
-    @Bean
-    public EncounterTriggerStateRepository encounterTriggerStateRepository(
-            SessionFactory hibernateSessionFactory,
-            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
-    ) {
-        HibernateEncounterTriggerStateRepository repository = new HibernateEncounterTriggerStateRepository();
-        repository.setSessionFactory(hibernateSessionFactory);
-        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
-        return repository;
-    }
-
-    @Bean
-    public EncounterTriggerStateQueryRepository encounterTriggerStateQueryRepository(
-            SessionFactory hibernateSessionFactory,
-            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
-    ) {
-        HibernateEncounterTriggerStateQueryRepository repository = new HibernateEncounterTriggerStateQueryRepository();
-        repository.setSessionFactory(hibernateSessionFactory);
-        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
-        return repository;
-    }
-
-    @Bean
-    public HibernateEncounterTriggerEventStore encounterTriggerEventStore(SessionFactory hibernateSessionFactory) {
-        HibernateEncounterTriggerEventStore eventStore = new HibernateEncounterTriggerEventStore();
-        eventStore.setSessionFactory(hibernateSessionFactory);
-        return eventStore;
-    }
-
-    @Bean
-    public AbstractEncounterTriggerApplicationService.SimpleEncounterTriggerApplicationService encounterTriggerApplicationService(
-            @Qualifier("encounterTriggerEventStore") EventStore encounterTriggerEventStore,
-            EncounterTriggerStateRepository encounterTriggerStateRepository,
-            EncounterTriggerStateQueryRepository encounterTriggerStateQueryRepository
-    ) {
-        AbstractEncounterTriggerApplicationService.SimpleEncounterTriggerApplicationService applicationService = new AbstractEncounterTriggerApplicationService.SimpleEncounterTriggerApplicationService(
-                encounterTriggerEventStore,
-                encounterTriggerStateRepository,
-                encounterTriggerStateQueryRepository
-        );
-        return applicationService;
-    }
-
-
-
-    @Bean
     public PlayerPositionStateRepository playerPositionStateRepository(
             SessionFactory hibernateSessionFactory,
             ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
@@ -450,6 +360,96 @@ public class AggregatesHibernateConfig {
                 ownedMonstersEventStore,
                 ownedMonstersStateRepository,
                 ownedMonstersStateQueryRepository
+        );
+        return applicationService;
+    }
+
+
+
+    @Bean
+    public ObstructionStateRepository obstructionStateRepository(
+            SessionFactory hibernateSessionFactory,
+            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
+    ) {
+        HibernateObstructionStateRepository repository = new HibernateObstructionStateRepository();
+        repository.setSessionFactory(hibernateSessionFactory);
+        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
+        return repository;
+    }
+
+    @Bean
+    public ObstructionStateQueryRepository obstructionStateQueryRepository(
+            SessionFactory hibernateSessionFactory,
+            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
+    ) {
+        HibernateObstructionStateQueryRepository repository = new HibernateObstructionStateQueryRepository();
+        repository.setSessionFactory(hibernateSessionFactory);
+        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
+        return repository;
+    }
+
+    @Bean
+    public HibernateObstructionEventStore obstructionEventStore(SessionFactory hibernateSessionFactory) {
+        HibernateObstructionEventStore eventStore = new HibernateObstructionEventStore();
+        eventStore.setSessionFactory(hibernateSessionFactory);
+        return eventStore;
+    }
+
+    @Bean
+    public AbstractObstructionApplicationService.SimpleObstructionApplicationService obstructionApplicationService(
+            @Qualifier("obstructionEventStore") EventStore obstructionEventStore,
+            ObstructionStateRepository obstructionStateRepository,
+            ObstructionStateQueryRepository obstructionStateQueryRepository
+    ) {
+        AbstractObstructionApplicationService.SimpleObstructionApplicationService applicationService = new AbstractObstructionApplicationService.SimpleObstructionApplicationService(
+                obstructionEventStore,
+                obstructionStateRepository,
+                obstructionStateQueryRepository
+        );
+        return applicationService;
+    }
+
+
+
+    @Bean
+    public EncounterTriggerStateRepository encounterTriggerStateRepository(
+            SessionFactory hibernateSessionFactory,
+            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
+    ) {
+        HibernateEncounterTriggerStateRepository repository = new HibernateEncounterTriggerStateRepository();
+        repository.setSessionFactory(hibernateSessionFactory);
+        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
+        return repository;
+    }
+
+    @Bean
+    public EncounterTriggerStateQueryRepository encounterTriggerStateQueryRepository(
+            SessionFactory hibernateSessionFactory,
+            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
+    ) {
+        HibernateEncounterTriggerStateQueryRepository repository = new HibernateEncounterTriggerStateQueryRepository();
+        repository.setSessionFactory(hibernateSessionFactory);
+        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
+        return repository;
+    }
+
+    @Bean
+    public HibernateEncounterTriggerEventStore encounterTriggerEventStore(SessionFactory hibernateSessionFactory) {
+        HibernateEncounterTriggerEventStore eventStore = new HibernateEncounterTriggerEventStore();
+        eventStore.setSessionFactory(hibernateSessionFactory);
+        return eventStore;
+    }
+
+    @Bean
+    public AbstractEncounterTriggerApplicationService.SimpleEncounterTriggerApplicationService encounterTriggerApplicationService(
+            @Qualifier("encounterTriggerEventStore") EventStore encounterTriggerEventStore,
+            EncounterTriggerStateRepository encounterTriggerStateRepository,
+            EncounterTriggerStateQueryRepository encounterTriggerStateQueryRepository
+    ) {
+        AbstractEncounterTriggerApplicationService.SimpleEncounterTriggerApplicationService applicationService = new AbstractEncounterTriggerApplicationService.SimpleEncounterTriggerApplicationService(
+                encounterTriggerEventStore,
+                encounterTriggerStateRepository,
+                encounterTriggerStateQueryRepository
         );
         return applicationService;
     }

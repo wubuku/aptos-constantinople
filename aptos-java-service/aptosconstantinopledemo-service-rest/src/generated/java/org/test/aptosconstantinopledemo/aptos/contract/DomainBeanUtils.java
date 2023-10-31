@@ -20,10 +20,6 @@ import org.test.aptosconstantinopledemo.aptos.contract.encounterable.Encounterab
 import org.test.aptosconstantinopledemo.domain.monster.AbstractMonsterEvent;
 import org.test.aptosconstantinopledemo.aptos.contract.monster.MonsterCreated;
 import org.test.aptosconstantinopledemo.aptos.contract.monster.MonsterDeleted;
-import org.test.aptosconstantinopledemo.domain.obstruction.AbstractObstructionEvent;
-import org.test.aptosconstantinopledemo.aptos.contract.obstruction.ObstructionCreated;
-import org.test.aptosconstantinopledemo.domain.encountertrigger.AbstractEncounterTriggerEvent;
-import org.test.aptosconstantinopledemo.aptos.contract.encountertrigger.EncounterTriggerCreated;
 import org.test.aptosconstantinopledemo.domain.playerposition.AbstractPlayerPositionEvent;
 import org.test.aptosconstantinopledemo.aptos.contract.playerposition.PlayerPositionCreated;
 import org.test.aptosconstantinopledemo.aptos.contract.playerposition.PlayerPositionUpdated;
@@ -34,6 +30,10 @@ import org.test.aptosconstantinopledemo.aptos.contract.encounter.EncounterDelete
 import org.test.aptosconstantinopledemo.domain.ownedmonsters.AbstractOwnedMonstersEvent;
 import org.test.aptosconstantinopledemo.aptos.contract.ownedmonsters.OwnedMonstersCreated;
 import org.test.aptosconstantinopledemo.aptos.contract.ownedmonsters.MonsterAddedToPlayer;
+import org.test.aptosconstantinopledemo.domain.obstruction.AbstractObstructionEvent;
+import org.test.aptosconstantinopledemo.aptos.contract.obstruction.ObstructionCreated;
+import org.test.aptosconstantinopledemo.domain.encountertrigger.AbstractEncounterTriggerEvent;
+import org.test.aptosconstantinopledemo.aptos.contract.encountertrigger.EncounterTriggerCreated;
 import org.test.aptosconstantinopledemo.domain.randomseed.AbstractRandomSeedEvent;
 import org.test.aptosconstantinopledemo.aptos.contract.randomseed.RandomSeedInitialized;
 import org.test.aptosconstantinopledemo.aptos.contract.randomseed.RandomSeedUpdated;
@@ -131,32 +131,6 @@ public class DomainBeanUtils {
         return monsterDeleted;
     }
 
-    public static AbstractObstructionEvent.ObstructionCreated toObstructionCreated(Event<ObstructionCreated> eventEnvelope) {
-        ObstructionCreated contractEvent = eventEnvelope.getData();
-
-        AbstractObstructionEvent.ObstructionCreated obstructionCreated = new AbstractObstructionEvent.ObstructionCreated();
-        obstructionCreated.setPosition(DomainBeanUtils.toPosition(contractEvent.getPosition()));
-        obstructionCreated.setValue(contractEvent.getValue());
-        obstructionCreated.setVersion(BigInteger.valueOf(-1));
-
-        setAptosEventProperties(obstructionCreated, eventEnvelope);
-
-        return obstructionCreated;
-    }
-
-    public static AbstractEncounterTriggerEvent.EncounterTriggerCreated toEncounterTriggerCreated(Event<EncounterTriggerCreated> eventEnvelope) {
-        EncounterTriggerCreated contractEvent = eventEnvelope.getData();
-
-        AbstractEncounterTriggerEvent.EncounterTriggerCreated encounterTriggerCreated = new AbstractEncounterTriggerEvent.EncounterTriggerCreated();
-        encounterTriggerCreated.setPosition(DomainBeanUtils.toPosition(contractEvent.getPosition()));
-        encounterTriggerCreated.setValue(contractEvent.getValue());
-        encounterTriggerCreated.setVersion(BigInteger.valueOf(-1));
-
-        setAptosEventProperties(encounterTriggerCreated, eventEnvelope);
-
-        return encounterTriggerCreated;
-    }
-
     public static AbstractPlayerPositionEvent.PlayerPositionCreated toPlayerPositionCreated(Event<PlayerPositionCreated> eventEnvelope) {
         PlayerPositionCreated contractEvent = eventEnvelope.getData();
 
@@ -249,6 +223,32 @@ public class DomainBeanUtils {
         setAptosEventProperties(monsterAddedToPlayer, eventEnvelope);
 
         return monsterAddedToPlayer;
+    }
+
+    public static AbstractObstructionEvent.ObstructionCreated toObstructionCreated(Event<ObstructionCreated> eventEnvelope) {
+        ObstructionCreated contractEvent = eventEnvelope.getData();
+
+        AbstractObstructionEvent.ObstructionCreated obstructionCreated = new AbstractObstructionEvent.ObstructionCreated();
+        obstructionCreated.setPosition(DomainBeanUtils.toPosition(contractEvent.getPosition()));
+        obstructionCreated.setValue(contractEvent.getValue());
+        obstructionCreated.setVersion(BigInteger.valueOf(-1));
+
+        setAptosEventProperties(obstructionCreated, eventEnvelope);
+
+        return obstructionCreated;
+    }
+
+    public static AbstractEncounterTriggerEvent.EncounterTriggerCreated toEncounterTriggerCreated(Event<EncounterTriggerCreated> eventEnvelope) {
+        EncounterTriggerCreated contractEvent = eventEnvelope.getData();
+
+        AbstractEncounterTriggerEvent.EncounterTriggerCreated encounterTriggerCreated = new AbstractEncounterTriggerEvent.EncounterTriggerCreated();
+        encounterTriggerCreated.setPosition(DomainBeanUtils.toPosition(contractEvent.getPosition()));
+        encounterTriggerCreated.setValue(contractEvent.getValue());
+        encounterTriggerCreated.setVersion(BigInteger.valueOf(-1));
+
+        setAptosEventProperties(encounterTriggerCreated, eventEnvelope);
+
+        return encounterTriggerCreated;
     }
 
     public static AbstractRandomSeedEvent.RandomSeedInitialized toRandomSeedInitialized(Event<RandomSeedInitialized> eventEnvelope) {

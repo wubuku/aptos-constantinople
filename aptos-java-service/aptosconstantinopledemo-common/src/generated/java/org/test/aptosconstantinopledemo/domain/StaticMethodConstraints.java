@@ -15,11 +15,11 @@ import org.test.aptosconstantinopledemo.domain.*;
 import org.test.aptosconstantinopledemo.domain.movable.*;
 import org.test.aptosconstantinopledemo.domain.encounterable.*;
 import org.test.aptosconstantinopledemo.domain.monster.*;
-import org.test.aptosconstantinopledemo.domain.obstruction.*;
-import org.test.aptosconstantinopledemo.domain.encountertrigger.*;
 import org.test.aptosconstantinopledemo.domain.playerposition.*;
 import org.test.aptosconstantinopledemo.domain.encounter.*;
 import org.test.aptosconstantinopledemo.domain.ownedmonsters.*;
+import org.test.aptosconstantinopledemo.domain.obstruction.*;
+import org.test.aptosconstantinopledemo.domain.encountertrigger.*;
 import org.test.aptosconstantinopledemo.domain.randomseed.*;
 import org.test.aptosconstantinopledemo.domain.map.*;
 
@@ -64,22 +64,6 @@ public class StaticMethodConstraints {
                     "verify",
                     new Class[]{MonsterState.class, VerificationContext.class},
                     new String[]{"_"}
-            );
-
-
-        ReflectUtils.assertStaticMethodIfClassExists(
-                    "org.test.aptosconstantinopledemo.domain.obstruction.CreateLogic",
-                    "verify",
-                    new Class[]{ObstructionState.class, Boolean.class, VerificationContext.class},
-                    new String[]{"_", "value"}
-            );
-
-
-        ReflectUtils.assertStaticMethodIfClassExists(
-                    "org.test.aptosconstantinopledemo.domain.encountertrigger.CreateLogic",
-                    "verify",
-                    new Class[]{EncounterTriggerState.class, Boolean.class, VerificationContext.class},
-                    new String[]{"_", "value"}
             );
 
 
@@ -136,6 +120,22 @@ public class StaticMethodConstraints {
                     "verify",
                     new Class[]{OwnedMonstersState.class, String.class, VerificationContext.class},
                     new String[]{"_", "monsterId"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.aptosconstantinopledemo.domain.obstruction.CreateLogic",
+                    "verify",
+                    new Class[]{ObstructionState.class, Boolean.class, VerificationContext.class},
+                    new String[]{"_", "value"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.aptosconstantinopledemo.domain.encountertrigger.CreateLogic",
+                    "verify",
+                    new Class[]{EncounterTriggerState.class, Boolean.class, VerificationContext.class},
+                    new String[]{"_", "value"}
             );
 
 
@@ -204,22 +204,6 @@ public class StaticMethodConstraints {
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
-                    "org.test.aptosconstantinopledemo.domain.obstruction.CreateLogic",
-                    "mutate",
-                    new Class[]{ObstructionState.class, Boolean.class, BigInteger.class, BigInteger.class, String.class, AptosEventGuid.class, String.class, MutationContext.class},
-                    new String[]{"_", "value", "aptosEventVersion", "aptosEventSequenceNumber", "aptosEventType", "aptosEventGuid", "status"}
-            );
-
-
-        ReflectUtils.assertStaticMethodIfClassExists(
-                    "org.test.aptosconstantinopledemo.domain.encountertrigger.CreateLogic",
-                    "mutate",
-                    new Class[]{EncounterTriggerState.class, Boolean.class, BigInteger.class, BigInteger.class, String.class, AptosEventGuid.class, String.class, MutationContext.class},
-                    new String[]{"_", "value", "aptosEventVersion", "aptosEventSequenceNumber", "aptosEventType", "aptosEventGuid", "status"}
-            );
-
-
-        ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.playerposition.CreateLogic",
                     "mutate",
                     new Class[]{PlayerPositionState.class, Position.class, BigInteger.class, BigInteger.class, String.class, AptosEventGuid.class, String.class, MutationContext.class},
@@ -272,6 +256,22 @@ public class StaticMethodConstraints {
                     "mutate",
                     new Class[]{OwnedMonstersState.class, String.class, BigInteger.class, BigInteger.class, String.class, AptosEventGuid.class, String.class, MutationContext.class},
                     new String[]{"_", "monsterId", "aptosEventVersion", "aptosEventSequenceNumber", "aptosEventType", "aptosEventGuid", "status"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.aptosconstantinopledemo.domain.obstruction.CreateLogic",
+                    "mutate",
+                    new Class[]{ObstructionState.class, Boolean.class, BigInteger.class, BigInteger.class, String.class, AptosEventGuid.class, String.class, MutationContext.class},
+                    new String[]{"_", "value", "aptosEventVersion", "aptosEventSequenceNumber", "aptosEventType", "aptosEventGuid", "status"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.aptosconstantinopledemo.domain.encountertrigger.CreateLogic",
+                    "mutate",
+                    new Class[]{EncounterTriggerState.class, Boolean.class, BigInteger.class, BigInteger.class, String.class, AptosEventGuid.class, String.class, MutationContext.class},
+                    new String[]{"_", "value", "aptosEventVersion", "aptosEventSequenceNumber", "aptosEventType", "aptosEventGuid", "status"}
             );
 
 

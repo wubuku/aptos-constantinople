@@ -37,11 +37,11 @@ public class M {
         typeToAggMap.put("Movable", "Movable");
         typeToAggMap.put("Encounterable", "Encounterable");
         typeToAggMap.put("Monster", "Monster");
-        typeToAggMap.put("Obstruction", "Obstruction");
-        typeToAggMap.put("EncounterTrigger", "EncounterTrigger");
         typeToAggMap.put("PlayerPosition", "PlayerPosition");
         typeToAggMap.put("Encounter", "Encounter");
         typeToAggMap.put("OwnedMonsters", "OwnedMonsters");
+        typeToAggMap.put("Obstruction", "Obstruction");
+        typeToAggMap.put("EncounterTrigger", "EncounterTrigger");
         typeToAggMap.put("Map", "Map");
         typeToAggMap.put("RandomSeed", "RandomSeed");
         TYPE_NAME_TO_AGGREGATE_NAME_MAP = typeToAggMap;
@@ -467,204 +467,6 @@ public class M {
 
 
   // /////////////////////////////////////////////////////////  
-  public static class ObstructionMetadata {
-
-    private ObstructionMetadata() {
-    }
-
-    public static final String PROPERTY_NAME_VERSION      = "offChainVersion";
-    public static final String PROPERTY_NAME_ACTIVE       = "active";
-    public static final String PROPERTY_NAME_DELETED      = "deleted";
-    public static final String PROPERTY_NAME_CREATED_BY   = "createdBy";
-    public static final String PROPERTY_NAME_CREATED_AT   = "createdAt";
-    public static final String PROPERTY_NAME_UPDATED_BY   = "updatedBy";
-    public static final String PROPERTY_NAME_UPDATED_AT   = "updatedAt";
-
-    public static final String URL_ID_FIELD_SEPARATOR = ",";
-
-    public static final TextFormatter<org.test.aptosconstantinopledemo.domain.Position> URL_ID_TEXT_FORMATTER =
-                    new AbstractValueObjectTextFormatter<org.test.aptosconstantinopledemo.domain.Position>(org.test.aptosconstantinopledemo.domain.Position.class, URL_ID_FIELD_SEPARATOR) {
-                        @Override
-                        protected Class<?> getClassByTypeName(String type) {
-                            return BoundedContextMetadata.CLASS_MAP.get(type);
-                        }
-                    };
-
-    public static final Class ID_CLASS = org.test.aptosconstantinopledemo.domain.Position.class;
-
-    public static final String[] propertyNames = new String[] {
-            "value",
-            "version",
-            "offChainVersion",
-            "createdBy",
-            "createdAt",
-            "updatedBy",
-            "updatedAt",
-            "active",
-            "deleted",
-            "position.x",
-            "position.y",
-    };
-
-    public static final String[] propertyTypes = new String[] {
-            "Boolean",
-            "BigInteger",
-            "Long",
-            "String",
-            "Date",
-            "String",
-            "Date",
-            "Boolean",
-            "Boolean",
-            "BigInteger",
-            "BigInteger",
-    };
-
-    public static final Map<String, String> propertyTypeMap;
-
-    public static final Map<String, String> aliasMap;
-
-    static {
-        propertyTypeMap = new HashMap<String, String>();
-        initPropertyTypeMap();
-        aliasMap = new HashMap<String, String>();
-        initAliasMap();
-    }
-
-    private static  void initAliasMap() {
-        aliasMap.put("value", "value");
-        aliasMap.put("Value", "value");
-        aliasMap.put("version", "version");
-        aliasMap.put("Version", "version");
-        aliasMap.put("offChainVersion", "offChainVersion");
-        aliasMap.put("OffChainVersion", "offChainVersion");
-        aliasMap.put("createdBy", "createdBy");
-        aliasMap.put("CreatedBy", "createdBy");
-        aliasMap.put("createdAt", "createdAt");
-        aliasMap.put("CreatedAt", "createdAt");
-        aliasMap.put("updatedBy", "updatedBy");
-        aliasMap.put("UpdatedBy", "updatedBy");
-        aliasMap.put("updatedAt", "updatedAt");
-        aliasMap.put("UpdatedAt", "updatedAt");
-        aliasMap.put("active", "active");
-        aliasMap.put("Active", "active");
-        aliasMap.put("deleted", "deleted");
-        aliasMap.put("Deleted", "deleted");
-        aliasMap.put("position.x", "position.x");
-        aliasMap.put("Position.X", "position.x");
-        aliasMap.put("position.y", "position.y");
-        aliasMap.put("Position.Y", "position.y");
-    }
-
-    private static void initPropertyTypeMap() {
-        for (int i = 0; i < propertyNames.length; i++ ) {
-            propertyTypeMap.put(propertyNames[i], propertyTypes[i]);
-        }
-    }
-
-  }
-
-
-  // /////////////////////////////////////////////////////////  
-  public static class EncounterTriggerMetadata {
-
-    private EncounterTriggerMetadata() {
-    }
-
-    public static final String PROPERTY_NAME_VERSION      = "offChainVersion";
-    public static final String PROPERTY_NAME_ACTIVE       = "active";
-    public static final String PROPERTY_NAME_DELETED      = "deleted";
-    public static final String PROPERTY_NAME_CREATED_BY   = "createdBy";
-    public static final String PROPERTY_NAME_CREATED_AT   = "createdAt";
-    public static final String PROPERTY_NAME_UPDATED_BY   = "updatedBy";
-    public static final String PROPERTY_NAME_UPDATED_AT   = "updatedAt";
-
-    public static final String URL_ID_FIELD_SEPARATOR = ",";
-
-    public static final TextFormatter<org.test.aptosconstantinopledemo.domain.Position> URL_ID_TEXT_FORMATTER =
-                    new AbstractValueObjectTextFormatter<org.test.aptosconstantinopledemo.domain.Position>(org.test.aptosconstantinopledemo.domain.Position.class, URL_ID_FIELD_SEPARATOR) {
-                        @Override
-                        protected Class<?> getClassByTypeName(String type) {
-                            return BoundedContextMetadata.CLASS_MAP.get(type);
-                        }
-                    };
-
-    public static final Class ID_CLASS = org.test.aptosconstantinopledemo.domain.Position.class;
-
-    public static final String[] propertyNames = new String[] {
-            "value",
-            "version",
-            "offChainVersion",
-            "createdBy",
-            "createdAt",
-            "updatedBy",
-            "updatedAt",
-            "active",
-            "deleted",
-            "position.x",
-            "position.y",
-    };
-
-    public static final String[] propertyTypes = new String[] {
-            "Boolean",
-            "BigInteger",
-            "Long",
-            "String",
-            "Date",
-            "String",
-            "Date",
-            "Boolean",
-            "Boolean",
-            "BigInteger",
-            "BigInteger",
-    };
-
-    public static final Map<String, String> propertyTypeMap;
-
-    public static final Map<String, String> aliasMap;
-
-    static {
-        propertyTypeMap = new HashMap<String, String>();
-        initPropertyTypeMap();
-        aliasMap = new HashMap<String, String>();
-        initAliasMap();
-    }
-
-    private static  void initAliasMap() {
-        aliasMap.put("value", "value");
-        aliasMap.put("Value", "value");
-        aliasMap.put("version", "version");
-        aliasMap.put("Version", "version");
-        aliasMap.put("offChainVersion", "offChainVersion");
-        aliasMap.put("OffChainVersion", "offChainVersion");
-        aliasMap.put("createdBy", "createdBy");
-        aliasMap.put("CreatedBy", "createdBy");
-        aliasMap.put("createdAt", "createdAt");
-        aliasMap.put("CreatedAt", "createdAt");
-        aliasMap.put("updatedBy", "updatedBy");
-        aliasMap.put("UpdatedBy", "updatedBy");
-        aliasMap.put("updatedAt", "updatedAt");
-        aliasMap.put("UpdatedAt", "updatedAt");
-        aliasMap.put("active", "active");
-        aliasMap.put("Active", "active");
-        aliasMap.put("deleted", "deleted");
-        aliasMap.put("Deleted", "deleted");
-        aliasMap.put("position.x", "position.x");
-        aliasMap.put("Position.X", "position.x");
-        aliasMap.put("position.y", "position.y");
-        aliasMap.put("Position.Y", "position.y");
-    }
-
-    private static void initPropertyTypeMap() {
-        for (int i = 0; i < propertyNames.length; i++ ) {
-            propertyTypeMap.put(propertyNames[i], propertyTypes[i]);
-        }
-    }
-
-  }
-
-
-  // /////////////////////////////////////////////////////////  
   public static class PlayerPositionMetadata {
 
     private PlayerPositionMetadata() {
@@ -916,6 +718,204 @@ public class M {
         aliasMap.put("Active", "active");
         aliasMap.put("deleted", "deleted");
         aliasMap.put("Deleted", "deleted");
+    }
+
+    private static void initPropertyTypeMap() {
+        for (int i = 0; i < propertyNames.length; i++ ) {
+            propertyTypeMap.put(propertyNames[i], propertyTypes[i]);
+        }
+    }
+
+  }
+
+
+  // /////////////////////////////////////////////////////////  
+  public static class ObstructionMetadata {
+
+    private ObstructionMetadata() {
+    }
+
+    public static final String PROPERTY_NAME_VERSION      = "offChainVersion";
+    public static final String PROPERTY_NAME_ACTIVE       = "active";
+    public static final String PROPERTY_NAME_DELETED      = "deleted";
+    public static final String PROPERTY_NAME_CREATED_BY   = "createdBy";
+    public static final String PROPERTY_NAME_CREATED_AT   = "createdAt";
+    public static final String PROPERTY_NAME_UPDATED_BY   = "updatedBy";
+    public static final String PROPERTY_NAME_UPDATED_AT   = "updatedAt";
+
+    public static final String URL_ID_FIELD_SEPARATOR = ",";
+
+    public static final TextFormatter<org.test.aptosconstantinopledemo.domain.Position> URL_ID_TEXT_FORMATTER =
+                    new AbstractValueObjectTextFormatter<org.test.aptosconstantinopledemo.domain.Position>(org.test.aptosconstantinopledemo.domain.Position.class, URL_ID_FIELD_SEPARATOR) {
+                        @Override
+                        protected Class<?> getClassByTypeName(String type) {
+                            return BoundedContextMetadata.CLASS_MAP.get(type);
+                        }
+                    };
+
+    public static final Class ID_CLASS = org.test.aptosconstantinopledemo.domain.Position.class;
+
+    public static final String[] propertyNames = new String[] {
+            "value",
+            "version",
+            "offChainVersion",
+            "createdBy",
+            "createdAt",
+            "updatedBy",
+            "updatedAt",
+            "active",
+            "deleted",
+            "position.x",
+            "position.y",
+    };
+
+    public static final String[] propertyTypes = new String[] {
+            "Boolean",
+            "BigInteger",
+            "Long",
+            "String",
+            "Date",
+            "String",
+            "Date",
+            "Boolean",
+            "Boolean",
+            "BigInteger",
+            "BigInteger",
+    };
+
+    public static final Map<String, String> propertyTypeMap;
+
+    public static final Map<String, String> aliasMap;
+
+    static {
+        propertyTypeMap = new HashMap<String, String>();
+        initPropertyTypeMap();
+        aliasMap = new HashMap<String, String>();
+        initAliasMap();
+    }
+
+    private static  void initAliasMap() {
+        aliasMap.put("value", "value");
+        aliasMap.put("Value", "value");
+        aliasMap.put("version", "version");
+        aliasMap.put("Version", "version");
+        aliasMap.put("offChainVersion", "offChainVersion");
+        aliasMap.put("OffChainVersion", "offChainVersion");
+        aliasMap.put("createdBy", "createdBy");
+        aliasMap.put("CreatedBy", "createdBy");
+        aliasMap.put("createdAt", "createdAt");
+        aliasMap.put("CreatedAt", "createdAt");
+        aliasMap.put("updatedBy", "updatedBy");
+        aliasMap.put("UpdatedBy", "updatedBy");
+        aliasMap.put("updatedAt", "updatedAt");
+        aliasMap.put("UpdatedAt", "updatedAt");
+        aliasMap.put("active", "active");
+        aliasMap.put("Active", "active");
+        aliasMap.put("deleted", "deleted");
+        aliasMap.put("Deleted", "deleted");
+        aliasMap.put("position.x", "position.x");
+        aliasMap.put("Position.X", "position.x");
+        aliasMap.put("position.y", "position.y");
+        aliasMap.put("Position.Y", "position.y");
+    }
+
+    private static void initPropertyTypeMap() {
+        for (int i = 0; i < propertyNames.length; i++ ) {
+            propertyTypeMap.put(propertyNames[i], propertyTypes[i]);
+        }
+    }
+
+  }
+
+
+  // /////////////////////////////////////////////////////////  
+  public static class EncounterTriggerMetadata {
+
+    private EncounterTriggerMetadata() {
+    }
+
+    public static final String PROPERTY_NAME_VERSION      = "offChainVersion";
+    public static final String PROPERTY_NAME_ACTIVE       = "active";
+    public static final String PROPERTY_NAME_DELETED      = "deleted";
+    public static final String PROPERTY_NAME_CREATED_BY   = "createdBy";
+    public static final String PROPERTY_NAME_CREATED_AT   = "createdAt";
+    public static final String PROPERTY_NAME_UPDATED_BY   = "updatedBy";
+    public static final String PROPERTY_NAME_UPDATED_AT   = "updatedAt";
+
+    public static final String URL_ID_FIELD_SEPARATOR = ",";
+
+    public static final TextFormatter<org.test.aptosconstantinopledemo.domain.Position> URL_ID_TEXT_FORMATTER =
+                    new AbstractValueObjectTextFormatter<org.test.aptosconstantinopledemo.domain.Position>(org.test.aptosconstantinopledemo.domain.Position.class, URL_ID_FIELD_SEPARATOR) {
+                        @Override
+                        protected Class<?> getClassByTypeName(String type) {
+                            return BoundedContextMetadata.CLASS_MAP.get(type);
+                        }
+                    };
+
+    public static final Class ID_CLASS = org.test.aptosconstantinopledemo.domain.Position.class;
+
+    public static final String[] propertyNames = new String[] {
+            "value",
+            "version",
+            "offChainVersion",
+            "createdBy",
+            "createdAt",
+            "updatedBy",
+            "updatedAt",
+            "active",
+            "deleted",
+            "position.x",
+            "position.y",
+    };
+
+    public static final String[] propertyTypes = new String[] {
+            "Boolean",
+            "BigInteger",
+            "Long",
+            "String",
+            "Date",
+            "String",
+            "Date",
+            "Boolean",
+            "Boolean",
+            "BigInteger",
+            "BigInteger",
+    };
+
+    public static final Map<String, String> propertyTypeMap;
+
+    public static final Map<String, String> aliasMap;
+
+    static {
+        propertyTypeMap = new HashMap<String, String>();
+        initPropertyTypeMap();
+        aliasMap = new HashMap<String, String>();
+        initAliasMap();
+    }
+
+    private static  void initAliasMap() {
+        aliasMap.put("value", "value");
+        aliasMap.put("Value", "value");
+        aliasMap.put("version", "version");
+        aliasMap.put("Version", "version");
+        aliasMap.put("offChainVersion", "offChainVersion");
+        aliasMap.put("OffChainVersion", "offChainVersion");
+        aliasMap.put("createdBy", "createdBy");
+        aliasMap.put("CreatedBy", "createdBy");
+        aliasMap.put("createdAt", "createdAt");
+        aliasMap.put("CreatedAt", "createdAt");
+        aliasMap.put("updatedBy", "updatedBy");
+        aliasMap.put("UpdatedBy", "updatedBy");
+        aliasMap.put("updatedAt", "updatedAt");
+        aliasMap.put("UpdatedAt", "updatedAt");
+        aliasMap.put("active", "active");
+        aliasMap.put("Active", "active");
+        aliasMap.put("deleted", "deleted");
+        aliasMap.put("Deleted", "deleted");
+        aliasMap.put("position.x", "position.x");
+        aliasMap.put("Position.X", "position.x");
+        aliasMap.put("position.y", "position.y");
+        aliasMap.put("Position.Y", "position.y");
     }
 
     private static void initPropertyTypeMap() {
