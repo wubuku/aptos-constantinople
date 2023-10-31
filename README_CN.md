@@ -57,6 +57,21 @@
 
 ### 运行 dddappp 项目创建工具
 
+#### 更新 dddappp Docker 镜像
+
+由于 dddappp v0.0.1 映像经常更新，您可能需要手动删除该映像，然后在 `docker run` 前重新调用。可以执行下面的命令：
+
+```shell
+# If you have already run it, you may need to Clean Up Exited Docker Containers first
+docker rm $(docker ps -aq --filter "ancestor=wubuku/dddappp-aptos:0.0.1")
+# remove the image
+docker image rm wubuku/dddappp-aptos:0.0.1
+# pull the image
+git pull wubuku/dddappp-aptos:0.0.1
+```
+
+---
+
 在代码库的根目录，执行：
 
 ```shell
