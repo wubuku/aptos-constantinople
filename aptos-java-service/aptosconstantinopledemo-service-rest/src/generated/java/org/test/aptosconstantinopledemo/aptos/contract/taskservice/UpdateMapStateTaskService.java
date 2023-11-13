@@ -32,4 +32,5 @@ public class UpdateMapStateTaskService {
             mapEventService.updateStatusToProcessed(e);
         });
     }
+
 }

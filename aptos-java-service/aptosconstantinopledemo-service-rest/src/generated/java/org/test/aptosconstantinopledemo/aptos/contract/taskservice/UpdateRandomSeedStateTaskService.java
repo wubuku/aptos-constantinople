@@ -32,4 +32,5 @@ public class UpdateRandomSeedStateTaskService {
             randomSeedEventService.updateStatusToProcessed(e);
         });
     }
+
 }

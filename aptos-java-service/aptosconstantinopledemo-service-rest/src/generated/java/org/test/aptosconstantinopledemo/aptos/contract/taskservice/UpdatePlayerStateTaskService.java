@@ -32,4 +32,5 @@ public class UpdatePlayerStateTaskService {
             playerEventService.updateStatusToProcessed(e);
         });
     }
+
 }
