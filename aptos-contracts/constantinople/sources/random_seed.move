@@ -102,9 +102,19 @@ module aptos_constantinople_demo::random_seed {
         random_seed.version
     }
 
+    public fun set_singleton_version(store_address: address, version: u64) acquires RandomSeed {
+        let random_seed = borrow_global_mut<RandomSeed>(store_address);
+        random_seed.version = version;
+    }
+
     public fun singleton_value(store_address: address, ): u64 acquires RandomSeed {
         let random_seed = borrow_global<RandomSeed>(store_address);
         random_seed.value
+    }
+
+    public fun set_singleton_value(store_address: address, value: u64) acquires RandomSeed {
+        let random_seed = borrow_global_mut<RandomSeed>(store_address);
+        random_seed.value = value;
     }
 
     public fun get_all_porperties(store_address: address, ): u64 acquires RandomSeed {

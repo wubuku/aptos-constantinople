@@ -42,6 +42,14 @@ module aptos_constantinople_demo::map {
         map.height = height;
     }
 
+    public fun borrow_terrain(map: &Map): &vector<vector<u8>> {
+        &map.terrain
+    }
+
+    public(friend) fun borrow_mut_terrain(map: &mut Map): &mut vector<vector<u8>> {
+        &mut map.terrain
+    }
+
     public(friend) fun set_terrain(map: &mut Map, terrain: vector<vector<u8>>) {
         map.terrain = terrain;
     }
@@ -120,9 +128,19 @@ module aptos_constantinople_demo::map {
         map.version
     }
 
+    public fun set_singleton_version(store_address: address, version: u64) acquires Map {
+        let map = borrow_global_mut<Map>(store_address);
+        map.version = version;
+    }
+
     public fun singleton_width(store_address: address, ): u64 acquires Map {
         let map = borrow_global<Map>(store_address);
         map.width
+    }
+
+    public fun set_singleton_width(store_address: address, width: u64) acquires Map {
+        let map = borrow_global_mut<Map>(store_address);
+        map.width = width;
     }
 
     public fun singleton_height(store_address: address, ): u64 acquires Map {
@@ -130,9 +148,19 @@ module aptos_constantinople_demo::map {
         map.height
     }
 
+    public fun set_singleton_height(store_address: address, height: u64) acquires Map {
+        let map = borrow_global_mut<Map>(store_address);
+        map.height = height;
+    }
+
     public fun singleton_terrain(store_address: address, ): vector<vector<u8>> acquires Map {
         let map = borrow_global<Map>(store_address);
         map.terrain
+    }
+
+    public fun set_singleton_terrain(store_address: address, terrain: vector<vector<u8>>) acquires Map {
+        let map = borrow_global_mut<Map>(store_address);
+        map.terrain = terrain;
     }
 
     public fun get_all_porperties(store_address: address, ): (u64, u64, vector<vector<u8>>) acquires Map {

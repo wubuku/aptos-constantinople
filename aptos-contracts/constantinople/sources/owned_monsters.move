@@ -54,6 +54,14 @@ module aptos_constantinople_demo::owned_monsters {
         owned_monsters.version
     }
 
+    public fun borrow_monsters(owned_monsters: &OwnedMonsters): &vector<address> {
+        &owned_monsters.monsters
+    }
+
+    public(friend) fun borrow_mut_monsters(owned_monsters: &mut OwnedMonsters): &mut vector<address> {
+        &mut owned_monsters.monsters
+    }
+
     public(friend) fun set_monsters(owned_monsters: &mut OwnedMonsters, monsters: vector<address>) {
         owned_monsters.monsters = monsters;
     }
