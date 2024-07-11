@@ -79,7 +79,7 @@ module aptos_constantinople_demo::rpg_service {
         assert!(!obstruction::contains_obstruction(store_address, position), EObstaclesExist);
 
         player_aggregate::create(account, store_address, player, true);
-        player_position_aggregate::create(account, store_address, player, x, y);
+        player_position_aggregate::create(account, store_address, player, position::new(x, y));
         movable_aggregate::create(account, store_address, player, true);
         encounterable_aggregate::create(account, store_address, player, true);
     }
@@ -122,7 +122,7 @@ module aptos_constantinople_demo::rpg_service {
         // error this space is obstructed
         assert!(!obstruction::contains_obstruction(store_address, position), EObstaclesExist);
 
-        player_position_aggregate::update(account, store_address, player, x, y);
+        player_position_aggregate::update(account, store_address, player, position::new(x, y));
 
         if (encounterable::contains_encounterable(store_address, player) && encounter_trigger::contains_encounter_trigger(store_address, position)) {
             let (random, monster) = random(account, store_address, player, position);

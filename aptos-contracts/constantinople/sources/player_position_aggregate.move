@@ -7,7 +7,7 @@ module aptos_constantinople_demo::player_position_aggregate {
     use aptos_constantinople_demo::player_position;
     use aptos_constantinople_demo::player_position_create_logic;
     use aptos_constantinople_demo::player_position_update_logic;
-    use aptos_constantinople_demo::position::{Self, Position};
+    use aptos_constantinople_demo::position::Position;
 
     friend aptos_constantinople_demo::rpg_service;
 
@@ -15,13 +15,8 @@ module aptos_constantinople_demo::player_position_aggregate {
         account: &signer,
         store_address: address,
         player_id: address,
-        position_x: u64,
-        position_y: u64,
+        position: Position,
     ) {
-        let position: Position = position::new(
-            position_x,
-            position_y,
-        );
         let player_position_created = player_position_create_logic::verify(
             account,
             store_address,
@@ -41,13 +36,8 @@ module aptos_constantinople_demo::player_position_aggregate {
         account: &signer,
         store_address: address,
         player_id: address,
-        position_x: u64,
-        position_y: u64,
+        position: Position,
     ) {
-        let position: Position = position::new(
-            position_x,
-            position_y,
-        );
         let player_position = player_position::remove_player_position(store_address, player_id);
         let player_position_updated = player_position_update_logic::verify(
             account,
