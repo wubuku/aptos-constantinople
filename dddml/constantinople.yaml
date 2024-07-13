@@ -287,6 +287,7 @@ configuration:
     NO_MOVE_EVENT_MODULE: true
     ONLY_GET_ENTITY_ALL_PROPERTIES_AT_ONCE: true
     ONLY_GET_EVENT_ALL_PROPERTIES_AT_ONCE: true
+    AptosNoEmittingGenesisAccountEvents: true
 
   aptos:
     isExternalStoreEnabled: true
