@@ -13,27 +13,27 @@ module aptos_constantinople_demo::genesis_account {
 
     const ENotGenesisAccount: u64 = 100;
 
-    struct Events has key {
-        resource_account_created_handle: event::EventHandle<ResourceAccountCreated>,
-    }
+    // struct Events has key {
+    //     resource_account_created_handle: event::EventHandle<ResourceAccountCreated>,
+    // }
 
     struct ResourceAccountCreated has store, drop {
         address: address,
     }
 
-    public fun initialize(account: &signer) acquires Events {
+    public fun initialize(account: &signer) {
         assert_genesis_account(account);
 
-        move_to(account, Events {
-            resource_account_created_handle: account::new_event_handle<ResourceAccountCreated>(account),
-        });
+        // move_to(account, Events {
+        //     resource_account_created_handle: account::new_event_handle<ResourceAccountCreated>(account),
+        // });
 
         resource_account::initialize(account);
 
-        let events = borrow_global_mut<Events>(signer::address_of(account));
-        event::emit_event(&mut events.resource_account_created_handle, ResourceAccountCreated {
-            address: resource_account_address(),
-        });
+        // let events = borrow_global_mut<Events>(signer::address_of(account));
+        // event::emit_event(&mut events.resource_account_created_handle, ResourceAccountCreated {
+        //     address: resource_account_address(),
+        // });
     }
 
     public fun assert_genesis_account(account: &signer) {
