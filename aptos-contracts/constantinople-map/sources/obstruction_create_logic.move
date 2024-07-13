@@ -1,8 +1,8 @@
-module aptos_constantinople_demo::obstruction_create_logic {
-    use aptos_constantinople_demo::obstruction;
-    use aptos_constantinople_demo::position::Position;
+module aptos_constantinople_demo_map::obstruction_create_logic {
+    use aptos_constantinople_demo_map::obstruction;
+    use aptos_constantinople_demo_map::position::Position;
 
-    friend aptos_constantinople_demo::obstruction_aggregate;
+    friend aptos_constantinople_demo_map::obstruction_aggregate;
 
     public(friend) fun verify(
         account: &signer,

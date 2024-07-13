@@ -1,8 +1,8 @@
-module aptos_constantinople_demo::encounter_trigger_create_logic {
-    use aptos_constantinople_demo::encounter_trigger;
-    use aptos_constantinople_demo::position::Position;
+module aptos_constantinople_demo_map::encounter_trigger_create_logic {
+    use aptos_constantinople_demo_map::encounter_trigger;
+    use aptos_constantinople_demo_map::position::Position;
 
-    friend aptos_constantinople_demo::encounter_trigger_aggregate;
+    friend aptos_constantinople_demo_map::encounter_trigger_aggregate;
 
     public(friend) fun verify(
         account: &signer,

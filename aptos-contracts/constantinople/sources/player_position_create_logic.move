@@ -1,6 +1,6 @@
 module aptos_constantinople_demo::player_position_create_logic {
     use aptos_constantinople_demo::player_position;
-    use aptos_constantinople_demo::position::Position;
+    use aptos_constantinople_demo_map::position::Position;
 
     friend aptos_constantinople_demo::player_position_aggregate;
 

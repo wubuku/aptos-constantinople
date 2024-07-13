@@ -6,14 +6,14 @@ module aptos_constantinople_demo::rpg_service {
     use aptos_framework::util;
     use aptos_constantinople_demo::encounter;
     use aptos_constantinople_demo::encounter_aggregate;
-    use aptos_constantinople_demo::encounter_trigger;
+    use aptos_constantinople_demo_map::encounter_trigger;
     use aptos_constantinople_demo::encounterable;
     use aptos_constantinople_demo::encounterable_aggregate;
-    use aptos_constantinople_demo::map;
+    use aptos_constantinople_demo_map::map;
     use aptos_constantinople_demo::monster_aggregate;
     use aptos_constantinople_demo::movable;
     use aptos_constantinople_demo::movable_aggregate;
-    use aptos_constantinople_demo::obstruction;
+    use aptos_constantinople_demo_map::obstruction;
     use aptos_constantinople_demo::owned_monsters;
     use aptos_constantinople_demo::owned_monsters_aggregate;
     use aptos_constantinople_demo::player;
@@ -24,7 +24,7 @@ module aptos_constantinople_demo::rpg_service {
     use aptos_constantinople_demo::random_seed_aggregate;
     use aptos_framework::account;
     use aptos_framework::event;
-    use aptos_constantinople_demo::position;
+    use aptos_constantinople_demo_map::position;
 
     const ENotInitialized: u64 = 110;
 

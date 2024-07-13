@@ -1,14 +1,14 @@
-module aptos_constantinople_demo::map_service {
+module aptos_constantinople_demo_map::map_service {
     use std::bcs;
     use std::signer;
     use std::vector;
     use aptos_std::aptos_hash::keccak256;
     use aptos_framework::util;
-    use aptos_constantinople_demo::encounter_trigger;
-    use aptos_constantinople_demo::encounter_trigger_aggregate;
-    use aptos_constantinople_demo::map;
-    use aptos_constantinople_demo::obstruction;
-    use aptos_constantinople_demo::obstruction_aggregate;
+    use aptos_constantinople_demo_map::encounter_trigger;
+    use aptos_constantinople_demo_map::encounter_trigger_aggregate;
+    use aptos_constantinople_demo_map::map;
+    use aptos_constantinople_demo_map::obstruction;
+    use aptos_constantinople_demo_map::obstruction_aggregate;
 
     public fun initialize(store_account: &signer) {
     }
