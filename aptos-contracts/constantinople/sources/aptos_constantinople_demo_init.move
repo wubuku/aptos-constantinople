@@ -14,7 +14,6 @@ module aptos_constantinople_demo::aptos_constantinople_demo_init {
     use aptos_constantinople_demo::player_position;
     use aptos_constantinople_demo::random_seed;
     use aptos_constantinople_demo::rpg_service;
-    use aptos_constantinople_demo_map::aptos_constantinople_demo_map_init;
 
     public entry fun initialize(account: &signer) {
         genesis_account::initialize(account);
@@ -27,9 +26,8 @@ module aptos_constantinople_demo::aptos_constantinople_demo_init {
         owned_monsters::initialize(account);
         random_seed::initialize(account);
         rpg_service::initialize(account);
-
         let store_account = genesis_account::resource_account_signer_for_genesis_account(account);
-        aptos_constantinople_demo_map_init::initialize(&store_account);
+        aptos_constantinople_demo_map::aptos_constantinople_demo_map_init::initialize(&store_account);
     }
 
 }
