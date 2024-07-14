@@ -5,12 +5,11 @@ module aptos_constantinople_demo::encounterable_create_logic {
 
     public(friend) fun verify(
         account: &signer,
-        store_address: address,      
         player_id: address,
         value: bool,
     ): encounterable::EncounterableCreated {
         let _ = account;
-        encounterable::asset_encounterable_not_exists(store_address, player_id);
+        encounterable::asset_encounterable_not_exists(player_id);
         encounterable::new_encounterable_created(
             player_id,
             value,
@@ -19,12 +18,10 @@ module aptos_constantinople_demo::encounterable_create_logic {
 
     public(friend) fun mutate(
         _account: &signer,
-        store_address: address,
         encounterable_created: &encounterable::EncounterableCreated,
     ): encounterable::Encounterable {
         let (player_id, value) = encounterable::get_encounterable_created_all_properties(encounterable_created);
         encounterable::create_encounterable(
-            store_address,
             player_id,
             value,
         )

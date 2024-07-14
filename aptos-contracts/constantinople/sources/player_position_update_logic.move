@@ -6,7 +6,6 @@ module aptos_constantinople_demo::player_position_update_logic {
 
     public(friend) fun verify(
         account: &signer,
-        store_address: address,      
         position: Position,
         player_position: &player_position::PlayerPosition,
     ): player_position::PlayerPositionUpdated {

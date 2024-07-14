@@ -6,7 +6,6 @@ module aptos_constantinople_demo::owned_monsters_add_monster_logic {
 
     public(friend) fun verify(
         account: &signer,
-        _store: address,
         monster_id: address,
         owned_monsters: &owned_monsters::OwnedMonsters,
     ): owned_monsters::MonsterAddedToPlayer {

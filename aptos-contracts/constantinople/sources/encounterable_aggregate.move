@@ -11,23 +11,20 @@ module aptos_constantinople_demo::encounterable_aggregate {
 
     public(friend) fun create(
         account: &signer,
-        store_address: address,
         player_id: address,
         value: bool,
     ) {
         let encounterable_created = encounterable_create_logic::verify(
             account,
-            store_address,
             player_id,
             value,
         );
         let encounterable = encounterable_create_logic::mutate(
             account,
-            store_address,
             &encounterable_created,
         );
-        encounterable::add_encounterable(store_address, encounterable);
-        encounterable::emit_encounterable_created(store_address, encounterable_created);
+        encounterable::add_encounterable(encounterable);
+        encounterable::emit_encounterable_created(encounterable_created);
     }
 
 }

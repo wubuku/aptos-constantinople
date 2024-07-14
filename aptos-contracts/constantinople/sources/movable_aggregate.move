@@ -11,23 +11,20 @@ module aptos_constantinople_demo::movable_aggregate {
 
     public(friend) fun create(
         account: &signer,
-        store_address: address,
         player_id: address,
         value: bool,
     ) {
         let movable_created = movable_create_logic::verify(
             account,
-            store_address,
             player_id,
             value,
         );
         let movable = movable_create_logic::mutate(
             account,
-            store_address,
             &movable_created,
         );
-        movable::add_movable(store_address, movable);
-        movable::emit_movable_created(store_address, movable_created);
+        movable::add_movable(movable);
+        movable::emit_movable_created(movable_created);
     }
 
 }

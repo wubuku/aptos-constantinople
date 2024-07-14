@@ -289,12 +289,14 @@ configuration:
     ONLY_GET_EVENT_ALL_PROPERTIES_AT_ONCE: true
     AptosNoEmittingGenesisAccountEvents: true
 
-  aptos:
-    isExternalStoreEnabled: true
+  #aptos:
+  #  isExternalStoreEnabled: true
 
   defaultModule:
     name: "Aptos.Constantinople"
+    isAptosExternalStoreEnabled: false
     requiredModules: [ "Map" ]
   submodules:
     Map:
       requiredModules: [ ]
+      isAptosExternalStoreEnabled: true

@@ -13,7 +13,6 @@ module aptos_constantinople_demo::encounter_aggregate {
 
     public(friend) fun create(
         account: &signer,
-        store_address: address,
         player_id: address,
         is_existent: bool,
         monster_id: address,
@@ -21,7 +20,6 @@ module aptos_constantinople_demo::encounter_aggregate {
     ) {
         let encounter_created = encounter_create_logic::verify(
             account,
-            store_address,
             player_id,
             is_existent,
             monster_id,
@@ -29,25 +27,22 @@ module aptos_constantinople_demo::encounter_aggregate {
         );
         let encounter = encounter_create_logic::mutate(
             account,
-            store_address,
             &encounter_created,
         );
-        encounter::add_encounter(store_address, encounter);
-        encounter::emit_encounter_created(store_address, encounter_created);
+        encounter::add_encounter(encounter);
+        encounter::emit_encounter_created(encounter_created);
     }
 
     public(friend) fun update(
         account: &signer,
-        store_address: address,
         player_id: address,
         is_existent: bool,
         monster_id: address,
         catch_attempts: u64,
     ) {
-        let encounter = encounter::remove_encounter(store_address, player_id);
+        let encounter = encounter::remove_encounter(player_id);
         let encounter_updated = encounter_update_logic::verify(
             account,
-            store_address,
             is_existent,
             monster_id,
             catch_attempts,
@@ -58,19 +53,17 @@ module aptos_constantinople_demo::encounter_aggregate {
             &encounter_updated,
             encounter,
         );
-        encounter::update_version_and_add(store_address, updated_encounter);
-        encounter::emit_encounter_updated(store_address, encounter_updated);
+        encounter::update_version_and_add(updated_encounter);
+        encounter::emit_encounter_updated(encounter_updated);
     }
 
     public(friend) fun delete(
         account: &signer,
-        store_address: address,
         player_id: address,
     ) {
-        let encounter = encounter::remove_encounter(store_address, player_id);
+        let encounter = encounter::remove_encounter(player_id);
         let encounter_deleted = encounter_delete_logic::verify(
             account,
-            store_address,
             &encounter,
         );
         let updated_encounter = encounter_delete_logic::mutate(
@@ -79,7 +72,7 @@ module aptos_constantinople_demo::encounter_aggregate {
             encounter,
         );
         encounter::drop_encounter(updated_encounter);
-        encounter::emit_encounter_deleted(store_address, encounter_deleted);
+        encounter::emit_encounter_deleted(encounter_deleted);
     }
 
 }

@@ -5,7 +5,6 @@ module aptos_constantinople_demo::encounter_update_logic {
 
     public(friend) fun verify(
         account: &signer,
-        store_address: address,      
         is_existent: bool,
         monster_id: address,
         catch_attempts: u64,

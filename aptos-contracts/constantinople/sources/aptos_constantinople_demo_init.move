@@ -6,6 +6,7 @@
 module aptos_constantinople_demo::aptos_constantinople_demo_init {
     use aptos_constantinople_demo::encounter;
     use aptos_constantinople_demo::encounterable;
+    use aptos_constantinople_demo::genesis_account;
     use aptos_constantinople_demo::monster;
     use aptos_constantinople_demo::movable;
     use aptos_constantinople_demo::owned_monsters;
@@ -13,17 +14,22 @@ module aptos_constantinople_demo::aptos_constantinople_demo_init {
     use aptos_constantinople_demo::player_position;
     use aptos_constantinople_demo::random_seed;
     use aptos_constantinople_demo::rpg_service;
+    use aptos_constantinople_demo_map::aptos_constantinople_demo_map_init;
 
-    public entry fun initialize(store_account: &signer) {
-        player::initialize(store_account);
-        movable::initialize(store_account);
-        encounterable::initialize(store_account);
-        monster::initialize(store_account);
-        player_position::initialize(store_account);
-        encounter::initialize(store_account);
-        owned_monsters::initialize(store_account);
-        random_seed::initialize(store_account);
-        rpg_service::initialize(store_account);
+    public entry fun initialize(account: &signer) {
+        genesis_account::initialize(account);
+        player::initialize(account);
+        movable::initialize(account);
+        encounterable::initialize(account);
+        monster::initialize(account);
+        player_position::initialize(account);
+        encounter::initialize(account);
+        owned_monsters::initialize(account);
+        random_seed::initialize(account);
+        rpg_service::initialize(account);
+
+        let store_account = genesis_account::resource_account_signer_for_genesis_account(account);
+        aptos_constantinople_demo_map_init::initialize(&store_account);
     }
 
 }
