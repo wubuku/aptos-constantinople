@@ -80,6 +80,7 @@ public class M {
         clsMap.put("u64", java.math.BigInteger.class);
         clsMap.put("u128", java.math.BigInteger.class);
         clsMap.put("u256", java.math.BigInteger.class);
+        clsMap.put("AsciiString", String.class);
         clsMap.put("vector<u8>", String.class);
         clsMap.put("blob", java.sql.Blob.class);
         clsMap.put("java.sql.Blob", java.sql.Blob.class);
@@ -117,6 +118,7 @@ public class M {
         clsMap.put("id-long-ne", String.class);
         clsMap.put("id-vlong-ne", String.class);
         clsMap.put("tel-number", String.class);
+        clsMap.put("AptosObjectID", String.class);
         clsMap.put("address", String.class);
         CLASS_MAP = clsMap;
     }

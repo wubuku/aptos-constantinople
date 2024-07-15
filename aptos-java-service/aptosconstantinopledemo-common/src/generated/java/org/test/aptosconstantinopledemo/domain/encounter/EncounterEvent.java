@@ -21,6 +21,39 @@ public interface EncounterEvent extends Event, AptosEvent, HasStatus {
         void setEventReadOnly(boolean readOnly);
     }
 
+    interface EncounterCreated extends EncounterEvent {
+        Boolean getIsExistent();
+
+        void setIsExistent(Boolean value);
+
+        String getMonsterId();
+
+        void setMonsterId(String value);
+
+        BigInteger getCatchAttempts();
+
+        void setCatchAttempts(BigInteger value);
+
+    }
+
+    interface EncounterUpdated extends EncounterEvent {
+        Boolean getIsExistent();
+
+        void setIsExistent(Boolean value);
+
+        String getMonsterId();
+
+        void setMonsterId(String value);
+
+        BigInteger getCatchAttempts();
+
+        void setCatchAttempts(BigInteger value);
+
+    }
+
+    interface EncounterDeleted extends EncounterEvent {
+    }
+
     String getPlayerId();
 
     //void setPlayerId(String playerId);

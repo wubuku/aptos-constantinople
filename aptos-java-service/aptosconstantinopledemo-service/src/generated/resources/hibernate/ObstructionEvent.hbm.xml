@@ -39,7 +39,7 @@
     </property>
     <property name="commandType" column="command_type" length="50" />
     <subclass name="AbstractObstructionEvent$ObstructionClobEvent" discriminator-value="ObstructionClobEvent">
-      <property name="DynamicPropertiesLob">
+      <property name="dynamicPropertiesLob">
         <column name="dynamic_properties_lob" sql-type="VARCHAR(2000)" />
       </property>
       <subclass name="AbstractObstructionEvent$ObstructionCreated" discriminator-value="ObstructionCreated" />

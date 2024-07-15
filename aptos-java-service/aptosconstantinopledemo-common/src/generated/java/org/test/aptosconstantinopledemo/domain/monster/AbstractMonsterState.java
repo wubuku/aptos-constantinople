@@ -188,7 +188,7 @@ public abstract class AbstractMonsterState implements MonsterState.SqlMonsterSta
         }
     }
 
-    protected void merge(MonsterState s) {
+    public void merge(MonsterState s) {
         if (s == this) {
             return;
         }

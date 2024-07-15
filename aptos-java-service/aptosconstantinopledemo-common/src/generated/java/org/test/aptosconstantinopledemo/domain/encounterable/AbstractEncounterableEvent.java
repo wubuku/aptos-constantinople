@@ -146,7 +146,7 @@ public abstract class AbstractEncounterableEvent extends AbstractEvent implement
 
     public abstract String getEventClass();
 
-    public static class EncounterableClobEvent extends  AbstractEncounterableEvent {
+    public static class EncounterableClobEvent extends AbstractEncounterableEvent {
 
         protected Map<String, Object> getDynamicProperties() {
             return dynamicProperties;
@@ -182,7 +182,7 @@ public abstract class AbstractEncounterableEvent extends AbstractEvent implement
 
     }
 
-    public static class EncounterableCreated extends EncounterableClobEvent {
+    public static class EncounterableCreated extends EncounterableClobEvent implements EncounterableEvent.EncounterableCreated {
 
         @Override
         public String getEventClass() {

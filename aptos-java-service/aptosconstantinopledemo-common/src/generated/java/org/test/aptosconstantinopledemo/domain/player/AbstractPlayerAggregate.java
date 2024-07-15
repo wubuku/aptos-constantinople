@@ -48,33 +48,35 @@ public abstract class AbstractPlayerAggregate extends AbstractAggregate implemen
 
         @Override
         public void create(Boolean value, Long offChainVersion, String commandId, String requesterId, PlayerCommands.Create c) {
+            java.util.function.Supplier<PlayerEvent.PlayerCreated> eventFactory = () -> newPlayerCreated(value, offChainVersion, commandId, requesterId);
+            PlayerEvent.PlayerCreated e;
             try {
-                verifyCreate(value, c);
+                e = verifyCreate(eventFactory, value, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newPlayerCreated(value, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
-        protected void verifyCreate(Boolean value, PlayerCommands.Create c) {
+        protected PlayerEvent.PlayerCreated verifyCreate(java.util.function.Supplier<PlayerEvent.PlayerCreated> eventFactory, Boolean value, PlayerCommands.Create c) {
             Boolean Value = value;
 
-            ReflectUtils.invokeStaticMethod(
+            PlayerEvent.PlayerCreated e = (PlayerEvent.PlayerCreated) ReflectUtils.invokeStaticMethod(
                     "org.test.aptosconstantinopledemo.domain.player.CreateLogic",
                     "verify",
-                    new Class[]{PlayerState.class, Boolean.class, VerificationContext.class},
-                    new Object[]{getState(), value, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, PlayerState.class, Boolean.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), value, VerificationContext.forCommand(c)}
             );
 
 //package org.test.aptosconstantinopledemo.domain.player;
 //
 //public class CreateLogic {
-//    public static void verify(PlayerState playerState, Boolean value, VerificationContext verificationContext) {
+//    public static PlayerEvent.PlayerCreated verify(java.util.function.Supplier<PlayerEvent.PlayerCreated> eventFactory, PlayerState playerState, Boolean value, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
@@ -83,11 +85,11 @@ public abstract class AbstractPlayerAggregate extends AbstractAggregate implemen
             AbstractPlayerEvent.PlayerCreated e = new AbstractPlayerEvent.PlayerCreated();
 
             e.setValue(value);
-            e.setAptosEventVersion(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventSequenceNumber(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventType(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventGuid(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setAptosEventVersion(null);
+            e.setAptosEventSequenceNumber(null);
+            e.setAptosEventType(null);
+            e.setAptosEventGuid(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);

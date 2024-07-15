@@ -48,33 +48,35 @@ public abstract class AbstractEncounterTriggerAggregate extends AbstractAggregat
 
         @Override
         public void create(Boolean value, Long offChainVersion, String commandId, String requesterId, EncounterTriggerCommands.Create c) {
+            java.util.function.Supplier<EncounterTriggerEvent.EncounterTriggerCreated> eventFactory = () -> newEncounterTriggerCreated(value, offChainVersion, commandId, requesterId);
+            EncounterTriggerEvent.EncounterTriggerCreated e;
             try {
-                verifyCreate(value, c);
+                e = verifyCreate(eventFactory, value, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newEncounterTriggerCreated(value, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
-        protected void verifyCreate(Boolean value, EncounterTriggerCommands.Create c) {
+        protected EncounterTriggerEvent.EncounterTriggerCreated verifyCreate(java.util.function.Supplier<EncounterTriggerEvent.EncounterTriggerCreated> eventFactory, Boolean value, EncounterTriggerCommands.Create c) {
             Boolean Value = value;
 
-            ReflectUtils.invokeStaticMethod(
+            EncounterTriggerEvent.EncounterTriggerCreated e = (EncounterTriggerEvent.EncounterTriggerCreated) ReflectUtils.invokeStaticMethod(
                     "org.test.aptosconstantinopledemo.domain.encountertrigger.CreateLogic",
                     "verify",
-                    new Class[]{EncounterTriggerState.class, Boolean.class, VerificationContext.class},
-                    new Object[]{getState(), value, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, EncounterTriggerState.class, Boolean.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), value, VerificationContext.forCommand(c)}
             );
 
 //package org.test.aptosconstantinopledemo.domain.encountertrigger;
 //
 //public class CreateLogic {
-//    public static void verify(EncounterTriggerState encounterTriggerState, Boolean value, VerificationContext verificationContext) {
+//    public static EncounterTriggerEvent.EncounterTriggerCreated verify(java.util.function.Supplier<EncounterTriggerEvent.EncounterTriggerCreated> eventFactory, EncounterTriggerState encounterTriggerState, Boolean value, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
@@ -83,11 +85,11 @@ public abstract class AbstractEncounterTriggerAggregate extends AbstractAggregat
             AbstractEncounterTriggerEvent.EncounterTriggerCreated e = new AbstractEncounterTriggerEvent.EncounterTriggerCreated();
 
             e.setValue(value);
-            e.setAptosEventVersion(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventSequenceNumber(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventType(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventGuid(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setAptosEventVersion(null);
+            e.setAptosEventSequenceNumber(null);
+            e.setAptosEventType(null);
+            e.setAptosEventGuid(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);

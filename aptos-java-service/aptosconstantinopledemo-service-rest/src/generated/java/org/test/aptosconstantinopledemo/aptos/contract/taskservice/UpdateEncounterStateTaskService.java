@@ -36,4 +36,5 @@ public class UpdateEncounterStateTaskService {
             encounterEventService.updateStatusToProcessed(e);
         });
     }
+
 }

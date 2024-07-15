@@ -186,7 +186,7 @@ public abstract class AbstractPlayerState implements PlayerState.SqlPlayerState 
         }
     }
 
-    protected void merge(PlayerState s) {
+    public void merge(PlayerState s) {
         if (s == this) {
             return;
         }

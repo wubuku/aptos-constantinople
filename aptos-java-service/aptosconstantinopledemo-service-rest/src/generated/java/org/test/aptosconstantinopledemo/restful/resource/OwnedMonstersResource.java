@@ -235,7 +235,7 @@ public class OwnedMonstersResource {
  
     public static class OwnedMonstersResourceUtils {
 
-        public static void setNullIdOrThrowOnInconsistentIds(String playerId, OwnedMonstersCommand value) {
+        public static void setNullIdOrThrowOnInconsistentIds(String playerId, org.test.aptosconstantinopledemo.domain.ownedmonsters.OwnedMonstersCommand value) {
             String idObj = playerId;
             if (value.getPlayerId() == null) {
                 value.setPlayerId(idObj);

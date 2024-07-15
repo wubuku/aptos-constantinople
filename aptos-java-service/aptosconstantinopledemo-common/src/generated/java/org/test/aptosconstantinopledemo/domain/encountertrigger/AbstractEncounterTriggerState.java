@@ -186,7 +186,7 @@ public abstract class AbstractEncounterTriggerState implements EncounterTriggerS
         }
     }
 
-    protected void merge(EncounterTriggerState s) {
+    public void merge(EncounterTriggerState s) {
         if (s == this) {
             return;
         }

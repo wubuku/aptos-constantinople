@@ -188,7 +188,7 @@ public abstract class AbstractOwnedMonstersState implements OwnedMonstersState.S
         }
     }
 
-    protected void merge(OwnedMonstersState s) {
+    public void merge(OwnedMonstersState s) {
         if (s == this) {
             return;
         }

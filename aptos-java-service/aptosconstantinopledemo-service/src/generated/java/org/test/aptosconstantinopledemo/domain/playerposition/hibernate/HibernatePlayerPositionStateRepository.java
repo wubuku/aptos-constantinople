@@ -79,7 +79,7 @@ public class HibernatePlayerPositionStateRepository implements PlayerPositionSta
         PlayerPositionState persistent = getCurrentSession().get(AbstractPlayerPositionState.SimplePlayerPositionState.class, detached.getPlayerId());
         if (persistent != null) {
             merge(persistent, detached);
-            getCurrentSession().merge(detached);
+            getCurrentSession().save(persistent);
         } else {
             getCurrentSession().save(detached);
         }
@@ -87,7 +87,7 @@ public class HibernatePlayerPositionStateRepository implements PlayerPositionSta
     }
 
     private void merge(PlayerPositionState persistent, PlayerPositionState detached) {
-        ((PlayerPositionState.MutablePlayerPositionState) detached).setOffChainVersion(persistent.getOffChainVersion());
+        ((AbstractPlayerPositionState) persistent).merge(detached);
     }
 
 }

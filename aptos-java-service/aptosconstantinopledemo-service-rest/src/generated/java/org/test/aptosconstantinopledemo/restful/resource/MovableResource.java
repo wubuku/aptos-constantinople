@@ -235,7 +235,7 @@ public class MovableResource {
  
     public static class MovableResourceUtils {
 
-        public static void setNullIdOrThrowOnInconsistentIds(String playerId, MovableCommand value) {
+        public static void setNullIdOrThrowOnInconsistentIds(String playerId, org.test.aptosconstantinopledemo.domain.movable.MovableCommand value) {
             String idObj = playerId;
             if (value.getPlayerId() == null) {
                 value.setPlayerId(idObj);

@@ -79,7 +79,7 @@ public class HibernateMonsterStateRepository implements MonsterStateRepository {
         MonsterState persistent = getCurrentSession().get(AbstractMonsterState.SimpleMonsterState.class, detached.getMonsterId());
         if (persistent != null) {
             merge(persistent, detached);
-            getCurrentSession().merge(detached);
+            getCurrentSession().save(persistent);
         } else {
             getCurrentSession().save(detached);
         }
@@ -87,7 +87,7 @@ public class HibernateMonsterStateRepository implements MonsterStateRepository {
     }
 
     private void merge(MonsterState persistent, MonsterState detached) {
-        ((MonsterState.MutableMonsterState) detached).setOffChainVersion(persistent.getOffChainVersion());
+        ((AbstractMonsterState) persistent).merge(detached);
     }
 
 }

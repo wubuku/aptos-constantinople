@@ -235,7 +235,7 @@ public class EncounterableResource {
  
     public static class EncounterableResourceUtils {
 
-        public static void setNullIdOrThrowOnInconsistentIds(String playerId, EncounterableCommand value) {
+        public static void setNullIdOrThrowOnInconsistentIds(String playerId, org.test.aptosconstantinopledemo.domain.encounterable.EncounterableCommand value) {
             String idObj = playerId;
             if (value.getPlayerId() == null) {
                 value.setPlayerId(idObj);

@@ -79,7 +79,7 @@ public class HibernateMapStateRepository implements MapStateRepository {
         MapState persistent = getCurrentSession().get(AbstractMapState.SimpleMapState.class, detached.getAccountAddress());
         if (persistent != null) {
             merge(persistent, detached);
-            getCurrentSession().merge(detached);
+            getCurrentSession().save(persistent);
         } else {
             getCurrentSession().save(detached);
         }
@@ -87,7 +87,7 @@ public class HibernateMapStateRepository implements MapStateRepository {
     }
 
     private void merge(MapState persistent, MapState detached) {
-        ((MapState.MutableMapState) detached).setOffChainVersion(persistent.getOffChainVersion());
+        ((AbstractMapState) persistent).merge(detached);
     }
 
 }

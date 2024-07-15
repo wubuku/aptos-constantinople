@@ -32,4 +32,5 @@ public class UpdateEncounterableStateTaskService {
             encounterableEventService.updateStatusToProcessed(e);
         });
     }
+
 }

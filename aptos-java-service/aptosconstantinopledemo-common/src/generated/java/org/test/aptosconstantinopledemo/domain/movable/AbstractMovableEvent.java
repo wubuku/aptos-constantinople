@@ -146,7 +146,7 @@ public abstract class AbstractMovableEvent extends AbstractEvent implements Mova
 
     public abstract String getEventClass();
 
-    public static class MovableClobEvent extends  AbstractMovableEvent {
+    public static class MovableClobEvent extends AbstractMovableEvent {
 
         protected Map<String, Object> getDynamicProperties() {
             return dynamicProperties;
@@ -182,7 +182,7 @@ public abstract class AbstractMovableEvent extends AbstractEvent implements Mova
 
     }
 
-    public static class MovableCreated extends MovableClobEvent {
+    public static class MovableCreated extends MovableClobEvent implements MovableEvent.MovableCreated {
 
         @Override
         public String getEventClass() {

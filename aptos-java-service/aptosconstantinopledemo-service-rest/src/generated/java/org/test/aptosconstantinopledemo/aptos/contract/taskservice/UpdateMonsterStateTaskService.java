@@ -36,4 +36,5 @@ public class UpdateMonsterStateTaskService {
             monsterEventService.updateStatusToProcessed(e);
         });
     }
+
 }

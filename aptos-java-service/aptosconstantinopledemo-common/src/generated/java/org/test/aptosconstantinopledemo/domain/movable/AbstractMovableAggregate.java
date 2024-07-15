@@ -48,33 +48,35 @@ public abstract class AbstractMovableAggregate extends AbstractAggregate impleme
 
         @Override
         public void create(Boolean value, Long offChainVersion, String commandId, String requesterId, MovableCommands.Create c) {
+            java.util.function.Supplier<MovableEvent.MovableCreated> eventFactory = () -> newMovableCreated(value, offChainVersion, commandId, requesterId);
+            MovableEvent.MovableCreated e;
             try {
-                verifyCreate(value, c);
+                e = verifyCreate(eventFactory, value, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newMovableCreated(value, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
-        protected void verifyCreate(Boolean value, MovableCommands.Create c) {
+        protected MovableEvent.MovableCreated verifyCreate(java.util.function.Supplier<MovableEvent.MovableCreated> eventFactory, Boolean value, MovableCommands.Create c) {
             Boolean Value = value;
 
-            ReflectUtils.invokeStaticMethod(
+            MovableEvent.MovableCreated e = (MovableEvent.MovableCreated) ReflectUtils.invokeStaticMethod(
                     "org.test.aptosconstantinopledemo.domain.movable.CreateLogic",
                     "verify",
-                    new Class[]{MovableState.class, Boolean.class, VerificationContext.class},
-                    new Object[]{getState(), value, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, MovableState.class, Boolean.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), value, VerificationContext.forCommand(c)}
             );
 
 //package org.test.aptosconstantinopledemo.domain.movable;
 //
 //public class CreateLogic {
-//    public static void verify(MovableState movableState, Boolean value, VerificationContext verificationContext) {
+//    public static MovableEvent.MovableCreated verify(java.util.function.Supplier<MovableEvent.MovableCreated> eventFactory, MovableState movableState, Boolean value, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
@@ -83,11 +85,11 @@ public abstract class AbstractMovableAggregate extends AbstractAggregate impleme
             AbstractMovableEvent.MovableCreated e = new AbstractMovableEvent.MovableCreated();
 
             e.setValue(value);
-            e.setAptosEventVersion(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventSequenceNumber(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventType(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventGuid(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setAptosEventVersion(null);
+            e.setAptosEventSequenceNumber(null);
+            e.setAptosEventType(null);
+            e.setAptosEventGuid(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);

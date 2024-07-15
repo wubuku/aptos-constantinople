@@ -146,7 +146,7 @@ public abstract class AbstractEncounterTriggerEvent extends AbstractEvent implem
 
     public abstract String getEventClass();
 
-    public static class EncounterTriggerClobEvent extends  AbstractEncounterTriggerEvent {
+    public static class EncounterTriggerClobEvent extends AbstractEncounterTriggerEvent {
 
         protected Map<String, Object> getDynamicProperties() {
             return dynamicProperties;
@@ -182,7 +182,7 @@ public abstract class AbstractEncounterTriggerEvent extends AbstractEvent implem
 
     }
 
-    public static class EncounterTriggerCreated extends EncounterTriggerClobEvent {
+    public static class EncounterTriggerCreated extends EncounterTriggerClobEvent implements EncounterTriggerEvent.EncounterTriggerCreated {
 
         @Override
         public String getEventClass() {

@@ -235,7 +235,7 @@ public class PlayerResource {
  
     public static class PlayerResourceUtils {
 
-        public static void setNullIdOrThrowOnInconsistentIds(String playerId, PlayerCommand value) {
+        public static void setNullIdOrThrowOnInconsistentIds(String playerId, org.test.aptosconstantinopledemo.domain.player.PlayerCommand value) {
             String idObj = playerId;
             if (value.getPlayerId() == null) {
                 value.setPlayerId(idObj);

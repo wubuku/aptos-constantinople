@@ -146,7 +146,7 @@ public abstract class AbstractPlayerEvent extends AbstractEvent implements Playe
 
     public abstract String getEventClass();
 
-    public static class PlayerClobEvent extends  AbstractPlayerEvent {
+    public static class PlayerClobEvent extends AbstractPlayerEvent {
 
         protected Map<String, Object> getDynamicProperties() {
             return dynamicProperties;
@@ -182,7 +182,7 @@ public abstract class AbstractPlayerEvent extends AbstractEvent implements Playe
 
     }
 
-    public static class PlayerCreated extends PlayerClobEvent {
+    public static class PlayerCreated extends PlayerClobEvent implements PlayerEvent.PlayerCreated {
 
         @Override
         public String getEventClass() {

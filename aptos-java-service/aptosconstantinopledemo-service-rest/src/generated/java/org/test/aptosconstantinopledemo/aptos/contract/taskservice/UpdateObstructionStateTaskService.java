@@ -32,4 +32,5 @@ public class UpdateObstructionStateTaskService {
             obstructionEventService.updateStatusToProcessed(e);
         });
     }
+
 }

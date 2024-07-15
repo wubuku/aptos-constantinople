@@ -146,7 +146,7 @@ public abstract class AbstractPlayerPositionEvent extends AbstractEvent implemen
 
     public abstract String getEventClass();
 
-    public static class PlayerPositionClobEvent extends  AbstractPlayerPositionEvent {
+    public static class PlayerPositionClobEvent extends AbstractPlayerPositionEvent {
 
         protected Map<String, Object> getDynamicProperties() {
             return dynamicProperties;
@@ -182,7 +182,7 @@ public abstract class AbstractPlayerPositionEvent extends AbstractEvent implemen
 
     }
 
-    public static class PlayerPositionCreated extends PlayerPositionClobEvent {
+    public static class PlayerPositionCreated extends PlayerPositionClobEvent implements PlayerPositionEvent.PlayerPositionCreated {
 
         @Override
         public String getEventClass() {
@@ -203,7 +203,7 @@ public abstract class AbstractPlayerPositionEvent extends AbstractEvent implemen
 
     }
 
-    public static class PlayerPositionUpdated extends PlayerPositionClobEvent {
+    public static class PlayerPositionUpdated extends PlayerPositionClobEvent implements PlayerPositionEvent.PlayerPositionUpdated {
 
         @Override
         public String getEventClass() {

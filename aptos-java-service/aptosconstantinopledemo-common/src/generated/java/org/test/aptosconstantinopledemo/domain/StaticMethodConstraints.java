@@ -30,136 +30,136 @@ public class StaticMethodConstraints {
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.player.CreateLogic",
                     "verify",
-                    new Class[]{PlayerState.class, Boolean.class, VerificationContext.class},
-                    new String[]{"_", "value"}
+                    new Class[]{java.util.function.Supplier.class, PlayerState.class, Boolean.class, VerificationContext.class},
+                    new String[]{"_", "_", "value"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.movable.CreateLogic",
                     "verify",
-                    new Class[]{MovableState.class, Boolean.class, VerificationContext.class},
-                    new String[]{"_", "value"}
+                    new Class[]{java.util.function.Supplier.class, MovableState.class, Boolean.class, VerificationContext.class},
+                    new String[]{"_", "_", "value"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.encounterable.CreateLogic",
                     "verify",
-                    new Class[]{EncounterableState.class, Boolean.class, VerificationContext.class},
-                    new String[]{"_", "value"}
+                    new Class[]{java.util.function.Supplier.class, EncounterableState.class, Boolean.class, VerificationContext.class},
+                    new String[]{"_", "_", "value"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.monster.CreateLogic",
                     "verify",
-                    new Class[]{MonsterState.class, BigInteger.class, VerificationContext.class},
-                    new String[]{"_", "monsterType"}
+                    new Class[]{java.util.function.Supplier.class, MonsterState.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "_", "monsterType"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.monster.DeleteLogic",
                     "verify",
-                    new Class[]{MonsterState.class, VerificationContext.class},
-                    new String[]{"_"}
+                    new Class[]{java.util.function.Supplier.class, MonsterState.class, VerificationContext.class},
+                    new String[]{"_", "_"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.playerposition.CreateLogic",
                     "verify",
-                    new Class[]{PlayerPositionState.class, Position.class, VerificationContext.class},
-                    new String[]{"_", "position"}
+                    new Class[]{java.util.function.Supplier.class, PlayerPositionState.class, Position.class, VerificationContext.class},
+                    new String[]{"_", "_", "position"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.playerposition.UpdateLogic",
                     "verify",
-                    new Class[]{PlayerPositionState.class, Position.class, VerificationContext.class},
-                    new String[]{"_", "position"}
+                    new Class[]{java.util.function.Supplier.class, PlayerPositionState.class, Position.class, VerificationContext.class},
+                    new String[]{"_", "_", "position"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.encounter.CreateLogic",
                     "verify",
-                    new Class[]{EncounterState.class, Boolean.class, String.class, BigInteger.class, VerificationContext.class},
-                    new String[]{"_", "isExistent", "monsterId", "catchAttempts"}
+                    new Class[]{java.util.function.Supplier.class, EncounterState.class, Boolean.class, String.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "_", "isExistent", "monsterId", "catchAttempts"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.encounter.UpdateLogic",
                     "verify",
-                    new Class[]{EncounterState.class, Boolean.class, String.class, BigInteger.class, VerificationContext.class},
-                    new String[]{"_", "isExistent", "monsterId", "catchAttempts"}
+                    new Class[]{java.util.function.Supplier.class, EncounterState.class, Boolean.class, String.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "_", "isExistent", "monsterId", "catchAttempts"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.encounter.DeleteLogic",
                     "verify",
-                    new Class[]{EncounterState.class, VerificationContext.class},
-                    new String[]{"_"}
+                    new Class[]{java.util.function.Supplier.class, EncounterState.class, VerificationContext.class},
+                    new String[]{"_", "_"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.ownedmonsters.CreateLogic",
                     "verify",
-                    new Class[]{OwnedMonstersState.class, String[].class, VerificationContext.class},
-                    new String[]{"_", "monsters"}
+                    new Class[]{java.util.function.Supplier.class, OwnedMonstersState.class, String[].class, VerificationContext.class},
+                    new String[]{"_", "_", "monsters"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.ownedmonsters.AddMonsterLogic",
                     "verify",
-                    new Class[]{OwnedMonstersState.class, String.class, VerificationContext.class},
-                    new String[]{"_", "monsterId"}
+                    new Class[]{java.util.function.Supplier.class, OwnedMonstersState.class, String.class, VerificationContext.class},
+                    new String[]{"_", "_", "monsterId"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.obstruction.CreateLogic",
                     "verify",
-                    new Class[]{ObstructionState.class, Boolean.class, VerificationContext.class},
-                    new String[]{"_", "value"}
+                    new Class[]{java.util.function.Supplier.class, ObstructionState.class, Boolean.class, VerificationContext.class},
+                    new String[]{"_", "_", "value"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.encountertrigger.CreateLogic",
                     "verify",
-                    new Class[]{EncounterTriggerState.class, Boolean.class, VerificationContext.class},
-                    new String[]{"_", "value"}
+                    new Class[]{java.util.function.Supplier.class, EncounterTriggerState.class, Boolean.class, VerificationContext.class},
+                    new String[]{"_", "_", "value"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.randomseed.__Init__Logic",
                     "verify",
-                    new Class[]{RandomSeedState.class, VerificationContext.class},
-                    new String[]{"_"}
+                    new Class[]{java.util.function.Supplier.class, RandomSeedState.class, VerificationContext.class},
+                    new String[]{"_", "_"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.randomseed.UpdateLogic",
                     "verify",
-                    new Class[]{RandomSeedState.class, BigInteger.class, VerificationContext.class},
-                    new String[]{"_", "value"}
+                    new Class[]{java.util.function.Supplier.class, RandomSeedState.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "_", "value"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.aptosconstantinopledemo.domain.map.__Init__Logic",
                     "verify",
-                    new Class[]{MapState.class, VerificationContext.class},
-                    new String[]{"_"}
+                    new Class[]{java.util.function.Supplier.class, MapState.class, VerificationContext.class},
+                    new String[]{"_", "_"}
             );
 
 

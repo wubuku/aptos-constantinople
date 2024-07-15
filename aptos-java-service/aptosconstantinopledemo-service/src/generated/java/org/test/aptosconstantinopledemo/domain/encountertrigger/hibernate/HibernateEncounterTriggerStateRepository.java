@@ -79,7 +79,7 @@ public class HibernateEncounterTriggerStateRepository implements EncounterTrigge
         EncounterTriggerState persistent = getCurrentSession().get(AbstractEncounterTriggerState.SimpleEncounterTriggerState.class, detached.getPosition());
         if (persistent != null) {
             merge(persistent, detached);
-            getCurrentSession().merge(detached);
+            getCurrentSession().save(persistent);
         } else {
             getCurrentSession().save(detached);
         }
@@ -87,7 +87,7 @@ public class HibernateEncounterTriggerStateRepository implements EncounterTrigge
     }
 
     private void merge(EncounterTriggerState persistent, EncounterTriggerState detached) {
-        ((EncounterTriggerState.MutableEncounterTriggerState) detached).setOffChainVersion(persistent.getOffChainVersion());
+        ((AbstractEncounterTriggerState) persistent).merge(detached);
     }
 
 }

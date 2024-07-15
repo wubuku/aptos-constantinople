@@ -235,7 +235,7 @@ public class RandomSeedResource {
  
     public static class RandomSeedResourceUtils {
 
-        public static void setNullIdOrThrowOnInconsistentIds(String accountAddress, RandomSeedCommand value) {
+        public static void setNullIdOrThrowOnInconsistentIds(String accountAddress, org.test.aptosconstantinopledemo.domain.randomseed.RandomSeedCommand value) {
             String idObj = accountAddress;
             if (value.getAccountAddress() == null) {
                 value.setAccountAddress(idObj);

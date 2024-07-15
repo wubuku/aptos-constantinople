@@ -21,6 +21,9 @@ public interface MapEvent extends Event, AptosEvent, HasStatus {
         void setEventReadOnly(boolean readOnly);
     }
 
+    interface MapInitialized extends MapEvent {
+    }
+
     String getAccountAddress();
 
     //void setAccountAddress(String accountAddress);

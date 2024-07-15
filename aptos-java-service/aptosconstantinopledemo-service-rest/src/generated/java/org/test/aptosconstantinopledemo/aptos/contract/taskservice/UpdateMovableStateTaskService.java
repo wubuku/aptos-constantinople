@@ -32,4 +32,5 @@ public class UpdateMovableStateTaskService {
             movableEventService.updateStatusToProcessed(e);
         });
     }
+
 }

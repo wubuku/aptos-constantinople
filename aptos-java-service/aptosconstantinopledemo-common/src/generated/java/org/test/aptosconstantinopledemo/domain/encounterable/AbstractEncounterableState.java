@@ -186,7 +186,7 @@ public abstract class AbstractEncounterableState implements EncounterableState.S
         }
     }
 
-    protected void merge(EncounterableState s) {
+    public void merge(EncounterableState s) {
         if (s == this) {
             return;
         }

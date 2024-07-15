@@ -188,7 +188,7 @@ public abstract class AbstractRandomSeedState implements RandomSeedState.SqlRand
         }
     }
 
-    protected void merge(RandomSeedState s) {
+    public void merge(RandomSeedState s) {
         if (s == this) {
             return;
         }

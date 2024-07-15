@@ -206,7 +206,7 @@ public abstract class AbstractMapState implements MapState.SqlMapState {
         }
     }
 
-    protected void merge(MapState s) {
+    public void merge(MapState s) {
         if (s == this) {
             return;
         }

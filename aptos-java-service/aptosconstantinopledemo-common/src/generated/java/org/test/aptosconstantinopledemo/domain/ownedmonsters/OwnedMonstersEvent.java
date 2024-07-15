@@ -21,6 +21,20 @@ public interface OwnedMonstersEvent extends Event, AptosEvent, HasStatus {
         void setEventReadOnly(boolean readOnly);
     }
 
+    interface OwnedMonstersCreated extends OwnedMonstersEvent {
+        String[] getMonsters();
+
+        void setMonsters(String[] value);
+
+    }
+
+    interface MonsterAddedToPlayer extends OwnedMonstersEvent {
+        String getMonsterId();
+
+        void setMonsterId(String value);
+
+    }
+
     String getPlayerId();
 
     //void setPlayerId(String playerId);

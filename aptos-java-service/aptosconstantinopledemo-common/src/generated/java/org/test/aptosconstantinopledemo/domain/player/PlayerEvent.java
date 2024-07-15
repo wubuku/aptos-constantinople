@@ -21,6 +21,13 @@ public interface PlayerEvent extends Event, AptosEvent, HasStatus {
         void setEventReadOnly(boolean readOnly);
     }
 
+    interface PlayerCreated extends PlayerEvent {
+        Boolean getValue();
+
+        void setValue(Boolean value);
+
+    }
+
     String getPlayerId();
 
     //void setPlayerId(String playerId);

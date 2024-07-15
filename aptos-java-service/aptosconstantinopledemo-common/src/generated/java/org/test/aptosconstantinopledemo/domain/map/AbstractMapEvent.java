@@ -146,7 +146,7 @@ public abstract class AbstractMapEvent extends AbstractEvent implements MapEvent
 
     public abstract String getEventClass();
 
-    public static class MapClobEvent extends  AbstractMapEvent {
+    public static class MapClobEvent extends AbstractMapEvent {
 
         protected Map<String, Object> getDynamicProperties() {
             return dynamicProperties;
@@ -182,7 +182,7 @@ public abstract class AbstractMapEvent extends AbstractEvent implements MapEvent
 
     }
 
-    public static class MapInitialized extends MapClobEvent {
+    public static class MapInitialized extends MapClobEvent implements MapEvent.MapInitialized {
 
         @Override
         public String getEventClass() {

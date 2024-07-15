@@ -146,7 +146,7 @@ public abstract class AbstractObstructionEvent extends AbstractEvent implements 
 
     public abstract String getEventClass();
 
-    public static class ObstructionClobEvent extends  AbstractObstructionEvent {
+    public static class ObstructionClobEvent extends AbstractObstructionEvent {
 
         protected Map<String, Object> getDynamicProperties() {
             return dynamicProperties;
@@ -182,7 +182,7 @@ public abstract class AbstractObstructionEvent extends AbstractEvent implements 
 
     }
 
-    public static class ObstructionCreated extends ObstructionClobEvent {
+    public static class ObstructionCreated extends ObstructionClobEvent implements ObstructionEvent.ObstructionCreated {
 
         @Override
         public String getEventClass() {

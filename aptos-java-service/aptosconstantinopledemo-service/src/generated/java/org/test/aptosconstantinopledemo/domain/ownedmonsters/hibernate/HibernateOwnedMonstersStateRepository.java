@@ -79,7 +79,7 @@ public class HibernateOwnedMonstersStateRepository implements OwnedMonstersState
         OwnedMonstersState persistent = getCurrentSession().get(AbstractOwnedMonstersState.SimpleOwnedMonstersState.class, detached.getPlayerId());
         if (persistent != null) {
             merge(persistent, detached);
-            getCurrentSession().merge(detached);
+            getCurrentSession().save(persistent);
         } else {
             getCurrentSession().save(detached);
         }
@@ -87,7 +87,7 @@ public class HibernateOwnedMonstersStateRepository implements OwnedMonstersState
     }
 
     private void merge(OwnedMonstersState persistent, OwnedMonstersState detached) {
-        ((OwnedMonstersState.MutableOwnedMonstersState) detached).setOffChainVersion(persistent.getOffChainVersion());
+        ((AbstractOwnedMonstersState) persistent).merge(detached);
     }
 
 }

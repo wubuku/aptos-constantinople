@@ -21,6 +21,20 @@ public interface PlayerPositionEvent extends Event, AptosEvent, HasStatus {
         void setEventReadOnly(boolean readOnly);
     }
 
+    interface PlayerPositionCreated extends PlayerPositionEvent {
+        Position getPosition();
+
+        void setPosition(Position value);
+
+    }
+
+    interface PlayerPositionUpdated extends PlayerPositionEvent {
+        Position getPosition();
+
+        void setPosition(Position value);
+
+    }
+
     String getPlayerId();
 
     //void setPlayerId(String playerId);

@@ -186,7 +186,7 @@ public abstract class AbstractMovableState implements MovableState.SqlMovableSta
         }
     }
 
-    protected void merge(MovableState s) {
+    public void merge(MovableState s) {
         if (s == this) {
             return;
         }

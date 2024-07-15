@@ -21,6 +21,13 @@ public interface MovableEvent extends Event, AptosEvent, HasStatus {
         void setEventReadOnly(boolean readOnly);
     }
 
+    interface MovableCreated extends MovableEvent {
+        Boolean getValue();
+
+        void setValue(Boolean value);
+
+    }
+
     String getPlayerId();
 
     //void setPlayerId(String playerId);

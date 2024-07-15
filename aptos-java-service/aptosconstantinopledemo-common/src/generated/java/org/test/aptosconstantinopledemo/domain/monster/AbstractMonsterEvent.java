@@ -146,7 +146,7 @@ public abstract class AbstractMonsterEvent extends AbstractEvent implements Mons
 
     public abstract String getEventClass();
 
-    public static class MonsterClobEvent extends  AbstractMonsterEvent {
+    public static class MonsterClobEvent extends AbstractMonsterEvent {
 
         protected Map<String, Object> getDynamicProperties() {
             return dynamicProperties;
@@ -182,7 +182,7 @@ public abstract class AbstractMonsterEvent extends AbstractEvent implements Mons
 
     }
 
-    public static class MonsterCreated extends MonsterClobEvent {
+    public static class MonsterCreated extends MonsterClobEvent implements MonsterEvent.MonsterCreated {
 
         @Override
         public String getEventClass() {
@@ -203,7 +203,7 @@ public abstract class AbstractMonsterEvent extends AbstractEvent implements Mons
 
     }
 
-    public static class MonsterDeleted extends MonsterClobEvent {
+    public static class MonsterDeleted extends MonsterClobEvent implements MonsterEvent.MonsterDeleted {
 
         @Override
         public String getEventClass() {

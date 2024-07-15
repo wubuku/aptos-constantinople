@@ -48,33 +48,35 @@ public abstract class AbstractObstructionAggregate extends AbstractAggregate imp
 
         @Override
         public void create(Boolean value, Long offChainVersion, String commandId, String requesterId, ObstructionCommands.Create c) {
+            java.util.function.Supplier<ObstructionEvent.ObstructionCreated> eventFactory = () -> newObstructionCreated(value, offChainVersion, commandId, requesterId);
+            ObstructionEvent.ObstructionCreated e;
             try {
-                verifyCreate(value, c);
+                e = verifyCreate(eventFactory, value, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newObstructionCreated(value, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
-        protected void verifyCreate(Boolean value, ObstructionCommands.Create c) {
+        protected ObstructionEvent.ObstructionCreated verifyCreate(java.util.function.Supplier<ObstructionEvent.ObstructionCreated> eventFactory, Boolean value, ObstructionCommands.Create c) {
             Boolean Value = value;
 
-            ReflectUtils.invokeStaticMethod(
+            ObstructionEvent.ObstructionCreated e = (ObstructionEvent.ObstructionCreated) ReflectUtils.invokeStaticMethod(
                     "org.test.aptosconstantinopledemo.domain.obstruction.CreateLogic",
                     "verify",
-                    new Class[]{ObstructionState.class, Boolean.class, VerificationContext.class},
-                    new Object[]{getState(), value, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, ObstructionState.class, Boolean.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), value, VerificationContext.forCommand(c)}
             );
 
 //package org.test.aptosconstantinopledemo.domain.obstruction;
 //
 //public class CreateLogic {
-//    public static void verify(ObstructionState obstructionState, Boolean value, VerificationContext verificationContext) {
+//    public static ObstructionEvent.ObstructionCreated verify(java.util.function.Supplier<ObstructionEvent.ObstructionCreated> eventFactory, ObstructionState obstructionState, Boolean value, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
@@ -83,11 +85,11 @@ public abstract class AbstractObstructionAggregate extends AbstractAggregate imp
             AbstractObstructionEvent.ObstructionCreated e = new AbstractObstructionEvent.ObstructionCreated();
 
             e.setValue(value);
-            e.setAptosEventVersion(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventSequenceNumber(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventType(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventGuid(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setAptosEventVersion(null);
+            e.setAptosEventSequenceNumber(null);
+            e.setAptosEventType(null);
+            e.setAptosEventGuid(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);

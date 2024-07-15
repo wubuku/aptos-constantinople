@@ -48,52 +48,55 @@ public abstract class AbstractRandomSeedAggregate extends AbstractAggregate impl
 
         @Override
         public void update(BigInteger value, Long offChainVersion, String commandId, String requesterId, RandomSeedCommands.Update c) {
+            java.util.function.Supplier<RandomSeedEvent.RandomSeedUpdated> eventFactory = () -> newRandomSeedUpdated(value, offChainVersion, commandId, requesterId);
+            RandomSeedEvent.RandomSeedUpdated e;
             try {
-                verifyUpdate(value, c);
+                e = verifyUpdate(eventFactory, value, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newRandomSeedUpdated(value, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
-        protected void verify__Init__(RandomSeedCommands.__Init__ c) {
+        protected RandomSeedEvent.RandomSeedInitialized verify__Init__(java.util.function.Supplier<RandomSeedEvent.RandomSeedInitialized> eventFactory, RandomSeedCommands.__Init__ c) {
 
-            ReflectUtils.invokeStaticMethod(
+            RandomSeedEvent.RandomSeedInitialized e = (RandomSeedEvent.RandomSeedInitialized) ReflectUtils.invokeStaticMethod(
                     "org.test.aptosconstantinopledemo.domain.randomseed.__Init__Logic",
                     "verify",
-                    new Class[]{RandomSeedState.class, VerificationContext.class},
-                    new Object[]{getState(), VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, RandomSeedState.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), VerificationContext.forCommand(c)}
             );
 
 //package org.test.aptosconstantinopledemo.domain.randomseed;
 //
 //public class __Init__Logic {
-//    public static void verify(RandomSeedState randomSeedState, VerificationContext verificationContext) {
+//    public static RandomSeedEvent.RandomSeedInitialized verify(java.util.function.Supplier<RandomSeedEvent.RandomSeedInitialized> eventFactory, RandomSeedState randomSeedState, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
-        protected void verifyUpdate(BigInteger value, RandomSeedCommands.Update c) {
+        protected RandomSeedEvent.RandomSeedUpdated verifyUpdate(java.util.function.Supplier<RandomSeedEvent.RandomSeedUpdated> eventFactory, BigInteger value, RandomSeedCommands.Update c) {
             BigInteger Value = value;
 
-            ReflectUtils.invokeStaticMethod(
+            RandomSeedEvent.RandomSeedUpdated e = (RandomSeedEvent.RandomSeedUpdated) ReflectUtils.invokeStaticMethod(
                     "org.test.aptosconstantinopledemo.domain.randomseed.UpdateLogic",
                     "verify",
-                    new Class[]{RandomSeedState.class, BigInteger.class, VerificationContext.class},
-                    new Object[]{getState(), value, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, RandomSeedState.class, BigInteger.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), value, VerificationContext.forCommand(c)}
             );
 
 //package org.test.aptosconstantinopledemo.domain.randomseed;
 //
 //public class UpdateLogic {
-//    public static void verify(RandomSeedState randomSeedState, BigInteger value, VerificationContext verificationContext) {
+//    public static RandomSeedEvent.RandomSeedUpdated verify(java.util.function.Supplier<RandomSeedEvent.RandomSeedUpdated> eventFactory, RandomSeedState randomSeedState, BigInteger value, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
@@ -101,11 +104,11 @@ public abstract class AbstractRandomSeedAggregate extends AbstractAggregate impl
             RandomSeedEventId eventId = new RandomSeedEventId(getState().getAccountAddress(), null);
             AbstractRandomSeedEvent.RandomSeedInitialized e = new AbstractRandomSeedEvent.RandomSeedInitialized();
 
-            e.setAptosEventVersion(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventSequenceNumber(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventType(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventGuid(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setAptosEventVersion(null);
+            e.setAptosEventSequenceNumber(null);
+            e.setAptosEventType(null);
+            e.setAptosEventGuid(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);
@@ -120,11 +123,11 @@ public abstract class AbstractRandomSeedAggregate extends AbstractAggregate impl
             AbstractRandomSeedEvent.RandomSeedUpdated e = new AbstractRandomSeedEvent.RandomSeedUpdated();
 
             e.setValue(value);
-            e.setAptosEventVersion(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventSequenceNumber(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventType(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventGuid(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setAptosEventVersion(null);
+            e.setAptosEventSequenceNumber(null);
+            e.setAptosEventType(null);
+            e.setAptosEventGuid(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);

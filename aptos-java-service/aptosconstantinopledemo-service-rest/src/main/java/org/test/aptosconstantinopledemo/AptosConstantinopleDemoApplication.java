@@ -30,7 +30,7 @@ public class AptosConstantinopleDemoApplication {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext ctx = SpringApplication.run(AptosConstantinopleDemoApplication.class, args);
-        ApplicationContext.current = new SpringApplicationContext(ctx);
+        //ApplicationContext.current = new SpringApplicationContext(ctx);
         ctx.publishEvent(new ContextStartedEvent(ctx));
     }
 

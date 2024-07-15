@@ -235,7 +235,7 @@ public class PlayerPositionResource {
  
     public static class PlayerPositionResourceUtils {
 
-        public static void setNullIdOrThrowOnInconsistentIds(String playerId, PlayerPositionCommand value) {
+        public static void setNullIdOrThrowOnInconsistentIds(String playerId, org.test.aptosconstantinopledemo.domain.playerposition.PlayerPositionCommand value) {
             String idObj = playerId;
             if (value.getPlayerId() == null) {
                 value.setPlayerId(idObj);

@@ -48,33 +48,35 @@ public abstract class AbstractEncounterableAggregate extends AbstractAggregate i
 
         @Override
         public void create(Boolean value, Long offChainVersion, String commandId, String requesterId, EncounterableCommands.Create c) {
+            java.util.function.Supplier<EncounterableEvent.EncounterableCreated> eventFactory = () -> newEncounterableCreated(value, offChainVersion, commandId, requesterId);
+            EncounterableEvent.EncounterableCreated e;
             try {
-                verifyCreate(value, c);
+                e = verifyCreate(eventFactory, value, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newEncounterableCreated(value, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
-        protected void verifyCreate(Boolean value, EncounterableCommands.Create c) {
+        protected EncounterableEvent.EncounterableCreated verifyCreate(java.util.function.Supplier<EncounterableEvent.EncounterableCreated> eventFactory, Boolean value, EncounterableCommands.Create c) {
             Boolean Value = value;
 
-            ReflectUtils.invokeStaticMethod(
+            EncounterableEvent.EncounterableCreated e = (EncounterableEvent.EncounterableCreated) ReflectUtils.invokeStaticMethod(
                     "org.test.aptosconstantinopledemo.domain.encounterable.CreateLogic",
                     "verify",
-                    new Class[]{EncounterableState.class, Boolean.class, VerificationContext.class},
-                    new Object[]{getState(), value, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, EncounterableState.class, Boolean.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), value, VerificationContext.forCommand(c)}
             );
 
 //package org.test.aptosconstantinopledemo.domain.encounterable;
 //
 //public class CreateLogic {
-//    public static void verify(EncounterableState encounterableState, Boolean value, VerificationContext verificationContext) {
+//    public static EncounterableEvent.EncounterableCreated verify(java.util.function.Supplier<EncounterableEvent.EncounterableCreated> eventFactory, EncounterableState encounterableState, Boolean value, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
@@ -83,11 +85,11 @@ public abstract class AbstractEncounterableAggregate extends AbstractAggregate i
             AbstractEncounterableEvent.EncounterableCreated e = new AbstractEncounterableEvent.EncounterableCreated();
 
             e.setValue(value);
-            e.setAptosEventVersion(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventSequenceNumber(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventType(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventGuid(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setAptosEventVersion(null);
+            e.setAptosEventSequenceNumber(null);
+            e.setAptosEventType(null);
+            e.setAptosEventGuid(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);

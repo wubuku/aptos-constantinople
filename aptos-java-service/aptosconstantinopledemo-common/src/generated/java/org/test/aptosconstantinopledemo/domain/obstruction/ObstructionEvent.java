@@ -21,6 +21,13 @@ public interface ObstructionEvent extends Event, AptosEvent, HasStatus {
         void setEventReadOnly(boolean readOnly);
     }
 
+    interface ObstructionCreated extends ObstructionEvent {
+        Boolean getValue();
+
+        void setValue(Boolean value);
+
+    }
+
     Position getPosition();
 
     //void setPosition(Position position);

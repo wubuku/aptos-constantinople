@@ -21,6 +21,13 @@ public interface EncounterableEvent extends Event, AptosEvent, HasStatus {
         void setEventReadOnly(boolean readOnly);
     }
 
+    interface EncounterableCreated extends EncounterableEvent {
+        Boolean getValue();
+
+        void setValue(Boolean value);
+
+    }
+
     String getPlayerId();
 
     //void setPlayerId(String playerId);

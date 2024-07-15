@@ -21,6 +21,16 @@ public interface RandomSeedEvent extends Event, AptosEvent, HasStatus {
         void setEventReadOnly(boolean readOnly);
     }
 
+    interface RandomSeedInitialized extends RandomSeedEvent {
+    }
+
+    interface RandomSeedUpdated extends RandomSeedEvent {
+        BigInteger getValue();
+
+        void setValue(BigInteger value);
+
+    }
+
     String getAccountAddress();
 
     //void setAccountAddress(String accountAddress);

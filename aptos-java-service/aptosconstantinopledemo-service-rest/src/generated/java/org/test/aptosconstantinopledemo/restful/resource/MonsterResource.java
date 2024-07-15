@@ -235,7 +235,7 @@ public class MonsterResource {
  
     public static class MonsterResourceUtils {
 
-        public static void setNullIdOrThrowOnInconsistentIds(String monsterId, MonsterCommand value) {
+        public static void setNullIdOrThrowOnInconsistentIds(String monsterId, org.test.aptosconstantinopledemo.domain.monster.MonsterCommand value) {
             String idObj = monsterId;
             if (value.getMonsterId() == null) {
                 value.setMonsterId(idObj);

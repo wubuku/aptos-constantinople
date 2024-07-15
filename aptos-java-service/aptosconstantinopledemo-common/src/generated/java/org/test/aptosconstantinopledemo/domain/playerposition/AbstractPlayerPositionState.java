@@ -188,7 +188,7 @@ public abstract class AbstractPlayerPositionState implements PlayerPositionState
         }
     }
 
-    protected void merge(PlayerPositionState s) {
+    public void merge(PlayerPositionState s) {
         if (s == this) {
             return;
         }

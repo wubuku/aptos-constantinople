@@ -48,64 +48,68 @@ public abstract class AbstractMonsterAggregate extends AbstractAggregate impleme
 
         @Override
         public void create(BigInteger monsterType, Long offChainVersion, String commandId, String requesterId, MonsterCommands.Create c) {
+            java.util.function.Supplier<MonsterEvent.MonsterCreated> eventFactory = () -> newMonsterCreated(monsterType, offChainVersion, commandId, requesterId);
+            MonsterEvent.MonsterCreated e;
             try {
-                verifyCreate(monsterType, c);
+                e = verifyCreate(eventFactory, monsterType, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newMonsterCreated(monsterType, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
         @Override
         public void delete(Long offChainVersion, String commandId, String requesterId, MonsterCommands.Delete c) {
+            java.util.function.Supplier<MonsterEvent.MonsterDeleted> eventFactory = () -> newMonsterDeleted(offChainVersion, commandId, requesterId);
+            MonsterEvent.MonsterDeleted e;
             try {
-                verifyDelete(c);
+                e = verifyDelete(eventFactory, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newMonsterDeleted(offChainVersion, commandId, requesterId);
             apply(e);
         }
 
-        protected void verifyCreate(BigInteger monsterType, MonsterCommands.Create c) {
+        protected MonsterEvent.MonsterCreated verifyCreate(java.util.function.Supplier<MonsterEvent.MonsterCreated> eventFactory, BigInteger monsterType, MonsterCommands.Create c) {
             BigInteger MonsterType = monsterType;
 
-            ReflectUtils.invokeStaticMethod(
+            MonsterEvent.MonsterCreated e = (MonsterEvent.MonsterCreated) ReflectUtils.invokeStaticMethod(
                     "org.test.aptosconstantinopledemo.domain.monster.CreateLogic",
                     "verify",
-                    new Class[]{MonsterState.class, BigInteger.class, VerificationContext.class},
-                    new Object[]{getState(), monsterType, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, MonsterState.class, BigInteger.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), monsterType, VerificationContext.forCommand(c)}
             );
 
 //package org.test.aptosconstantinopledemo.domain.monster;
 //
 //public class CreateLogic {
-//    public static void verify(MonsterState monsterState, BigInteger monsterType, VerificationContext verificationContext) {
+//    public static MonsterEvent.MonsterCreated verify(java.util.function.Supplier<MonsterEvent.MonsterCreated> eventFactory, MonsterState monsterState, BigInteger monsterType, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
-        protected void verifyDelete(MonsterCommands.Delete c) {
+        protected MonsterEvent.MonsterDeleted verifyDelete(java.util.function.Supplier<MonsterEvent.MonsterDeleted> eventFactory, MonsterCommands.Delete c) {
 
-            ReflectUtils.invokeStaticMethod(
+            MonsterEvent.MonsterDeleted e = (MonsterEvent.MonsterDeleted) ReflectUtils.invokeStaticMethod(
                     "org.test.aptosconstantinopledemo.domain.monster.DeleteLogic",
                     "verify",
-                    new Class[]{MonsterState.class, VerificationContext.class},
-                    new Object[]{getState(), VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, MonsterState.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), VerificationContext.forCommand(c)}
             );
 
 //package org.test.aptosconstantinopledemo.domain.monster;
 //
 //public class DeleteLogic {
-//    public static void verify(MonsterState monsterState, VerificationContext verificationContext) {
+//    public static MonsterEvent.MonsterDeleted verify(java.util.function.Supplier<MonsterEvent.MonsterDeleted> eventFactory, MonsterState monsterState, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
@@ -114,11 +118,11 @@ public abstract class AbstractMonsterAggregate extends AbstractAggregate impleme
             AbstractMonsterEvent.MonsterCreated e = new AbstractMonsterEvent.MonsterCreated();
 
             e.setMonsterType(monsterType);
-            e.setAptosEventVersion(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventSequenceNumber(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventType(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventGuid(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setAptosEventVersion(null);
+            e.setAptosEventSequenceNumber(null);
+            e.setAptosEventType(null);
+            e.setAptosEventGuid(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);
@@ -132,11 +136,11 @@ public abstract class AbstractMonsterAggregate extends AbstractAggregate impleme
             MonsterEventId eventId = new MonsterEventId(getState().getMonsterId(), null);
             AbstractMonsterEvent.MonsterDeleted e = new AbstractMonsterEvent.MonsterDeleted();
 
-            e.setAptosEventVersion(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventSequenceNumber(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventType(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventGuid(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setAptosEventVersion(null);
+            e.setAptosEventSequenceNumber(null);
+            e.setAptosEventType(null);
+            e.setAptosEventGuid(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);

@@ -240,7 +240,7 @@ public class EncounterTriggerResource {
             return formatter.parse(idString);
         }
 
-        public static void setNullIdOrThrowOnInconsistentIds(String position, EncounterTriggerCommand value) {
+        public static void setNullIdOrThrowOnInconsistentIds(String position, org.test.aptosconstantinopledemo.domain.encountertrigger.EncounterTriggerCommand value) {
             Position idObj = parseIdString(position);
             if (value.getPosition() == null) {
                 value.setPosition(idObj);

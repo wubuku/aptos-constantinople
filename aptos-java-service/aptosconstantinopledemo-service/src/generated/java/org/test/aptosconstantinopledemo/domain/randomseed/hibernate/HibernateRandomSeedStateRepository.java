@@ -79,7 +79,7 @@ public class HibernateRandomSeedStateRepository implements RandomSeedStateReposi
         RandomSeedState persistent = getCurrentSession().get(AbstractRandomSeedState.SimpleRandomSeedState.class, detached.getAccountAddress());
         if (persistent != null) {
             merge(persistent, detached);
-            getCurrentSession().merge(detached);
+            getCurrentSession().save(persistent);
         } else {
             getCurrentSession().save(detached);
         }
@@ -87,7 +87,7 @@ public class HibernateRandomSeedStateRepository implements RandomSeedStateReposi
     }
 
     private void merge(RandomSeedState persistent, RandomSeedState detached) {
-        ((RandomSeedState.MutableRandomSeedState) detached).setOffChainVersion(persistent.getOffChainVersion());
+        ((AbstractRandomSeedState) persistent).merge(detached);
     }
 
 }

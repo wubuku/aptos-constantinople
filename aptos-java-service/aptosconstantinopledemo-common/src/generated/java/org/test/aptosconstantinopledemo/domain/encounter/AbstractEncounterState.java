@@ -210,7 +210,7 @@ public abstract class AbstractEncounterState implements EncounterState.SqlEncoun
         }
     }
 
-    protected void merge(EncounterState s) {
+    public void merge(EncounterState s) {
         if (s == this) {
             return;
         }

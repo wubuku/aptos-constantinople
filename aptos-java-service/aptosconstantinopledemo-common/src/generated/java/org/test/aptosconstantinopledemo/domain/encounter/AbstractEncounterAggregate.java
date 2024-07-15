@@ -48,100 +48,106 @@ public abstract class AbstractEncounterAggregate extends AbstractAggregate imple
 
         @Override
         public void create(Boolean isExistent, String monsterId, BigInteger catchAttempts, Long offChainVersion, String commandId, String requesterId, EncounterCommands.Create c) {
+            java.util.function.Supplier<EncounterEvent.EncounterCreated> eventFactory = () -> newEncounterCreated(isExistent, monsterId, catchAttempts, offChainVersion, commandId, requesterId);
+            EncounterEvent.EncounterCreated e;
             try {
-                verifyCreate(isExistent, monsterId, catchAttempts, c);
+                e = verifyCreate(eventFactory, isExistent, monsterId, catchAttempts, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newEncounterCreated(isExistent, monsterId, catchAttempts, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
         @Override
         public void update(Boolean isExistent, String monsterId, BigInteger catchAttempts, Long offChainVersion, String commandId, String requesterId, EncounterCommands.Update c) {
+            java.util.function.Supplier<EncounterEvent.EncounterUpdated> eventFactory = () -> newEncounterUpdated(isExistent, monsterId, catchAttempts, offChainVersion, commandId, requesterId);
+            EncounterEvent.EncounterUpdated e;
             try {
-                verifyUpdate(isExistent, monsterId, catchAttempts, c);
+                e = verifyUpdate(eventFactory, isExistent, monsterId, catchAttempts, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newEncounterUpdated(isExistent, monsterId, catchAttempts, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
         @Override
         public void delete(Long offChainVersion, String commandId, String requesterId, EncounterCommands.Delete c) {
+            java.util.function.Supplier<EncounterEvent.EncounterDeleted> eventFactory = () -> newEncounterDeleted(offChainVersion, commandId, requesterId);
+            EncounterEvent.EncounterDeleted e;
             try {
-                verifyDelete(c);
+                e = verifyDelete(eventFactory, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newEncounterDeleted(offChainVersion, commandId, requesterId);
             apply(e);
         }
 
-        protected void verifyCreate(Boolean isExistent, String monsterId, BigInteger catchAttempts, EncounterCommands.Create c) {
+        protected EncounterEvent.EncounterCreated verifyCreate(java.util.function.Supplier<EncounterEvent.EncounterCreated> eventFactory, Boolean isExistent, String monsterId, BigInteger catchAttempts, EncounterCommands.Create c) {
             Boolean IsExistent = isExistent;
             String MonsterId = monsterId;
             BigInteger CatchAttempts = catchAttempts;
 
-            ReflectUtils.invokeStaticMethod(
+            EncounterEvent.EncounterCreated e = (EncounterEvent.EncounterCreated) ReflectUtils.invokeStaticMethod(
                     "org.test.aptosconstantinopledemo.domain.encounter.CreateLogic",
                     "verify",
-                    new Class[]{EncounterState.class, Boolean.class, String.class, BigInteger.class, VerificationContext.class},
-                    new Object[]{getState(), isExistent, monsterId, catchAttempts, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, EncounterState.class, Boolean.class, String.class, BigInteger.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), isExistent, monsterId, catchAttempts, VerificationContext.forCommand(c)}
             );
 
 //package org.test.aptosconstantinopledemo.domain.encounter;
 //
 //public class CreateLogic {
-//    public static void verify(EncounterState encounterState, Boolean isExistent, String monsterId, BigInteger catchAttempts, VerificationContext verificationContext) {
+//    public static EncounterEvent.EncounterCreated verify(java.util.function.Supplier<EncounterEvent.EncounterCreated> eventFactory, EncounterState encounterState, Boolean isExistent, String monsterId, BigInteger catchAttempts, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
-        protected void verifyUpdate(Boolean isExistent, String monsterId, BigInteger catchAttempts, EncounterCommands.Update c) {
+        protected EncounterEvent.EncounterUpdated verifyUpdate(java.util.function.Supplier<EncounterEvent.EncounterUpdated> eventFactory, Boolean isExistent, String monsterId, BigInteger catchAttempts, EncounterCommands.Update c) {
             Boolean IsExistent = isExistent;
             String MonsterId = monsterId;
             BigInteger CatchAttempts = catchAttempts;
 
-            ReflectUtils.invokeStaticMethod(
+            EncounterEvent.EncounterUpdated e = (EncounterEvent.EncounterUpdated) ReflectUtils.invokeStaticMethod(
                     "org.test.aptosconstantinopledemo.domain.encounter.UpdateLogic",
                     "verify",
-                    new Class[]{EncounterState.class, Boolean.class, String.class, BigInteger.class, VerificationContext.class},
-                    new Object[]{getState(), isExistent, monsterId, catchAttempts, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, EncounterState.class, Boolean.class, String.class, BigInteger.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), isExistent, monsterId, catchAttempts, VerificationContext.forCommand(c)}
             );
 
 //package org.test.aptosconstantinopledemo.domain.encounter;
 //
 //public class UpdateLogic {
-//    public static void verify(EncounterState encounterState, Boolean isExistent, String monsterId, BigInteger catchAttempts, VerificationContext verificationContext) {
+//    public static EncounterEvent.EncounterUpdated verify(java.util.function.Supplier<EncounterEvent.EncounterUpdated> eventFactory, EncounterState encounterState, Boolean isExistent, String monsterId, BigInteger catchAttempts, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
-        protected void verifyDelete(EncounterCommands.Delete c) {
+        protected EncounterEvent.EncounterDeleted verifyDelete(java.util.function.Supplier<EncounterEvent.EncounterDeleted> eventFactory, EncounterCommands.Delete c) {
 
-            ReflectUtils.invokeStaticMethod(
+            EncounterEvent.EncounterDeleted e = (EncounterEvent.EncounterDeleted) ReflectUtils.invokeStaticMethod(
                     "org.test.aptosconstantinopledemo.domain.encounter.DeleteLogic",
                     "verify",
-                    new Class[]{EncounterState.class, VerificationContext.class},
-                    new Object[]{getState(), VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, EncounterState.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), VerificationContext.forCommand(c)}
             );
 
 //package org.test.aptosconstantinopledemo.domain.encounter;
 //
 //public class DeleteLogic {
-//    public static void verify(EncounterState encounterState, VerificationContext verificationContext) {
+//    public static EncounterEvent.EncounterDeleted verify(java.util.function.Supplier<EncounterEvent.EncounterDeleted> eventFactory, EncounterState encounterState, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
@@ -152,11 +158,11 @@ public abstract class AbstractEncounterAggregate extends AbstractAggregate imple
             e.setIsExistent(isExistent);
             e.setMonsterId(monsterId);
             e.setCatchAttempts(catchAttempts);
-            e.setAptosEventVersion(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventSequenceNumber(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventType(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventGuid(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setAptosEventVersion(null);
+            e.setAptosEventSequenceNumber(null);
+            e.setAptosEventType(null);
+            e.setAptosEventGuid(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);
@@ -173,11 +179,11 @@ public abstract class AbstractEncounterAggregate extends AbstractAggregate imple
             e.setIsExistent(isExistent);
             e.setMonsterId(monsterId);
             e.setCatchAttempts(catchAttempts);
-            e.setAptosEventVersion(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventSequenceNumber(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventType(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventGuid(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setAptosEventVersion(null);
+            e.setAptosEventSequenceNumber(null);
+            e.setAptosEventType(null);
+            e.setAptosEventGuid(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);
@@ -191,11 +197,11 @@ public abstract class AbstractEncounterAggregate extends AbstractAggregate imple
             EncounterEventId eventId = new EncounterEventId(getState().getPlayerId(), null);
             AbstractEncounterEvent.EncounterDeleted e = new AbstractEncounterEvent.EncounterDeleted();
 
-            e.setAptosEventVersion(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventSequenceNumber(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventType(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventGuid(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setAptosEventVersion(null);
+            e.setAptosEventSequenceNumber(null);
+            e.setAptosEventType(null);
+            e.setAptosEventGuid(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);

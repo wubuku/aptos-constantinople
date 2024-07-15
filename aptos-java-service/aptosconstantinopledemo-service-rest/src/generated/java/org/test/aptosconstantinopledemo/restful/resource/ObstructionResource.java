@@ -240,7 +240,7 @@ public class ObstructionResource {
             return formatter.parse(idString);
         }
 
-        public static void setNullIdOrThrowOnInconsistentIds(String position, ObstructionCommand value) {
+        public static void setNullIdOrThrowOnInconsistentIds(String position, org.test.aptosconstantinopledemo.domain.obstruction.ObstructionCommand value) {
             Position idObj = parseIdString(position);
             if (value.getPosition() == null) {
                 value.setPosition(idObj);

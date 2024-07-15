@@ -235,7 +235,7 @@ public class MapResource {
  
     public static class MapResourceUtils {
 
-        public static void setNullIdOrThrowOnInconsistentIds(String accountAddress, MapCommand value) {
+        public static void setNullIdOrThrowOnInconsistentIds(String accountAddress, org.test.aptosconstantinopledemo.domain.map.MapCommand value) {
             String idObj = accountAddress;
             if (value.getAccountAddress() == null) {
                 value.setAccountAddress(idObj);

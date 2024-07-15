@@ -46,22 +46,23 @@ public abstract class AbstractMapAggregate extends AbstractAggregate implements 
             super(state);
         }
 
-        protected void verify__Init__(MapCommands.__Init__ c) {
+        protected MapEvent.MapInitialized verify__Init__(java.util.function.Supplier<MapEvent.MapInitialized> eventFactory, MapCommands.__Init__ c) {
 
-            ReflectUtils.invokeStaticMethod(
+            MapEvent.MapInitialized e = (MapEvent.MapInitialized) ReflectUtils.invokeStaticMethod(
                     "org.test.aptosconstantinopledemo.domain.map.__Init__Logic",
                     "verify",
-                    new Class[]{MapState.class, VerificationContext.class},
-                    new Object[]{getState(), VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, MapState.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), VerificationContext.forCommand(c)}
             );
 
 //package org.test.aptosconstantinopledemo.domain.map;
 //
 //public class __Init__Logic {
-//    public static void verify(MapState mapState, VerificationContext verificationContext) {
+//    public static MapEvent.MapInitialized verify(java.util.function.Supplier<MapEvent.MapInitialized> eventFactory, MapState mapState, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
@@ -69,11 +70,11 @@ public abstract class AbstractMapAggregate extends AbstractAggregate implements 
             MapEventId eventId = new MapEventId(getState().getAccountAddress(), null);
             AbstractMapEvent.MapInitialized e = new AbstractMapEvent.MapInitialized();
 
-            e.setAptosEventVersion(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventSequenceNumber(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventType(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventGuid(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setAptosEventVersion(null);
+            e.setAptosEventSequenceNumber(null);
+            e.setAptosEventType(null);
+            e.setAptosEventGuid(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);

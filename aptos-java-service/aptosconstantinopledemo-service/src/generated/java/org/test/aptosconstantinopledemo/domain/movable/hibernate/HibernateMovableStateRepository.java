@@ -79,7 +79,7 @@ public class HibernateMovableStateRepository implements MovableStateRepository {
         MovableState persistent = getCurrentSession().get(AbstractMovableState.SimpleMovableState.class, detached.getPlayerId());
         if (persistent != null) {
             merge(persistent, detached);
-            getCurrentSession().merge(detached);
+            getCurrentSession().save(persistent);
         } else {
             getCurrentSession().save(detached);
         }
@@ -87,7 +87,7 @@ public class HibernateMovableStateRepository implements MovableStateRepository {
     }
 
     private void merge(MovableState persistent, MovableState detached) {
-        ((MovableState.MutableMovableState) detached).setOffChainVersion(persistent.getOffChainVersion());
+        ((AbstractMovableState) persistent).merge(detached);
     }
 
 }

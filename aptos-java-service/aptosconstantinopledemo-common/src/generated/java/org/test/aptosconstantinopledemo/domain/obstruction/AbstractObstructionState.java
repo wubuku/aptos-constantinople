@@ -186,7 +186,7 @@ public abstract class AbstractObstructionState implements ObstructionState.SqlOb
         }
     }
 
-    protected void merge(ObstructionState s) {
+    public void merge(ObstructionState s) {
         if (s == this) {
             return;
         }

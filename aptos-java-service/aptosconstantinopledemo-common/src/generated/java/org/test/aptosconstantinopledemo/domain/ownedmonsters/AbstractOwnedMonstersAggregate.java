@@ -48,65 +48,69 @@ public abstract class AbstractOwnedMonstersAggregate extends AbstractAggregate i
 
         @Override
         public void create(String[] monsters, Long offChainVersion, String commandId, String requesterId, OwnedMonstersCommands.Create c) {
+            java.util.function.Supplier<OwnedMonstersEvent.OwnedMonstersCreated> eventFactory = () -> newOwnedMonstersCreated(monsters, offChainVersion, commandId, requesterId);
+            OwnedMonstersEvent.OwnedMonstersCreated e;
             try {
-                verifyCreate(monsters, c);
+                e = verifyCreate(eventFactory, monsters, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newOwnedMonstersCreated(monsters, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
         @Override
         public void addMonster(String monsterId, Long offChainVersion, String commandId, String requesterId, OwnedMonstersCommands.AddMonster c) {
+            java.util.function.Supplier<OwnedMonstersEvent.MonsterAddedToPlayer> eventFactory = () -> newMonsterAddedToPlayer(monsterId, offChainVersion, commandId, requesterId);
+            OwnedMonstersEvent.MonsterAddedToPlayer e;
             try {
-                verifyAddMonster(monsterId, c);
+                e = verifyAddMonster(eventFactory, monsterId, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newMonsterAddedToPlayer(monsterId, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
-        protected void verifyCreate(String[] monsters, OwnedMonstersCommands.Create c) {
+        protected OwnedMonstersEvent.OwnedMonstersCreated verifyCreate(java.util.function.Supplier<OwnedMonstersEvent.OwnedMonstersCreated> eventFactory, String[] monsters, OwnedMonstersCommands.Create c) {
             String[] Monsters = monsters;
 
-            ReflectUtils.invokeStaticMethod(
+            OwnedMonstersEvent.OwnedMonstersCreated e = (OwnedMonstersEvent.OwnedMonstersCreated) ReflectUtils.invokeStaticMethod(
                     "org.test.aptosconstantinopledemo.domain.ownedmonsters.CreateLogic",
                     "verify",
-                    new Class[]{OwnedMonstersState.class, String[].class, VerificationContext.class},
-                    new Object[]{getState(), monsters, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, OwnedMonstersState.class, String[].class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), monsters, VerificationContext.forCommand(c)}
             );
 
 //package org.test.aptosconstantinopledemo.domain.ownedmonsters;
 //
 //public class CreateLogic {
-//    public static void verify(OwnedMonstersState ownedMonstersState, String[] monsters, VerificationContext verificationContext) {
+//    public static OwnedMonstersEvent.OwnedMonstersCreated verify(java.util.function.Supplier<OwnedMonstersEvent.OwnedMonstersCreated> eventFactory, OwnedMonstersState ownedMonstersState, String[] monsters, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
-        protected void verifyAddMonster(String monsterId, OwnedMonstersCommands.AddMonster c) {
+        protected OwnedMonstersEvent.MonsterAddedToPlayer verifyAddMonster(java.util.function.Supplier<OwnedMonstersEvent.MonsterAddedToPlayer> eventFactory, String monsterId, OwnedMonstersCommands.AddMonster c) {
             String MonsterId = monsterId;
 
-            ReflectUtils.invokeStaticMethod(
+            OwnedMonstersEvent.MonsterAddedToPlayer e = (OwnedMonstersEvent.MonsterAddedToPlayer) ReflectUtils.invokeStaticMethod(
                     "org.test.aptosconstantinopledemo.domain.ownedmonsters.AddMonsterLogic",
                     "verify",
-                    new Class[]{OwnedMonstersState.class, String.class, VerificationContext.class},
-                    new Object[]{getState(), monsterId, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, OwnedMonstersState.class, String.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), monsterId, VerificationContext.forCommand(c)}
             );
 
 //package org.test.aptosconstantinopledemo.domain.ownedmonsters;
 //
 //public class AddMonsterLogic {
-//    public static void verify(OwnedMonstersState ownedMonstersState, String monsterId, VerificationContext verificationContext) {
+//    public static OwnedMonstersEvent.MonsterAddedToPlayer verify(java.util.function.Supplier<OwnedMonstersEvent.MonsterAddedToPlayer> eventFactory, OwnedMonstersState ownedMonstersState, String monsterId, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
@@ -115,11 +119,11 @@ public abstract class AbstractOwnedMonstersAggregate extends AbstractAggregate i
             AbstractOwnedMonstersEvent.OwnedMonstersCreated e = new AbstractOwnedMonstersEvent.OwnedMonstersCreated();
 
             e.setMonsters(monsters);
-            e.setAptosEventVersion(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventSequenceNumber(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventType(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventGuid(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setAptosEventVersion(null);
+            e.setAptosEventSequenceNumber(null);
+            e.setAptosEventType(null);
+            e.setAptosEventGuid(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);
@@ -134,11 +138,11 @@ public abstract class AbstractOwnedMonstersAggregate extends AbstractAggregate i
             AbstractOwnedMonstersEvent.MonsterAddedToPlayer e = new AbstractOwnedMonstersEvent.MonsterAddedToPlayer();
 
             e.setMonsterId(monsterId);
-            e.setAptosEventVersion(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventSequenceNumber(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventType(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventGuid(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setAptosEventVersion(null);
+            e.setAptosEventSequenceNumber(null);
+            e.setAptosEventType(null);
+            e.setAptosEventGuid(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);

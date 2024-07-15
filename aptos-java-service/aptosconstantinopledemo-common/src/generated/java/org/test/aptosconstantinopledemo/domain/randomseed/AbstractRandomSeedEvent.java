@@ -146,7 +146,7 @@ public abstract class AbstractRandomSeedEvent extends AbstractEvent implements R
 
     public abstract String getEventClass();
 
-    public static class RandomSeedClobEvent extends  AbstractRandomSeedEvent {
+    public static class RandomSeedClobEvent extends AbstractRandomSeedEvent {
 
         protected Map<String, Object> getDynamicProperties() {
             return dynamicProperties;
@@ -182,7 +182,7 @@ public abstract class AbstractRandomSeedEvent extends AbstractEvent implements R
 
     }
 
-    public static class RandomSeedInitialized extends RandomSeedClobEvent {
+    public static class RandomSeedInitialized extends RandomSeedClobEvent implements RandomSeedEvent.RandomSeedInitialized {
 
         @Override
         public String getEventClass() {
@@ -191,7 +191,7 @@ public abstract class AbstractRandomSeedEvent extends AbstractEvent implements R
 
     }
 
-    public static class RandomSeedUpdated extends RandomSeedClobEvent {
+    public static class RandomSeedUpdated extends RandomSeedClobEvent implements RandomSeedEvent.RandomSeedUpdated {
 
         @Override
         public String getEventClass() {

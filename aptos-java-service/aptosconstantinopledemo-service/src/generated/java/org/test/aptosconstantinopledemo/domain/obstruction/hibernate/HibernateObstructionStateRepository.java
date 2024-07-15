@@ -79,7 +79,7 @@ public class HibernateObstructionStateRepository implements ObstructionStateRepo
         ObstructionState persistent = getCurrentSession().get(AbstractObstructionState.SimpleObstructionState.class, detached.getPosition());
         if (persistent != null) {
             merge(persistent, detached);
-            getCurrentSession().merge(detached);
+            getCurrentSession().save(persistent);
         } else {
             getCurrentSession().save(detached);
         }
@@ -87,7 +87,7 @@ public class HibernateObstructionStateRepository implements ObstructionStateRepo
     }
 
     private void merge(ObstructionState persistent, ObstructionState detached) {
-        ((ObstructionState.MutableObstructionState) detached).setOffChainVersion(persistent.getOffChainVersion());
+        ((AbstractObstructionState) persistent).merge(detached);
     }
 
 }

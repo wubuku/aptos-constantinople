@@ -32,4 +32,5 @@ public class UpdateOwnedMonstersStateTaskService {
             ownedMonstersEventService.updateStatusToProcessed(e);
         });
     }
+
 }

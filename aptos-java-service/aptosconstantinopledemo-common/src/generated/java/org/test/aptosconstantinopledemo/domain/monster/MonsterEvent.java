@@ -21,6 +21,16 @@ public interface MonsterEvent extends Event, AptosEvent, HasStatus {
         void setEventReadOnly(boolean readOnly);
     }
 
+    interface MonsterCreated extends MonsterEvent {
+        BigInteger getMonsterType();
+
+        void setMonsterType(BigInteger value);
+
+    }
+
+    interface MonsterDeleted extends MonsterEvent {
+    }
+
     String getMonsterId();
 
     //void setMonsterId(String monsterId);

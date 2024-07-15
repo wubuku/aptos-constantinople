@@ -79,7 +79,7 @@ public class HibernateEncounterableStateRepository implements EncounterableState
         EncounterableState persistent = getCurrentSession().get(AbstractEncounterableState.SimpleEncounterableState.class, detached.getPlayerId());
         if (persistent != null) {
             merge(persistent, detached);
-            getCurrentSession().merge(detached);
+            getCurrentSession().save(persistent);
         } else {
             getCurrentSession().save(detached);
         }
@@ -87,7 +87,7 @@ public class HibernateEncounterableStateRepository implements EncounterableState
     }
 
     private void merge(EncounterableState persistent, EncounterableState detached) {
-        ((EncounterableState.MutableEncounterableState) detached).setOffChainVersion(persistent.getOffChainVersion());
+        ((AbstractEncounterableState) persistent).merge(detached);
     }
 
 }

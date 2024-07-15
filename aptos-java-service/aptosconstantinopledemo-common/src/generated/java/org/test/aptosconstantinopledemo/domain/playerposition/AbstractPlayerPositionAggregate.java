@@ -48,65 +48,69 @@ public abstract class AbstractPlayerPositionAggregate extends AbstractAggregate 
 
         @Override
         public void create(Position position, Long offChainVersion, String commandId, String requesterId, PlayerPositionCommands.Create c) {
+            java.util.function.Supplier<PlayerPositionEvent.PlayerPositionCreated> eventFactory = () -> newPlayerPositionCreated(position, offChainVersion, commandId, requesterId);
+            PlayerPositionEvent.PlayerPositionCreated e;
             try {
-                verifyCreate(position, c);
+                e = verifyCreate(eventFactory, position, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newPlayerPositionCreated(position, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
         @Override
         public void update(Position position, Long offChainVersion, String commandId, String requesterId, PlayerPositionCommands.Update c) {
+            java.util.function.Supplier<PlayerPositionEvent.PlayerPositionUpdated> eventFactory = () -> newPlayerPositionUpdated(position, offChainVersion, commandId, requesterId);
+            PlayerPositionEvent.PlayerPositionUpdated e;
             try {
-                verifyUpdate(position, c);
+                e = verifyUpdate(eventFactory, position, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newPlayerPositionUpdated(position, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
-        protected void verifyCreate(Position position, PlayerPositionCommands.Create c) {
+        protected PlayerPositionEvent.PlayerPositionCreated verifyCreate(java.util.function.Supplier<PlayerPositionEvent.PlayerPositionCreated> eventFactory, Position position, PlayerPositionCommands.Create c) {
             Position Position = position;
 
-            ReflectUtils.invokeStaticMethod(
+            PlayerPositionEvent.PlayerPositionCreated e = (PlayerPositionEvent.PlayerPositionCreated) ReflectUtils.invokeStaticMethod(
                     "org.test.aptosconstantinopledemo.domain.playerposition.CreateLogic",
                     "verify",
-                    new Class[]{PlayerPositionState.class, Position.class, VerificationContext.class},
-                    new Object[]{getState(), position, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, PlayerPositionState.class, Position.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), position, VerificationContext.forCommand(c)}
             );
 
 //package org.test.aptosconstantinopledemo.domain.playerposition;
 //
 //public class CreateLogic {
-//    public static void verify(PlayerPositionState playerPositionState, Position position, VerificationContext verificationContext) {
+//    public static PlayerPositionEvent.PlayerPositionCreated verify(java.util.function.Supplier<PlayerPositionEvent.PlayerPositionCreated> eventFactory, PlayerPositionState playerPositionState, Position position, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
-        protected void verifyUpdate(Position position, PlayerPositionCommands.Update c) {
+        protected PlayerPositionEvent.PlayerPositionUpdated verifyUpdate(java.util.function.Supplier<PlayerPositionEvent.PlayerPositionUpdated> eventFactory, Position position, PlayerPositionCommands.Update c) {
             Position Position = position;
 
-            ReflectUtils.invokeStaticMethod(
+            PlayerPositionEvent.PlayerPositionUpdated e = (PlayerPositionEvent.PlayerPositionUpdated) ReflectUtils.invokeStaticMethod(
                     "org.test.aptosconstantinopledemo.domain.playerposition.UpdateLogic",
                     "verify",
-                    new Class[]{PlayerPositionState.class, Position.class, VerificationContext.class},
-                    new Object[]{getState(), position, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, PlayerPositionState.class, Position.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), position, VerificationContext.forCommand(c)}
             );
 
 //package org.test.aptosconstantinopledemo.domain.playerposition;
 //
 //public class UpdateLogic {
-//    public static void verify(PlayerPositionState playerPositionState, Position position, VerificationContext verificationContext) {
+//    public static PlayerPositionEvent.PlayerPositionUpdated verify(java.util.function.Supplier<PlayerPositionEvent.PlayerPositionUpdated> eventFactory, PlayerPositionState playerPositionState, Position position, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
@@ -115,11 +119,11 @@ public abstract class AbstractPlayerPositionAggregate extends AbstractAggregate 
             AbstractPlayerPositionEvent.PlayerPositionCreated e = new AbstractPlayerPositionEvent.PlayerPositionCreated();
 
             e.setPosition(position);
-            e.setAptosEventVersion(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventSequenceNumber(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventType(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventGuid(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setAptosEventVersion(null);
+            e.setAptosEventSequenceNumber(null);
+            e.setAptosEventType(null);
+            e.setAptosEventGuid(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);
@@ -134,11 +138,11 @@ public abstract class AbstractPlayerPositionAggregate extends AbstractAggregate 
             AbstractPlayerPositionEvent.PlayerPositionUpdated e = new AbstractPlayerPositionEvent.PlayerPositionUpdated();
 
             e.setPosition(position);
-            e.setAptosEventVersion(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventSequenceNumber(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventType(null); // todo Need to update 'verify' method to return event properties.
-            e.setAptosEventGuid(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setAptosEventVersion(null);
+            e.setAptosEventSequenceNumber(null);
+            e.setAptosEventType(null);
+            e.setAptosEventGuid(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);

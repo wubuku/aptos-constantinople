@@ -79,7 +79,7 @@ public class HibernatePlayerStateRepository implements PlayerStateRepository {
         PlayerState persistent = getCurrentSession().get(AbstractPlayerState.SimplePlayerState.class, detached.getPlayerId());
         if (persistent != null) {
             merge(persistent, detached);
-            getCurrentSession().merge(detached);
+            getCurrentSession().save(persistent);
         } else {
             getCurrentSession().save(detached);
         }
@@ -87,7 +87,7 @@ public class HibernatePlayerStateRepository implements PlayerStateRepository {
     }
 
     private void merge(PlayerState persistent, PlayerState detached) {
-        ((PlayerState.MutablePlayerState) detached).setOffChainVersion(persistent.getOffChainVersion());
+        ((AbstractPlayerState) persistent).merge(detached);
     }
 
 }
