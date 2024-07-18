@@ -11,6 +11,8 @@ import java.util.*;
 
 public interface MonsterEventRepository extends JpaRepository<AbstractMonsterEvent, MonsterEventId> {
 
+    AbstractMonsterEvent findFirstByStatusIsNull();
+
     List<AbstractMonsterEvent> findByStatusIsNull();
 
     AbstractMonsterEvent.MonsterCreated findFirstMonsterCreatedByOrderByAptosEventSequenceNumber();

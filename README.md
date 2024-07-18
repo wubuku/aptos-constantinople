@@ -80,7 +80,7 @@ In repository root directory, run:
 ```shell
 docker run \
 -v .:/myapp \
-wubuku/dddappp-aptos:0.0.1 \
+wubuku/dddappp-aptos:master \
 --dddmlDirectoryPath /myapp/dddml \
 --boundedContextName Test.AptosConstantinopleDemo \
 --aptosMoveProjectDirectoryPath /myapp/aptos-contracts \
@@ -214,7 +214,8 @@ It should display similar information:
 In the directory `aptos-contracts/constantinople`, execute the compilation, which should now succeed:
 
 ```shell
-aptos move compile --named-addresses aptos_constantinople_demo=default
+#aptos move compile --named-addresses aptos_constantinople_demo=default
+aptos move compile --named-addresses aptos_constantinople_demo=default,aptos_constantinople_demo_map=default
 ```
 
 At this point, the coding phase of the application development is complete! Isn't it very simple?
@@ -228,7 +229,7 @@ Next, we will deploy and test the Demo application.
 In the directory `aptos-contracts/constantinople-map`, execute:
 
 ```shell
-aptos move publish --named-addresses aptos_constantinople_demo=default --assume-yes
+aptos move publish --named-addresses aptos_constantinople_demo_map=default --assume-yes
 ```
 
 If the command is executed successfully, it should display similar information:
@@ -252,13 +253,13 @@ If the command is executed successfully, it should display similar information:
 In the directory `aptos-contracts/constantinople`, execute:
 
 ```shell
-aptos move publish --named-addresses aptos_constantinople_demo=default --assume-yes
+aptos move publish --named-addresses aptos_constantinople_demo=default,aptos_constantinople_demo_map=default --assume-yes
 ```
 
-In the directory `aptos-contracts/constantinople-store`, execute:
+~~In the directory `aptos-contracts/constantinople-store`, execute:~~
 
 ```shell
-aptos move publish --named-addresses aptos_constantinople_demo=default --assume-yes
+#aptos move publish --named-addresses aptos_constantinople_demo=default --assume-yes
 ```
 
 ### Initialization

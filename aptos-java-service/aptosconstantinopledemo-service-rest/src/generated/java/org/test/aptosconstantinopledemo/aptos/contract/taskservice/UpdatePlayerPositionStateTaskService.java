@@ -5,6 +5,7 @@
 
 package org.test.aptosconstantinopledemo.aptos.contract.taskservice;
 
+import org.test.aptosconstantinopledemo.domain.playerposition.AbstractPlayerPositionEvent;
 import org.test.aptosconstantinopledemo.aptos.contract.repository.*;
 import org.test.aptosconstantinopledemo.aptos.contract.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,11 @@ public class UpdatePlayerPositionStateTaskService {
     @Scheduled(fixedDelayString = "${aptos.contract.update-player-position-states.fixed-delay:5000}")
     @Transactional
     public void updatePlayerPositionStates() {
-        playerPositionEventRepository.findByStatusIsNull().forEach(e -> {
+        AbstractPlayerPositionEvent e = playerPositionEventRepository.findFirstByStatusIsNull();
+        if (e != null) {
             aptosPlayerPositionService.updatePlayerPositionState(e.getPlayerId());
             playerPositionEventService.updateStatusToProcessed(e);
-        });
+        }
     }
 
 }

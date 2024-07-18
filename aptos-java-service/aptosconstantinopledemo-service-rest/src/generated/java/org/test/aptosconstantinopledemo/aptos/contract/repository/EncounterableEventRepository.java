@@ -11,6 +11,8 @@ import java.util.*;
 
 public interface EncounterableEventRepository extends JpaRepository<AbstractEncounterableEvent, EncounterableEventId> {
 
+    AbstractEncounterableEvent findFirstByStatusIsNull();
+
     List<AbstractEncounterableEvent> findByStatusIsNull();
 
     AbstractEncounterableEvent.EncounterableCreated findFirstEncounterableCreatedByOrderByAptosEventSequenceNumber();

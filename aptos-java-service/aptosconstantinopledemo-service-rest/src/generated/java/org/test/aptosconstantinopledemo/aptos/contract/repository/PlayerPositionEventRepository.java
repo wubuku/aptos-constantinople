@@ -11,6 +11,8 @@ import java.util.*;
 
 public interface PlayerPositionEventRepository extends JpaRepository<AbstractPlayerPositionEvent, PlayerPositionEventId> {
 
+    AbstractPlayerPositionEvent findFirstByStatusIsNull();
+
     List<AbstractPlayerPositionEvent> findByStatusIsNull();
 
     AbstractPlayerPositionEvent.PlayerPositionCreated findFirstPlayerPositionCreatedByOrderByAptosEventSequenceNumber();

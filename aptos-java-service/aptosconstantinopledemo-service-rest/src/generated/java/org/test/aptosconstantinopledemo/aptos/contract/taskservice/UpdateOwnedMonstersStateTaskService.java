@@ -5,6 +5,7 @@
 
 package org.test.aptosconstantinopledemo.aptos.contract.taskservice;
 
+import org.test.aptosconstantinopledemo.domain.ownedmonsters.AbstractOwnedMonstersEvent;
 import org.test.aptosconstantinopledemo.aptos.contract.repository.*;
 import org.test.aptosconstantinopledemo.aptos.contract.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,11 @@ public class UpdateOwnedMonstersStateTaskService {
     @Scheduled(fixedDelayString = "${aptos.contract.update-owned-monsters-states.fixed-delay:5000}")
     @Transactional
     public void updateOwnedMonstersStates() {
-        ownedMonstersEventRepository.findByStatusIsNull().forEach(e -> {
+        AbstractOwnedMonstersEvent e = ownedMonstersEventRepository.findFirstByStatusIsNull();
+        if (e != null) {
             aptosOwnedMonstersService.updateOwnedMonstersState(e.getPlayerId());
             ownedMonstersEventService.updateStatusToProcessed(e);
-        });
+        }
     }
 
 }

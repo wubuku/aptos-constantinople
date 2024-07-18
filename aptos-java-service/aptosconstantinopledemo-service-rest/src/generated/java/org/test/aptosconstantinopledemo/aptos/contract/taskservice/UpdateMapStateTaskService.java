@@ -5,6 +5,7 @@
 
 package org.test.aptosconstantinopledemo.aptos.contract.taskservice;
 
+import org.test.aptosconstantinopledemo.domain.map.AbstractMapEvent;
 import org.test.aptosconstantinopledemo.aptos.contract.repository.*;
 import org.test.aptosconstantinopledemo.aptos.contract.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,11 @@ public class UpdateMapStateTaskService {
     @Scheduled(fixedDelayString = "${aptos.contract.update-map-states.fixed-delay:5000}")
     @Transactional
     public void updateMapStates() {
-        mapEventRepository.findByStatusIsNull().forEach(e -> {
+        AbstractMapEvent e = mapEventRepository.findFirstByStatusIsNull();
+        if (e != null) {
             aptosMapService.updateMapState(e.getAccountAddress());
             mapEventService.updateStatusToProcessed(e);
-        });
+        }
     }
 
 }

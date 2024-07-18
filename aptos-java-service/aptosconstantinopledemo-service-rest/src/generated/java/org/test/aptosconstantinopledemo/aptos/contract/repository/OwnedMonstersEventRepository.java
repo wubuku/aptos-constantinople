@@ -11,6 +11,8 @@ import java.util.*;
 
 public interface OwnedMonstersEventRepository extends JpaRepository<AbstractOwnedMonstersEvent, OwnedMonstersEventId> {
 
+    AbstractOwnedMonstersEvent findFirstByStatusIsNull();
+
     List<AbstractOwnedMonstersEvent> findByStatusIsNull();
 
     AbstractOwnedMonstersEvent.OwnedMonstersCreated findFirstOwnedMonstersCreatedByOrderByAptosEventSequenceNumber();

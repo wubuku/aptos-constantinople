@@ -5,6 +5,7 @@
 
 package org.test.aptosconstantinopledemo.aptos.contract.taskservice;
 
+import org.test.aptosconstantinopledemo.domain.player.AbstractPlayerEvent;
 import org.test.aptosconstantinopledemo.aptos.contract.repository.*;
 import org.test.aptosconstantinopledemo.aptos.contract.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,11 @@ public class UpdatePlayerStateTaskService {
     @Scheduled(fixedDelayString = "${aptos.contract.update-player-states.fixed-delay:5000}")
     @Transactional
     public void updatePlayerStates() {
-        playerEventRepository.findByStatusIsNull().forEach(e -> {
+        AbstractPlayerEvent e = playerEventRepository.findFirstByStatusIsNull();
+        if (e != null) {
             aptosPlayerService.updatePlayerState(e.getPlayerId());
             playerEventService.updateStatusToProcessed(e);
-        });
+        }
     }
 
 }

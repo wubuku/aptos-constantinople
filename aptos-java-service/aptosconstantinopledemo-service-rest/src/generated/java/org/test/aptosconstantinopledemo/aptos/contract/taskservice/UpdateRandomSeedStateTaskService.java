@@ -5,6 +5,7 @@
 
 package org.test.aptosconstantinopledemo.aptos.contract.taskservice;
 
+import org.test.aptosconstantinopledemo.domain.randomseed.AbstractRandomSeedEvent;
 import org.test.aptosconstantinopledemo.aptos.contract.repository.*;
 import org.test.aptosconstantinopledemo.aptos.contract.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,11 @@ public class UpdateRandomSeedStateTaskService {
     @Scheduled(fixedDelayString = "${aptos.contract.update-random-seed-states.fixed-delay:5000}")
     @Transactional
     public void updateRandomSeedStates() {
-        randomSeedEventRepository.findByStatusIsNull().forEach(e -> {
+        AbstractRandomSeedEvent e = randomSeedEventRepository.findFirstByStatusIsNull();
+        if (e != null) {
             aptosRandomSeedService.updateRandomSeedState(e.getAccountAddress());
             randomSeedEventService.updateStatusToProcessed(e);
-        });
+        }
     }
 
 }

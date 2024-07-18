@@ -5,6 +5,7 @@
 
 package org.test.aptosconstantinopledemo.aptos.contract.taskservice;
 
+import org.test.aptosconstantinopledemo.domain.movable.AbstractMovableEvent;
 import org.test.aptosconstantinopledemo.aptos.contract.repository.*;
 import org.test.aptosconstantinopledemo.aptos.contract.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,11 @@ public class UpdateMovableStateTaskService {
     @Scheduled(fixedDelayString = "${aptos.contract.update-movable-states.fixed-delay:5000}")
     @Transactional
     public void updateMovableStates() {
-        movableEventRepository.findByStatusIsNull().forEach(e -> {
+        AbstractMovableEvent e = movableEventRepository.findFirstByStatusIsNull();
+        if (e != null) {
             aptosMovableService.updateMovableState(e.getPlayerId());
             movableEventService.updateStatusToProcessed(e);
-        });
+        }
     }
 
 }

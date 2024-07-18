@@ -11,6 +11,8 @@ import java.util.*;
 
 public interface ObstructionEventRepository extends JpaRepository<AbstractObstructionEvent, ObstructionEventId> {
 
+    AbstractObstructionEvent findFirstByStatusIsNull();
+
     List<AbstractObstructionEvent> findByStatusIsNull();
 
     AbstractObstructionEvent.ObstructionCreated findFirstObstructionCreatedByOrderByAptosEventSequenceNumber();

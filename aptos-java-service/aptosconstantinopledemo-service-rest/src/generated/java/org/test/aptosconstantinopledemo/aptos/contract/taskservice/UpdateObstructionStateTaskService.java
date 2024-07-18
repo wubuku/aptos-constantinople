@@ -5,6 +5,7 @@
 
 package org.test.aptosconstantinopledemo.aptos.contract.taskservice;
 
+import org.test.aptosconstantinopledemo.domain.obstruction.AbstractObstructionEvent;
 import org.test.aptosconstantinopledemo.aptos.contract.repository.*;
 import org.test.aptosconstantinopledemo.aptos.contract.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,11 @@ public class UpdateObstructionStateTaskService {
     @Scheduled(fixedDelayString = "${aptos.contract.update-obstruction-states.fixed-delay:5000}")
     @Transactional
     public void updateObstructionStates() {
-        obstructionEventRepository.findByStatusIsNull().forEach(e -> {
+        AbstractObstructionEvent e = obstructionEventRepository.findFirstByStatusIsNull();
+        if (e != null) {
             aptosObstructionService.updateObstructionState(e.getPosition());
             obstructionEventService.updateStatusToProcessed(e);
-        });
+        }
     }
 
 }

@@ -11,6 +11,8 @@ import java.util.*;
 
 public interface RandomSeedEventRepository extends JpaRepository<AbstractRandomSeedEvent, RandomSeedEventId> {
 
+    AbstractRandomSeedEvent findFirstByStatusIsNull();
+
     List<AbstractRandomSeedEvent> findByStatusIsNull();
 
     AbstractRandomSeedEvent.RandomSeedInitialized findFirstRandomSeedInitializedByOrderByAptosEventSequenceNumber();

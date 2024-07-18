@@ -5,6 +5,7 @@
 
 package org.test.aptosconstantinopledemo.aptos.contract.taskservice;
 
+import org.test.aptosconstantinopledemo.domain.monster.AbstractMonsterEvent;
 import org.test.aptosconstantinopledemo.aptos.contract.repository.*;
 import org.test.aptosconstantinopledemo.aptos.contract.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +28,15 @@ public class UpdateMonsterStateTaskService {
     @Scheduled(fixedDelayString = "${aptos.contract.update-monster-states.fixed-delay:5000}")
     @Transactional
     public void updateMonsterStates() {
-        monsterEventRepository.findByStatusIsNull().forEach(e -> {
+        AbstractMonsterEvent e = monsterEventRepository.findFirstByStatusIsNull();
+        if (e != null) {
             if (MonsterEventService.isDeletionCommand(e)) {
                 aptosMonsterService.deleteMonster(e.getMonsterId());
             } else {
                 aptosMonsterService.updateMonsterState(e.getMonsterId());
             }
             monsterEventService.updateStatusToProcessed(e);
-        });
+        }
     }
 
 }

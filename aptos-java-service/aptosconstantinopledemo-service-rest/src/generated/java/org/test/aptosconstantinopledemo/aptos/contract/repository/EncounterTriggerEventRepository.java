@@ -11,6 +11,8 @@ import java.util.*;
 
 public interface EncounterTriggerEventRepository extends JpaRepository<AbstractEncounterTriggerEvent, EncounterTriggerEventId> {
 
+    AbstractEncounterTriggerEvent findFirstByStatusIsNull();
+
     List<AbstractEncounterTriggerEvent> findByStatusIsNull();
 
     AbstractEncounterTriggerEvent.EncounterTriggerCreated findFirstEncounterTriggerCreatedByOrderByAptosEventSequenceNumber();

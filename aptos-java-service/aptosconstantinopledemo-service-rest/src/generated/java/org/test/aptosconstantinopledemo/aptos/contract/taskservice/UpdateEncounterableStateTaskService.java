@@ -5,6 +5,7 @@
 
 package org.test.aptosconstantinopledemo.aptos.contract.taskservice;
 
+import org.test.aptosconstantinopledemo.domain.encounterable.AbstractEncounterableEvent;
 import org.test.aptosconstantinopledemo.aptos.contract.repository.*;
 import org.test.aptosconstantinopledemo.aptos.contract.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,11 @@ public class UpdateEncounterableStateTaskService {
     @Scheduled(fixedDelayString = "${aptos.contract.update-encounterable-states.fixed-delay:5000}")
     @Transactional
     public void updateEncounterableStates() {
-        encounterableEventRepository.findByStatusIsNull().forEach(e -> {
+        AbstractEncounterableEvent e = encounterableEventRepository.findFirstByStatusIsNull();
+        if (e != null) {
             aptosEncounterableService.updateEncounterableState(e.getPlayerId());
             encounterableEventService.updateStatusToProcessed(e);
-        });
+        }
     }
 
 }

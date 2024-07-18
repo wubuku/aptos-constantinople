@@ -11,6 +11,8 @@ import java.util.*;
 
 public interface MovableEventRepository extends JpaRepository<AbstractMovableEvent, MovableEventId> {
 
+    AbstractMovableEvent findFirstByStatusIsNull();
+
     List<AbstractMovableEvent> findByStatusIsNull();
 
     AbstractMovableEvent.MovableCreated findFirstMovableCreatedByOrderByAptosEventSequenceNumber();

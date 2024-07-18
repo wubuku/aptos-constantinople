@@ -77,7 +77,7 @@ docker pull wubuku/dddappp-aptos:0.0.1
 ```shell
 docker run \
 -v .:/myapp \
-wubuku/dddappp-aptos:0.0.1 \
+wubuku/dddappp-aptos:master \
 --dddmlDirectoryPath /myapp/dddml \
 --boundedContextName Test.AptosConstantinopleDemo \
 --aptosMoveProjectDirectoryPath /myapp/aptos-contracts \
@@ -165,19 +165,20 @@ dddappp CLI 已经为我们生成了应用的大部分代码。
 在目录 `aptos-contracts/constantinople-map` 下，执行：
 
 ```shell
-aptos move publish --named-addresses aptos_constantinople_demo=default --assume-yes
+aptos move publish --named-addresses aptos_constantinople_demo_map=default --assume-yes
 ```
 
 在目录 `aptos-contracts/constantinople` 下，执行：
 
 ```shell
-aptos move publish --named-addresses aptos_constantinople_demo=default --assume-yes
+#aptos move publish --named-addresses aptos_constantinople_demo=default --assume-yes
+aptos move publish --named-addresses aptos_constantinople_demo=default,aptos_constantinople_demo_map=default --assume-yes
 ```
 
-在目录 `aptos-contracts/constantinople-store` 下，执行：
+~~在目录 `aptos-contracts/constantinople-store` 下，执行：~~
 
 ```shell
-aptos move publish --named-addresses aptos_constantinople_demo=default --assume-yes
+#aptos move publish --named-addresses aptos_constantinople_demo=default --assume-yes
 ```
 
 ### 初始化
